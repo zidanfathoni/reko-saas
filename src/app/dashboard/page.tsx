@@ -1,24 +1,24 @@
-"use client";
+'use client';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/atoms/breadcrumb";
-import { Label } from "@/components/atoms/label";
-import { Switch } from "@/components/atoms/switch";
+  BreadcrumbSeparator,
+} from '@/components/atoms/breadcrumb';
+import { Label } from '@/components/atoms/label';
+import { Switch } from '@/components/atoms/switch';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
-} from "@/components/atoms/tooltip";
-import { ContentLayout } from "@/components/templates/admin-panel/content-layout";
-import { useSidebar } from "@/hooks/use-sidebar";
-import { useStore } from "@/hooks/use-store";
-import Link from "next/link";
+  TooltipTrigger,
+} from '@/components/atoms/tooltip';
+import { ContentLayout } from '@/components/templates/admin-panel/content-layout';
+import { useSidebar } from '@/hooks/use-sidebar';
+import { useStore } from '@/hooks/use-store';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   const sidebar = useStore(useSidebar, (x) => x);
@@ -40,7 +40,7 @@ export default function DashboardPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <TooltipProvider>
-        <div className="flex gap-6 mt-6">
+        <div className="mt-6 flex gap-6">
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="flex items-center space-x-2">

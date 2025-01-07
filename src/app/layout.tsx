@@ -10,10 +10,10 @@ import { Toaster } from '@/components/atoms/toaster';
 const interFont = Inter({ subsets: ['latin'], variable: '--font-inter' });
 export const metadata: Metadata = {
   title: {
-    template: '%s | by Chocoding.in',
-    default: 'Chocoding.in',
+    template: '%s | by Receh Koding',
+    default: 'Receh Koding',
   },
-  description: 'A web by Chocoding.in',
+  description: 'A web by Receh Koding',
 };
 
 export default async function RootLayout({

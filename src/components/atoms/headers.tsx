@@ -1,10 +1,16 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../atoms";
-import SettingMenu from "../molecules/settings/setting-menu";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../atoms';
+import SettingMenu from '../molecules/settings/setting-menu';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk menu toggle
@@ -15,34 +21,31 @@ const Header: React.FC = () => {
 
   const menu = [
     {
-      name: "Home",
-      link: "/",
+      name: 'Home',
+      link: '/',
     },
     {
-      name: "Services",
-      link: "/services",
+      name: 'Services',
+      link: '/services',
     },
     {
-      name: "Blog",
-      link: "/blog",
+      name: 'Blog',
+      link: '/blog',
     },
     {
-      name: "Contact",
-      link: "/contact",
+      name: 'Contact',
+      link: '/contact',
     },
     {
-      name: "Profile",
-      link: "#profile",
+      name: 'Profile',
+      link: '#profile',
     },
   ];
 
   return (
     <header className="flex items-center justify-between p-4 shadow-md">
       {/* Logo */}
-      <a
-        href="/"
-        className="flex items-center gap-4"
-      >
+      <a href="/" className="flex items-center gap-4">
         <div className="flex items-center">
           <Image
             src="/images/logo/recehkoding-logo.svg"
@@ -56,14 +59,15 @@ const Header: React.FC = () => {
 
       {/* Menu for larger screens */}
       <nav
-        className={`${isMenuOpen ? "block" : "hidden"
-          } md:flex gap-6 absolute md:static top-16 left-0 w-full bg-white md:bg-transparent md:flex-row p-4 md:p-0 flex justify-center`}
+        className={`${
+          isMenuOpen ? 'block' : 'hidden'
+        } absolute left-0 top-16 flex w-full justify-center gap-6 bg-white p-4 md:static md:flex md:flex-row md:bg-transparent md:p-0`}
       >
         {menu.map((item, index) => (
           <a
             key={index}
             href={item.link}
-            className="text-sm font-medium hover:text-orange-500 transition-colors"
+            className="text-sm font-medium transition-colors hover:text-orange-500"
           >
             {item.name}
           </a>
@@ -73,7 +77,7 @@ const Header: React.FC = () => {
       {/* Actions */}
       <div className="flex items-center gap-4">
         {/* Menu Toggle */}
-        <div className="lg:hidden md:flex gap-6">
+        <div className="gap-6 md:flex lg:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="link" className="text-sm font-medium hover:text-primary">

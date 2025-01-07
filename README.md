@@ -13,7 +13,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd next-ts-shadcn-boilerplate
+  cd reko-saas-boilerplate
 ```
 
 Install dependencies
@@ -79,7 +79,7 @@ src
 
 ## Authors
 
-- [@Diaz-Adrianz](https://github.com/Diaz-adrianz)
+- [@zidhaanfa](https://github.com/zidhaanfa)
 
 ## Feedback
 

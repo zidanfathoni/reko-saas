@@ -1,40 +1,40 @@
 const sections = [
   {
-    title: "Product",
+    title: 'Product',
     links: [
-      { name: "Overview", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
-      { name: "Features", href: "#" },
-      { name: "Integrations", href: "#" },
-      { name: "Pricing", href: "#" },
+      { name: 'Overview', href: '#' },
+      { name: 'Pricing', href: '#' },
+      { name: 'Marketplace', href: '#' },
+      { name: 'Features', href: '#' },
+      { name: 'Integrations', href: '#' },
+      { name: 'Pricing', href: '#' },
     ],
   },
   {
-    title: "Company",
+    title: 'Company',
     links: [
-      { name: "About", href: "#" },
-      { name: "Team", href: "#" },
-      { name: "Blog", href: "#" },
-      { name: "Careers", href: "#" },
-      { name: "Contact", href: "#" },
-      { name: "Privacy", href: "#" },
+      { name: 'About', href: '#' },
+      { name: 'Team', href: '#' },
+      { name: 'Blog', href: '#' },
+      { name: 'Careers', href: '#' },
+      { name: 'Contact', href: '#' },
+      { name: 'Privacy', href: '#' },
     ],
   },
   {
-    title: "Resources",
+    title: 'Resources',
     links: [
-      { name: "Help", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "Advertise", href: "#" },
+      { name: 'Help', href: '#' },
+      { name: 'Sales', href: '#' },
+      { name: 'Advertise', href: '#' },
     ],
   },
   {
-    title: "Social",
+    title: 'Social',
     links: [
-      { name: "Twitter", href: "#" },
-      { name: "Instagram", href: "#" },
-      { name: "LinkedIn", href: "#" },
+      { name: 'Twitter', href: '#' },
+      { name: 'Instagram', href: '#' },
+      { name: 'LinkedIn', href: '#' },
     ],
   },
 ];
@@ -58,10 +58,7 @@ const Footer = () => {
                 <h3 className="mb-4 font-bold">{section.title}</h3>
                 <ul className="space-y-4 text-muted-foreground">
                   {section.links.map((link, linkIdx) => (
-                    <li
-                      key={linkIdx}
-                      className="font-medium hover:text-primary"
-                    >
+                    <li key={linkIdx} className="font-medium hover:text-primary">
                       <a href={link.href}>{link.name}</a>
                     </li>
                   ))}

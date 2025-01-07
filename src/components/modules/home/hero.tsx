@@ -1,50 +1,42 @@
-import { Button } from "../../atoms/button";
+import { ArrowDownRight } from 'lucide-react';
 
-export default function HeroSection() {
+import { Badge } from '@/components/atoms/badge';
+import { Button } from '@/components/atoms/button';
+
+const HeroSection = () => {
   return (
-    <>
-      {/* Hero */}
-      <div className="relative overflow-hidden p-24 lg:p-32">
-        {/* Gradients */}
-        <div
-          aria-hidden="true"
-          className="flex absolute -top-96 start-1/2 transform -translate-x-1/2"
-        >
-          <div className="bg-gradient-to-r from-background/50 to-background blur-3xl w-[25rem] rotate-[-60deg] transform -translate-x-[10rem] h-screen" />
-          <div className="bg-gradient-to-tl blur-3xl w-[90rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-primary-foreground via-primary-foreground to-background" />
-        </div>
-        {/* End Gradients */}
-        <div className="relative z-10">
-          <div className=" items-center py-10 lg:py-16">
-            <div className="max-w-2xl text-center mx-auto">
-              <p className="">Elevate your projects</p>
-              {/* Title */}
-              <div className="mt-5 max-w-2xl">
-                <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Beautiful UI Blocks
-                </h1>
-              </div>
-              {/* End Title */}
-              <div className="mt-5 max-w-3xl">
-                <p className="text-xl text-muted-foreground">
-                  Over 10+ fully responsive, UI blocks you can drop into your
-                  Shadcn UI projects and customize to your heart&apos;s content.
-                </p>
-              </div>
-              {/* Buttons */}
-              <div className="mt-8 gap-3 flex justify-center">
-                <Button size={"lg"}>Get started</Button>
-                <Button size={"lg"} variant={"outline"}>
-                  Learn more
-                </Button>
-              </div>
-              {/* End Buttons */}
+    <section className="py-32">
+      <div className="container">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+            <Badge variant="outline">
+              New Release
+              <ArrowDownRight className="ml-2 size-4" />
+            </Badge>
+            <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl">
+              Welcome to Our Website
+            </h1>
+            <p className="mb-8 max-w-xl text-muted-foreground lg:text-xl">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Elig doloremque mollitia
+              fugiat omnis! Porro facilis quo animi consequatur. Explicabo.
+            </p>
+            <div className="flex w-full flex-col justify-center gap-2 sm:flex-row lg:justify-start">
+              <Button className="w-full sm:w-auto">Primary Button</Button>
+              <Button variant="outline" className="w-full sm:w-auto">
+                Secondary Button
+                <ArrowDownRight className="ml-2 size-4" />
+              </Button>
             </div>
-            {/* <TrustedSection /> */}
           </div>
+          <img
+            src="https://shadcnblocks.com/images/block/placeholder-1.svg"
+            alt="placeholder hero"
+            className="max-h-96 w-full rounded-md object-cover"
+          />
         </div>
       </div>
-      {/* End Hero */}
-    </>
+    </section>
   );
-}
+};
+
+export default HeroSection;

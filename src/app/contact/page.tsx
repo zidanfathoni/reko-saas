@@ -1,5 +1,5 @@
-import ContactModules from "@/components/modules/contact";
-import { MainLayout } from "@/components/templates";
+import ContactModules from '@/components/modules/contact';
+import { MainLayout } from '@/components/templates';
 
 export default function ContactPages() {
   return (

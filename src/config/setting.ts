@@ -1,5 +1,5 @@
 export const Setting = {
-  name: 'next-ts-shadcn-boilerplate',
+  name: 'reko-saas-boilerplate',
   displayName: 'Next TS Shadcn Boilerplate',
   //   site: 'https://chocoding.vercel.app/',
 
@@ -21,10 +21,10 @@ export const Setting = {
   progressBarThickness: '4px',
 
   author: {
-    name: 'chocoding.in',
-    displayName: 'Chocoding',
-    github: 'https://github.com/Diaz-adrianz',
-    insta: 'https://www.instagram.com/chocoding.in',
+    name: 'Receh Koding',
+    displayName: 'Zidanfath',
+    github: 'https://github.com/zidhaanfa',
+    insta: 'https://www.instagram.com/recehkoding',
     logo: {
       default: 'logo.svg',
       onLight: 'logo-colored.svg',
