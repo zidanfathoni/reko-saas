@@ -16,7 +16,7 @@ export const PricingSection = () => (
             Managing a small business today is already tough.
           </p>
         </div>
-        <div className="grid w-full grid-cols-1 gap-8 pt-20 text-left lg:grid-cols-3">
+        <div className="grid w-full grid-cols-1 gap-8 pt-10 text-left lg:grid-cols-3">
           <Card className="w-full rounded-md">
             <CardHeader>
               <CardTitle>

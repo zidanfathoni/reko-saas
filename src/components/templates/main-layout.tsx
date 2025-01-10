@@ -1,8 +1,8 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import Footer from '../atoms/footers';
-import Header from '../atoms/headers';
+import { Footer } from '../atoms/footers';
+import Header from '../atoms/navbar';
 
 type Props = {
   children: JSX.Element | JSX.Element[];

@@ -1,5 +1,4 @@
 import Headers from '@/components/atoms/headers';
-import { PaginationMeta } from '@/components/molecules/pagination-meta';
 import { ArrowRight } from 'lucide-react';
 
 
@@ -39,12 +38,12 @@ const posts = [
   },
 ];
 
-const BlogModules = () => {
+const TutorialModules = () => {
   return (
     <section className="pb-32 pt-10">
       <div className="container flex flex-col items-center gap-16 lg:px-16">
         <Headers
-          title='Blog Posts'
+          title='Tutorial Posts'
           description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Elig doloremque mollitia fugiat
             omnis! Porro facilis quo animi consequatur. Explicabo.'
         />
@@ -76,9 +75,8 @@ const BlogModules = () => {
           ))}
         </div>
       </div>
-      <PaginationMeta />
     </section>
   );
 };
 
-export default BlogModules;
+export default TutorialModules;

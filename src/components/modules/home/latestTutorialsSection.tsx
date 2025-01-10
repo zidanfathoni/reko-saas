@@ -1,15 +1,15 @@
 import { Button } from '@/components/atoms/button';
 import { MoveRight } from 'lucide-react';
 
-export const LatestArticlesSection = () => (
-  <div className="w-full py-20 lg:py-40">
+export const LatestTutorialsSection = () => (
+  <div className="w-full pt-20 lg:pt-40">
     <div className="container mx-auto flex flex-col gap-14">
       <div className="flex w-full flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
         <h4 className="font-regular max-w-xl text-2xl tracking-tighter md:text-4xl">
-          Latest articles
+          Latest tutorial
         </h4>
         <Button className="gap-4">
-          View all articles <MoveRight className="h-4 w-4" />
+          View all tutorial <MoveRight className="h-4 w-4" />
         </Button>
       </div>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">

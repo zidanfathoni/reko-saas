@@ -1,86 +1,174 @@
-const sections = [
-  {
-    title: 'Product',
-    links: [
-      { name: 'Overview', href: '#' },
-      { name: 'Pricing', href: '#' },
-      { name: 'Marketplace', href: '#' },
-      { name: 'Features', href: '#' },
-      { name: 'Integrations', href: '#' },
-      { name: 'Pricing', href: '#' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { name: 'About', href: '#' },
-      { name: 'Team', href: '#' },
-      { name: 'Blog', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Contact', href: '#' },
-      { name: 'Privacy', href: '#' },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      { name: 'Help', href: '#' },
-      { name: 'Sales', href: '#' },
-      { name: 'Advertise', href: '#' },
-    ],
-  },
-  {
-    title: 'Social',
-    links: [
-      { name: 'Twitter', href: '#' },
-      { name: 'Instagram', href: '#' },
-      { name: 'LinkedIn', href: '#' },
-    ],
-  },
-];
+"use client"
 
-const Footer = () => {
+import { Button } from "@/components/atoms/button"
+import { Input } from "@/components/atoms/input"
+import { Label } from "@/components/atoms/label"
+import { Switch } from "@/components/atoms/switch"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/atoms/tooltip"
+import { Facebook, Instagram, Linkedin, Moon, Send, Sun, Twitter } from "lucide-react"
+import * as React from "react"
+
+function Footer() {
+  const [isDarkMode, setIsDarkMode] = React.useState(true)
+  const [isChatOpen, setIsChatOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }, [isDarkMode])
+
   return (
-    <section className="p-22">
-      <div className="container content-center">
-        <footer>
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
-            <div className="col-span-2 mb-8 lg:mb-0">
-              <img
-                src="https://zidanfath.com/_next/image?url=%2Fassets%2Fzf_logo_name.png&w=640&q=75"
-                alt="logo"
-                className="mb-4 h-7"
+    <footer className="relative border-t bg-background text-foreground transition-colors duration-300">
+      <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div className="relative">
+            <h2 className="mb-4 text-3xl font-bold tracking-tight">Stay Connected</h2>
+            <p className="mb-6 text-muted-foreground">
+              Join our newsletter for the latest updates and exclusive offers.
+            </p>
+            <form className="relative">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                className="pr-12 backdrop-blur-sm"
               />
-              <p className="font-bold">Components made easy.</p>
+              <Button
+                type="submit"
+                size="icon"
+                className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
+              >
+                <Send className="h-4 w-4" />
+                <span className="sr-only">Subscribe</span>
+              </Button>
+            </form>
+            <div className="absolute -right-4 top-0 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
+          </div>
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Quick Links</h3>
+            <nav className="space-y-2 text-sm">
+              <a href="#" className="block transition-colors hover:text-primary">
+                Home
+              </a>
+              <a href="#" className="block transition-colors hover:text-primary">
+                About Us
+              </a>
+              <a href="#" className="block transition-colors hover:text-primary">
+                Services
+              </a>
+              <a href="#" className="block transition-colors hover:text-primary">
+                Products
+              </a>
+              <a href="#" className="block transition-colors hover:text-primary">
+                Contact
+              </a>
+            </nav>
+          </div>
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Contact Us</h3>
+            <address className="space-y-2 text-sm not-italic">
+              <p>123 Innovation Street</p>
+              <p>Tech City, TC 12345</p>
+              <p>Phone: (123) 456-7890</p>
+              <p>Email: hello@example.com</p>
+            </address>
+          </div>
+          <div className="relative">
+            <h3 className="mb-4 text-lg font-semibold">Follow Us</h3>
+            <div className="mb-6 flex space-x-4">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                      <Facebook className="h-4 w-4" />
+                      <span className="sr-only">Facebook</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Follow us on Facebook</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                      <Twitter className="h-4 w-4" />
+                      <span className="sr-only">Twitter</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Follow us on Twitter</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                      <Instagram className="h-4 w-4" />
+                      <span className="sr-only">Instagram</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Follow us on Instagram</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" size="icon" className="rounded-full">
+                      <Linkedin className="h-4 w-4" />
+                      <span className="sr-only">LinkedIn</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Connect with us on LinkedIn</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
-            {sections.map((section, sectionIdx) => (
-              <div key={sectionIdx}>
-                <h3 className="mb-4 font-bold">{section.title}</h3>
-                <ul className="space-y-4 text-muted-foreground">
-                  {section.links.map((link, linkIdx) => (
-                    <li key={linkIdx} className="font-medium hover:text-primary">
-                      <a href={link.href}>{link.name}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            <div className="flex items-center space-x-2">
+              <Sun className="h-4 w-4" />
+              <Switch
+                id="dark-mode"
+                checked={isDarkMode}
+                onCheckedChange={setIsDarkMode}
+              />
+              <Moon className="h-4 w-4" />
+              <Label htmlFor="dark-mode" className="sr-only">
+                Toggle dark mode
+              </Label>
+            </div>
           </div>
-          <div className="mt-24 flex flex-col justify-between gap-4 border-t pt-8 text-sm font-medium text-muted-foreground md:flex-row md:items-center">
-            <p>© 2024 Shadcn. All rights reserved.</p>
-            <ul className="flex gap-4">
-              <li className="underline hover:text-primary">
-                <a href="#"> Terms and Conditions</a>
-              </li>
-              <li className="underline hover:text-primary">
-                <a href="#"> Privacy Policy</a>
-              </li>
-            </ul>
-          </div>
-        </footer>
+        </div>
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
+          <p className="text-sm text-muted-foreground">
+            © 2024 Your Company. All rights reserved.
+          </p>
+          <nav className="flex gap-4 text-sm">
+            <a href="#" className="transition-colors hover:text-primary">
+              Privacy Policy
+            </a>
+            <a href="#" className="transition-colors hover:text-primary">
+              Terms of Service
+            </a>
+            <a href="#" className="transition-colors hover:text-primary">
+              Cookie Settings
+            </a>
+          </nav>
+        </div>
       </div>
-    </section>
-  );
-};
+    </footer>
+  )
+}
 
-export default Footer;
+export { Footer }

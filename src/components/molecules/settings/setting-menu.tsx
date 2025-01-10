@@ -8,13 +8,11 @@ import {
   DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from '@/components/atoms/dropdown-menu';
-import { useTranslations } from 'next-intl';
 import React from 'react';
 import { ThemeMenu } from './theme-switcher';
 
-export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> { }
 const SettingMenu = React.forwardRef<HTMLButtonElement, Props>(({ className, ...props }, ref) => {
-  const t = useTranslations('Common');
 
   return (
     <DropdownMenu>

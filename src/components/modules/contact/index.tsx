@@ -1,19 +1,16 @@
+import Headers2 from '@/components/atoms/headers2';
 import { Mail, MapPin, Phone } from 'lucide-react';
 
 const ContactModules = () => {
   return (
-    <section className="min-h-screen">
+    <section>
       <div className="pb-32 pt-10">
         <div className="container">
-          <div className="mb-14">
-            <span className="text-sm font-semibold">Reach Us</span>
-            <h1 className="mb-3 mt-1 text-balance text-3xl font-semibold md:text-4xl">
-              Speak with Our Friendly Team
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              We&apos;d love to assist you. Fill out the form or drop us an email.
-            </p>
-          </div>
+          <Headers2
+            title='Reach Us'
+            subtitle='Speak with Our Friendly Team'
+            description="We'd love to assist you. Fill out the form or drop us an email."
+          />
           <div className="grid gap-10 md:grid-cols-3">
             <div>
               <span className="mb-3 flex size-12 flex-col items-center justify-center rounded-full bg-accent">
