@@ -28,6 +28,10 @@ export default async function RootLayout({
     <html lang={locale} className={interFont.variable}>
       <head>
         <link rel="icon" href="/images/logo.svg" sizes="any" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="overflow-x-hidden font-inter">
         <NextIntlClientProvider messages={langs}>

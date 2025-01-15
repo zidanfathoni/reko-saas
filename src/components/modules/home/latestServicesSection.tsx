@@ -2,20 +2,20 @@ import { Button } from '@/components/atoms/button';
 import { MoveRight } from 'lucide-react';
 import Headers from '@/components/atoms/headers';
 
-export const LatestArticlesSection = () => (
-  <section>
+export const LatestServicesSection = () => (
+  <section className='bg-background-secondary'>
     <div className="w-full py-10 lg:py-20">
       <Headers
-        title='Articles Posts'
-        description='Dive into our collection of insightful articles that cover the latest trends in technology, programming tips, and best practices in software development. Stay informed and enhance your skills with our expert content.'
+        title='Our Services'
+        description='Discover a wide range of professional software development services tailored to meet your unique business needs. From web and mobile app development to custom solutions, we deliver excellence at every step.'
       />
       <div className="container mx-auto flex flex-col gap-14">
         <div className="flex w-full flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
           <h4 className="font-regular max-w-xl text-2xl tracking-tighter md:text-4xl">
-            Latest Articles
+            Latest Services
           </h4>
           <Button className="gap-4">
-            View all Articles <MoveRight className="h-4 w-4" />
+            View all Services <MoveRight className="h-4 w-4" />
           </Button>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">

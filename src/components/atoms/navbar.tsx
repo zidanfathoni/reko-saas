@@ -1,5 +1,6 @@
 'use client';
 
+
 import { Menu, MoveRight, X } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,38 +14,6 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 const Navbar: React.FC = () => {
 
   const [isOpen, setOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk menu toggle
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const menu = [
-    {
-      name: 'Home',
-      link: '/',
-    },
-    {
-      name: 'Services',
-      link: '/services',
-    },
-    {
-      name: 'Blog',
-      link: '/blog',
-    },
-    {
-      name: 'Tutorial',
-      link: '/tutorial',
-    },
-    {
-      name: 'Contact',
-      link: '/contact',
-    },
-    {
-      name: 'Zidanfath',
-      link: '/zidanfath',
-    },
-  ];
   const navigationItems = [
     {
       title: "Home",
@@ -52,53 +21,65 @@ const Navbar: React.FC = () => {
       description: "",
     },
     {
-      title: "Product",
-      description: "Managing a small business today is already tough.",
+      title: "Study",
+      description: "Study is the process of learning and understanding.",
       items: [
         {
-          title: "Reports",
-          href: "/reports",
+          title: "Blogs",
+          href: "/blogs",
         },
         {
-          title: "Statistics",
-          href: "/statistics",
+          title: "Tutorials",
+          href: "/tutorials",
         },
         {
-          title: "Dashboards",
-          href: "/dashboards",
+          title: "Events",
+          href: "/events",
         },
         {
-          title: "Recordings",
-          href: "/recordings",
+          title: "Stucks",
+          href: "/stucks",
+        },
+        {
+          title: "Tools",
+          href: "/tools",
         },
       ],
     },
     {
-      title: "Company",
-      description: "Managing a small business today is already tough.",
+      title: "Community",
+      description: "We are a team of creatives who are excited about unique ideas and help digital and fin-tech companies.",
       items: [
         {
           title: "About us",
           href: "/about",
         },
         {
-          title: "Fundraising",
-          href: "/fundraising",
+          title: "Services",
+          href: "/services",
         },
         {
-          title: "Investors",
-          href: "/investors",
+          title: "Showcase",
+          href: "/showcase",
+        },
+        {
+          title: "Testimonials",
+          href: "/testimonials",
         },
         {
           title: "Contact us",
           href: "/contact",
+        },
+        {
+          title: "Founder",
+          href: "https://zidanfath.com/",
         },
       ],
     },
   ];
 
   return (
-    <header className="w-full z-40 fixed top-0 left-0 bg-background">
+    <header className="flex w-full z-40 fixed top-0 left-0 bg-background">
       <div className="container relative mx-auto min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center">
         <div className="justify-start items-center gap-4 lg:flex hidden flex-row">
           <NavigationMenu className="flex justify-start items-start">
@@ -107,8 +88,11 @@ const Navbar: React.FC = () => {
                 <NavigationMenuItem key={item.title}>
                   {item.href ? (
                     <>
-                      <NavigationMenuLink>
-                        <Button variant="ghost">{item.title}</Button>
+                      <NavigationMenuLink
+                        href={item.href}
+                        key={item.title}
+                      >
+                        <Button variant="ghost" className="hover:bg-primary hover:text-primary-foreground">{item.title}</Button>
                       </NavigationMenuLink>
                     </>
                   ) : (
@@ -125,11 +109,13 @@ const Navbar: React.FC = () => {
                                 {item.description}
                               </p>
                             </div>
-                            <Button size="sm" className="mt-10">
-                              Book a call today
+                            <Button
+                              onClick={() => (window.location.href = '/subscriptions')}
+                              size="sm" className="mt-10 bg-primary">
+                              Subscriptions
                             </Button>
                           </div>
-                          <div className="flex flex-col text-sm h-full justify-end">
+                          <div className="flex flex-col text-sm h-full justify-start">
                             {item.items?.map((subItem) => (
                               <NavigationMenuLink
                                 href={subItem.href}
@@ -164,9 +150,6 @@ const Navbar: React.FC = () => {
           </a>
         </div>
         <div className="flex justify-end w-full gap-4">
-          <Button variant="ghost" className="hidden md:inline">
-            Book a demo
-          </Button>
           <div className="border-r hidden md:inline"></div>
           <Button variant="outline">Sign in</Button>
           <ModeToggle />

@@ -12,9 +12,11 @@ const MainLayout: React.FC<Props> = (props) => {
   const { theme } = useTheme();
 
   return (
-    <main className="min-h-screen w-screen">
+    <main className="min-h-screen w-screen bg-background">
       <Header />
-      {props.children}
+      <div className='pt-16'>
+        {props.children}
+      </div>
       <Footer />
     </main>
   );

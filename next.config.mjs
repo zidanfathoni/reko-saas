@@ -8,6 +8,8 @@ const nextConfig = {
   images: {
     domains: [
       'assets.aceternity.com',
+      'i.imgur.com',
+      'zidanfath.com',
 
     ],
   },

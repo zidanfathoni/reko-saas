@@ -1,106 +1,181 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&display=swap');
+
+/* Terapkan font Quicksand secara global */
+html {
+  font-family: 'Quicksand', sans-serif;
+}
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 20 14.3% 4.1%;
+    /* Putih */
+    --background-secondary: 0 0% 95%;
+    /* Background sekunder lebih gelap sedikit */
+    --foreground: 212 20% 15%;
+    /* Gelap senada dengan secondary */
 
     --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    /* Putih */
+    --card-foreground: 212 20% 15%;
+    /* Sama dengan foreground */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --popover-foreground: 212 20% 15%;
 
-    --primary: 24 9.8% 10%;
+    --primary: 24 100% 50%;
     --primary-foreground: 60 9.1% 97.8%;
+    /* tetap sesuai kebutuhan */
+    /* --primary-hover: 24 100% 55%; */
+    /* #ff7c1a */
 
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
+    --secondary: 212 52% 25%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    /* tetap sesuai kebutuhan */
+    /* --secondary-hover: 212 52% 30%; */
+    /* #295080 */
 
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
-
+    --muted: 212 30% 90%;
+    /* Biru sangat pucat */
+    --muted-foreground: 212 52% 25%;
+    /* Sama dengan secondary */
     --accent: 60 4.8% 95.9%;
     --accent-foreground: 24 9.8% 10%;
+    /* Putih untuk kontras */
+    --accent-hover: 24 80% 45%;
+    /* #e86500 */
 
-    --destructive: 0 100% 66%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 70% 50%;
+    /* Merah */
+    --destructive-foreground: 0 0% 100%;
+    /* Putih untuk kontras */
 
-    --positive: 122 40% 49%;
-    --positive-foreground: 0 0% 98%;
+    --positive: 145 50% 40%;
+    /* Hijau */
+    --positive-foreground: 0 0% 100%;
+    /* Putih untuk kontras */
 
     --warning: 36 100% 50%;
-    --warning-foreground: 0 0% 98%;
+    /* Kuning */
+    --warning-foreground: 0 0% 100%;
+    /* Putih untuk kontras */
 
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 20 14.3% 4.1%;
+    --border: 212 20% 80%;
+    /* Abu-abu dengan sedikit biru */
+    --input: 212 20% 90%;
+    /* Lebih terang dari border */
+    --ring: 24 100% 50%;
+    /* Sama dengan primary */
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 212 52% 25%;
+    /* Sama dengan secondary */
+    --sidebar-foreground: 0 0% 100%;
+    /* Putih */
+    --sidebar-primary: 24 100% 50%;
+    /* Sama dengan primary */
+    --sidebar-primary-foreground: 0 0% 100%;
+    /* Putih */
+    --sidebar-accent: 24 80% 40%;
+    /* Senada accent */
+    --sidebar-accent-foreground: 0 0% 100%;
+    /* Putih */
+    --sidebar-border: 212 20% 80%;
+    /* Sama dengan border */
+    --sidebar-ring: 24 100% 50%;
+    /* Sama dengan primary */
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
+    --background: 212 20% 15%;
+    /* Biru gelap senada secondary */
+    --background-secondary: 212 20% 10%;
+    /* Background sekunder lebih gelap sedikit */
+    --foreground: 0 0% 100%;
+    /* Putih */
 
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
+    --card: 212 20% 15%;
+    /* Sama dengan background */
+    --card-foreground: 0 0% 100%;
+    /* Putih */
 
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
+    --popover: 212 20% 15%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 60 9.1% 97.8%;
+    --primary: 28 89% 59%;
     --primary-foreground: 24 9.8% 10%;
+    /* tetap sesuai kebutuhan */
+    /* --primary-hover: 24 100% 45%; */
+    /* #e65a00 */
 
-    --secondary: 12 6.5% 15.1%;
+    --secondary: 208 78% 33%;
     --secondary-foreground: 60 9.1% 97.8%;
+    /* tetap sesuai kebutuhan */
+    /* --secondary-hover: 208 78% 37%; */
+    /* #166db0 */
 
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-
+    --muted: 212 20% 25%;
+    /* Biru gelap lebih terang */
+    --muted-foreground: 0 0% 100%;
+    /* Putih */
     --accent: 12 6.5% 15.1%;
     --accent-foreground: 60 9.1% 97.8%;
+    /* Putih */
+    --accent-hover: 24 90% 45%;
+    /* #ff7430 */
 
-    --destructive: 0 100% 66%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 70% 50%;
+    /* Merah */
+    --destructive-foreground: 0 0% 100%;
+    /* Putih */
 
-    --positive: 122 40% 49%;
-    --positive-foreground: 0 0% 98%;
+    --positive: 145 50% 40%;
+    /* Hijau */
+    --positive-foreground: 0 0% 100%;
+    /* Putih */
 
     --warning: 36 100% 50%;
-    --warning-foreground: 0 0% 98%;
+    /* Kuning */
+    --warning-foreground: 0 0% 100%;
+    /* Putih */
 
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 24 5.7% 82.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 212 20% 25%;
+    /* Biru gelap lebih terang */
+    --input: 212 20% 20%;
+    /* Lebih terang dari border */
+    --ring: 24 100% 50%;
+    /* Sama dengan primary */
+
+    --sidebar-background: 208 78% 33%;
+    /* Sama dengan secondary */
+    --sidebar-foreground: 0 0% 100%;
+    /* Putih */
+    --sidebar-primary: 24 100% 50%;
+    /* Sama dengan primary */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Putih */
+    --sidebar-accent: 24 80% 40%;
+    /* Sama dengan accent */
+    --sidebar-accent-foreground: 0 0% 100%;
+    /* Putih */
+    --sidebar-border: 212 20% 25%;
+    /* Sama dengan border */
+    --sidebar-ring: 24 100% 50%;
+    /* Sama dengan primary */
   }
 }
+
+button:hover {
+  background-color: hsl(var(--primary-hover));
+}
+
+.link:hover {
+  color: hsl(var(--secondary-hover));
+}
+
 
 @layer base {
   * {

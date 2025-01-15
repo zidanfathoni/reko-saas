@@ -11,9 +11,11 @@ import {
   TooltipTrigger,
 } from "@/components/atoms/tooltip"
 import { Facebook, Instagram, Linkedin, Moon, Send, Sun, Twitter } from "lucide-react"
+import Link from "next/link"
 import * as React from "react"
 
 function Footer() {
+  const date = new Date().getFullYear();
   const [isDarkMode, setIsDarkMode] = React.useState(true)
   const [isChatOpen, setIsChatOpen] = React.useState(false)
 
@@ -74,10 +76,10 @@ function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-semibold">Contact Us</h3>
             <address className="space-y-2 text-sm not-italic">
-              <p>123 Innovation Street</p>
-              <p>Tech City, TC 12345</p>
-              <p>Phone: (123) 456-7890</p>
-              <p>Email: hello@example.com</p>
+              <p>Purbalingga, Central Java</p>
+              <p>Indonesia, 53314</p>
+              <p>Phone: (62) 851 5699 2958</p>
+              <p>Email: recehkoding@gmail.com</p>
             </address>
           </div>
           <div className="relative">
@@ -136,34 +138,31 @@ function Footer() {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            <div className="flex items-center space-x-2">
-              <Sun className="h-4 w-4" />
-              <Switch
-                id="dark-mode"
-                checked={isDarkMode}
-                onCheckedChange={setIsDarkMode}
-              />
-              <Moon className="h-4 w-4" />
-              <Label htmlFor="dark-mode" className="sr-only">
-                Toggle dark mode
-              </Label>
-            </div>
           </div>
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
-          <p className="text-sm text-muted-foreground">
-            © 2024 Your Company. All rights reserved.
+          <p className="text-left text-xs leading-loose text-muted-foreground md:text-sm">
+            &copy; {date}{' '}
+            <Link
+              href="https://recehkoding.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium underline underline-offset-4"
+            >
+              PT Receh Koding Revolution
+            </Link>
+            . All rights reserved.
           </p>
           <nav className="flex gap-4 text-sm">
-            <a href="#" className="transition-colors hover:text-primary">
+            <a href="/privacy-policy" className="transition-colors hover:text-primary">
               Privacy Policy
             </a>
-            <a href="#" className="transition-colors hover:text-primary">
-              Terms of Service
+            <a href="/term-and-conditions" className="transition-colors hover:text-primary">
+              Terms and Conditions
             </a>
-            <a href="#" className="transition-colors hover:text-primary">
+            {/* <a href="#" className="transition-colors hover:text-primary">
               Cookie Settings
-            </a>
+            </a> */}
           </nav>
         </div>
       </div>
