@@ -10,6 +10,7 @@ const nextConfig = {
       'assets.aceternity.com',
       'i.imgur.com',
       'zidanfath.com',
+      'localhost:1337',
 
     ],
   },

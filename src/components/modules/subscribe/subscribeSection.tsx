@@ -7,71 +7,78 @@ export default function SubscribeSection() {
   return (
     <>
       {/* Hero */}
-      <div className="overflow-hidden">
+      <div className="overflow-hidden bg-background-secondary">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="relative mx-auto max-w-4xl grid space-y-5 sm:space-y-10">
             {/* Title */}
             <div className="text-center">
-              <p className="text-xs font-semibold text-muted-foreground tracking-wide uppercase mb-3">
-                Small business solutions
-              </p>
               <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Turn online shoppers into lifetime customers
               </h1>
+              <p className="scroll-m-20 pt-12 text-1xl tracking-tight lg:text-2xl">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Elig
+                doloremque mollitia fugiat omnis!
+              </p>
+            </div>
+            <div className="flex w-full flex-col justify-center gap-2 sm:flex-row">
+              <Button variant="outline" className="w-full sm:w-auto">
+                Learn More
+              </Button>
+              <Button className="w-full sm:w-auto">Get Started</Button>
             </div>
             {/* End Title */}
             {/* Avatar Group */}
-            <div className="sm:flex sm:justify-center sm:items-center text-center sm:text-start">
-              <div className="flex-shrink-0 pb-5 sm:flex sm:pb-0 sm:pe-5">
+            {/* <div className="sm:flex sm:justify-center sm:items-center text-center sm:text-start"> */}
+            {/* <div className="flex-shrink-0 pb-5 sm:flex sm:pb-0 sm:pe-5">
                 {/* Avatar Group */}
-                <div className="flex justify-center -space-x-3">
-                  <Avatar className="h-8 w-8 ">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <Avatar className="h-8 w-8 ">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <Avatar className="h-8 w-8 ">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <Avatar className="h-8 w-8 ">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <span className="z-10 inline-flex items-center justify-center h-8 w-8 rounded-full ring-2 ring-muted-foreground bg-background">
-                    <span className="text-xs font-medium leading-none uppercase">
-                      7k+
-                    </span>
-                  </span>
-                </div>
-                {/* End Avatar Group */}
-              </div>
-              <div className="border-t sm:border-t-0 sm:border-s  w-32 h-px sm:w-auto sm:h-full mx-auto sm:mx-0" />
+            {/* <div className="flex justify-center -space-x-3">
+              <Avatar className="h-8 w-8 ">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-8 w-8 ">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-8 w-8 ">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <Avatar className="h-8 w-8 ">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <span className="z-10 inline-flex items-center justify-center h-8 w-8 rounded-full ring-2 ring-muted-foreground bg-background">
+                <span className="text-xs font-medium leading-none uppercase">
+                  7k+
+                </span>
+              </span>
+            </div> */}
+            {/* End Avatar Group */}
+            {/* </div> */}
+            {/* <div className="border-t sm:border-t-0 sm:border-s  w-32 h-px sm:w-auto sm:h-full mx-auto sm:mx-0" />
               <div className="pt-5 sm:pt-0 sm:ps-5">
                 <div className="text-lg font-semibold">Trust pilot</div>
                 <div className="text-sm text-muted-foreground">
                   Rated best over 37k reviews
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* End Avatar Group */}
             {/* Form */}
-            <form>
+            {/* <form>
               <div className="mx-auto max-w-2xl sm:flex sm:space-x-3 p-3 border rounded-lg shadow-lg shadow-primary-foreground ">
                 <div className="pb-2 sm:pb-0 sm:flex-[1_0_0%]">
                   <Label htmlFor="name">
@@ -92,7 +99,7 @@ export default function SubscribeSection() {
                   <Button>Get started</Button>
                 </div>
               </div>
-            </form>
+            </form> */}
             {/* End Form */}
             {/* SVG Element */}
             <div

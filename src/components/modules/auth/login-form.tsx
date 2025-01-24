@@ -68,7 +68,7 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
                     <Input id="password" type="password" required />
                   </div>
                   <Button type="submit" className="w-full">
-                    Login
+                    Under Maintenance
                   </Button>
                 </div>
                 <div className="text-center text-sm">

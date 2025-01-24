@@ -14,7 +14,7 @@ export default function LoginPage() {
     <>
       {/* Hero */}
       <div className="relative from-primary-foreground via-primary-foreground to-background bg-black/[.05]">
-        <div className="container py-24 sm:py-32">
+        <div className="container py-16 sm:py-24">
           {/* Grid */}
           <div className="grid items-center md:grid-cols-2 gap-8 lg:gap-12">
             <div>
@@ -86,14 +86,14 @@ export default function LoginPage() {
           </div>
           {/* End Grid */}
           {/* Clients Section */}
-          <div className="mt-6 md:mt-12 py-3 flex items-center text-muted-foreground text-sm gap-x-1.5 after:flex-[1_1_0%] after:border-t after:ms-6 after:border-t-muted-foreground/50">
+          {/* <div className="mt-6 md:mt-12 py-3 flex items-center text-muted-foreground text-sm gap-x-1.5 after:flex-[1_1_0%] after:border-t after:ms-6 after:border-t-muted-foreground/50">
             <span className="font-semibold bg-clip-text bg-gradient-to-l from-blue-600 to-violet-500 text-transparent dark:from-blue-400 dark:to-violet-400">
               50,000
             </span>
             individuals and companies trust Cloud Unleashed
-          </div>
+          </div> */}
           {/* Clients */}
-          <div className="flex flex-wrap gap-x-6 sm:gap-x-12 lg:gap-x-24">
+          {/* <div className="flex flex-wrap gap-x-6 sm:gap-x-12 lg:gap-x-24">
             <svg
               className="py-3 lg:py-5 w-16 h-auto md:w-20 lg:w-24 text-muted-foreground"
               enableBackground="new 0 0 2499 614"
@@ -227,7 +227,7 @@ export default function LoginPage() {
                 fill="currentColor"
               />
             </svg>
-          </div>
+          </div> */}
           {/* End Clients */}
         </div>
         {/* End Clients Section */}

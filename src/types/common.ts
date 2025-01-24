@@ -1,4 +1,5 @@
 import { Setting } from '@/config';
+import { GetTools } from '@/lib/interface/tools/getTools';
 
 export type Tlang = (typeof Setting.languageSupport)[number];
 
@@ -17,3 +18,5 @@ export type Tpost = {
   title?: string;
   body?: string;
 };
+
+export type TTools = GetTools;

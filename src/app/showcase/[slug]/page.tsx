@@ -1,10 +1,11 @@
-import ShowcaseModules from '@/components/modules/showcase';
+
+import DetailPage from '@/components/molecules/detail-page';
 import { MainLayout } from '@/components/templates';
 
 export default function ShowcasePages() {
   return (
     <MainLayout>
-      <ShowcaseModules />
+      <DetailPage />
     </MainLayout>
   );
 }

@@ -86,17 +86,22 @@ const BlogModules = () => {
     <section className="pb-32 pt-10">
       <div className="container flex flex-col items-center gap-4 lg:px-16">
         <Breadcrumb pageName="Blogs"
-          pageDescription="Dive into a collection of articles, coding tutorials, and IT insights. Stay updated with the latest trends, tips, and tricks to enhance your skills and knowledge in software development."
+          pageDescription="Page is under Maintenance"
         />
 
-        <HoverEffect button={
+        <img
+          src='images/under-maintenance.svg'
+          className="max-h-96 object-cover object-center"
+        />
+
+        {/* <HoverEffect button={
           {
             active: false,
             label: 'Read More',
           }
-        } items={posts} />
+        } items={posts} /> */}
       </div>
-      <PaginationMeta />
+      {/* <PaginationMeta /> */}
     </section>
   );
 };

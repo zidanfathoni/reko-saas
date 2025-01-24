@@ -18,8 +18,8 @@ const ContactModules = () => {
               </span>
               <p className="mb-2 text-lg font-semibold">Email Us</p>
               <p className="mb-3 text-muted-foreground">Our team is ready to assist.</p>
-              <a href="#" className="font-semibold hover:underline">
-                abc@example.com
+              <a href="mailto:recehkoding@gmail.com" className="font-semibold hover:underline">
+                recehkoding@gmail.com
               </a>
             </div>
             <div>
@@ -29,7 +29,7 @@ const ContactModules = () => {
               <p className="mb-2 text-lg font-semibold">Visit Us</p>
               <p className="mb-3 text-muted-foreground">Drop by our office for a chat.</p>
               <a href="#" className="font-semibold hover:underline">
-                1234 Street Name, City Name
+                Purbalingga, Central Java, Indonesia, 53314
               </a>
             </div>
             <div>
@@ -38,8 +38,8 @@ const ContactModules = () => {
               </span>
               <p className="mb-2 text-lg font-semibold"> Call Us</p>
               <p className="mb-3 text-muted-foreground">We&apos;re available Mon-Fri, 9am-5pm.</p>
-              <a href="#" className="font-semibold hover:underline">
-                +123 456 7890
+              <a href="https://wa.me/6285156992958" className="font-semibold hover:underline">
+                +62 851 5699 2958
               </a>
             </div>
           </div>

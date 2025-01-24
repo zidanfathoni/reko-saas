@@ -93,7 +93,7 @@ const SignUpForm: React.FC<SignInProps> = ({ onClick }) => {
                   </Label>
                 </div>
                 <Button className="mt-3 col-span-2">
-                  Get started
+                  Under Maintenance
                 </Button>
               </div>
               {/* Grid End */}

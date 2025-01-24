@@ -7,6 +7,7 @@ import SubscribeSection from '@/components/modules/subscribe/subscribeSection';
 // import HeroSection from '../../components/modules/home/hero';
 import { LatestServicesSection } from '@/components/modules/home/latestServicesSection';
 import { Hero2Section } from '@/components/modules/home/hero2';
+import TrustedSection from '@/components/modules/home/trustedSection';
 // import { LatestCoursesSection } from '@/components/modules/home/latestCoursesSection';
 
 export default function HomePages() {
@@ -17,7 +18,8 @@ export default function HomePages() {
       <FeaturesSection />
       <LatestTutorialsSection />
       <LatestServicesSection />
-      <LatestArticlesSection />
+      {/* <LatestArticlesSection /> */}
+      <TrustedSection />
       <SubscribeSection />
     </>
   );

@@ -26,23 +26,28 @@ const Navbar: React.FC = () => {
       items: [
         {
           title: "Blogs",
-          href: "/blogs",
+          href: "https://blog.recehkoding.com",
+          target: '_blank',
         },
         {
           title: "Tutorials",
           href: "/tutorials",
+          target: '_self',
         },
         {
           title: "Events",
           href: "/events",
+          target: '_self',
         },
         {
           title: "Stucks",
           href: "/stucks",
+          target: '_self',
         },
         {
           title: "Tools",
           href: "/tools",
+          target: '_self',
         },
       ],
     },
@@ -53,26 +58,32 @@ const Navbar: React.FC = () => {
         {
           title: "About us",
           href: "/about",
+          target: '_self',
         },
         {
           title: "Services",
           href: "/services",
+          target: '_self',
         },
         {
           title: "Showcase",
           href: "/showcase",
+          target: '_self',
         },
         {
           title: "Testimonials",
           href: "/testimonials",
+          target: '_self',
         },
         {
           title: "Contact us",
           href: "/contact",
+          target: '_self',
         },
         {
           title: "Founder",
           href: "https://zidanfath.com/",
+          target: '_self',
         },
       ],
     },
@@ -119,6 +130,7 @@ const Navbar: React.FC = () => {
                             {item.items?.map((subItem) => (
                               <NavigationMenuLink
                                 href={subItem.href}
+                                target={subItem.target}
                                 key={subItem.title}
                                 className="flex flex-row justify-between items-center hover:bg-muted py-2 px-4 rounded"
                               >
@@ -151,7 +163,11 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex justify-end w-full gap-4">
           <div className="border-r hidden md:inline"></div>
-          <Button variant="outline">Sign in</Button>
+          <Button
+            onClick={() => (window.location.href = '/auth')}
+            variant="outline">
+            Sign in
+          </Button>
           <ModeToggle />
         </div>
         <div className="flex w-12 shrink lg:hidden items-end justify-end">

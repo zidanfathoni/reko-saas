@@ -1,13 +1,18 @@
+import Breadcrumb from '@/components/atoms/breadcrumb2';
+import TermAndConditionsModules, { getTermAndConditionsStaticProps } from '@/components/modules/term-and-conditions';
 import { MainLayout } from '@/components/templates';
 
-export default function TermAndConditionsPages() {
+const TermAndConditionsPage = async () => {
+  const content = await getTermAndConditionsStaticProps();
+
   return (
     <MainLayout>
-      <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-        <code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-          Tnc
-        </code>
-      </div>
+      <Breadcrumb pageName="Term and Conditions"
+        pageDescription="Dummy feedback from virtual customers using our component library."
+      />
+      <TermAndConditionsModules content={content} />
     </MainLayout>
   );
-}
+};
+
+export default TermAndConditionsPage;

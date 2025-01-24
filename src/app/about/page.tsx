@@ -1,5 +1,6 @@
 
 import AboutSection from '@/components/modules/about';
+import TeamsModules from '@/components/modules/about/teamsModules';
 import { MainLayout } from '@/components/templates';
 
 export default function AboutPages() {
@@ -11,6 +12,7 @@ export default function AboutPages() {
         </code>
       </div> */}
       <AboutSection />
+      <TeamsModules />
     </MainLayout>
   );
 }

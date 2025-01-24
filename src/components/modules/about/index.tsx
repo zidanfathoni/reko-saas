@@ -19,17 +19,17 @@ const AboutSection = () => {
                   About Receh Koding
                 </h2>
                 <p className="mb-10 text-base leading-relaxed text-body-color dark:text-dark-6">
-                  Dengan pengalaman di berbagai teknologi, saya memahami kebutuhan klien dan siap memberikan solusi yang disesuaikan. Fokus pada inovasi dan pengalaman pengguna adalah kunci untuk melebihi harapan Anda.
+                  Receh Koding is a software house that provides professional software development services and coding tutorials. We focus on simple yet effective solutions, helping programmers and businesses create software tailored to their needs while offering insightful articles about the IT world.
                   <br /> <br />
-                  Perjalanan saya di dunia teknologi dimulai saat kuliah, ketika saya menemukan ketertarikan yang mendalam terhadap pengembangan aplikasi mobile. Setelah itu, saya mengikuti internship yang membuka mata saya terhadap berbagai aspek pemrograman. Dari pengalaman tersebut, saya mulai mengeksplorasi mobile development lebih dalam, dan akhirnya terjun ke front-end dan backend.
+                  We also support developers' learning through mentoring, courses, and other educational content. From mobile app development to backend integration, Receh Koding is here to help you turn your ideas into high-quality technological solutions.
                 </p>
 
-                <a
+                {/* <a
                   href="https://zidanfath.com/"
                   className="inline-flex items-center justify-center rounded-md bg-primary px-7 py-3 text-center text-base font-medium text-white duration-300 hover:bg-orange-400/90"
                 >
-                  Discover Zidanfath
-                </a>
+                  Discover Founder
+                </a> */}
               </div>
             </div>
 
@@ -37,10 +37,10 @@ const AboutSection = () => {
               <div className="-mx-2 flex flex-wrap sm:-mx-4 lg:-mx-2 xl:-mx-4">
                 <div className="w-full px-2 sm:w-1/2 sm:px-4 lg:px-2 xl:px-4">
                   <div
-                    className={`relative mb-4 sm:mb-8 sm:h-[400px] md:h-[540px] lg:h-[400px] xl:h-[500px] `}
+                    className={`relative mb-4 sm:mb-8 sm:h-[300px] md:h-[440px] lg:h-[300px] xl:h-[400px] `}
                   >
                     <Image
-                      src={`https://zidanfath.com/_next/image?url=%2Fassets%2Fabout%2Fabout1.png&w=3840&q=75`}
+                      src={`images/logo1.svg`}
                       alt="about image"
                       fill
                       className="h-full w-full object-cover object-center"
@@ -49,9 +49,9 @@ const AboutSection = () => {
                 </div>
 
                 <div className="w-full px-2 sm:w-1/2 sm:px-4 lg:px-2 xl:px-4">
-                  <div className="relative mb-4 sm:mb-8 sm:h-[220px] md:h-[346px] lg:mb-4 lg:h-[225px] xl:mb-8 xl:h-[310px]">
+                  <div className="relative mb-4 sm:mb-8 sm:h-[120px] md:h-[246px] lg:mb-4 lg:h-[125px] xl:mb-8 xl:h-[210px]">
                     <Image
-                      src={`https://zidanfath.com/_next/image?url=%2Fassets%2Fabout%2Fabout1.png&w=3840&q=75`}
+                      src={`images/logo/recehkoding-logo.svg`}
                       alt="about image"
                       fill
                       className="h-full w-full object-cover object-center"
