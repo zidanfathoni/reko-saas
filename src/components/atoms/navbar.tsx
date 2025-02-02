@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
   const navigationItems = [
     {
       title: "Home",
-      href: "/",
+      href: "/#home",
       description: "",
     },
     {
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
         {
           title: "Founder",
           href: "https://zidanfath.com/",
-          target: '_self',
+          target: '_blank',
         },
       ],
     },

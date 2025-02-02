@@ -16,16 +16,6 @@ import * as React from "react"
 
 function Footer() {
   const date = new Date().getFullYear();
-  const [isDarkMode, setIsDarkMode] = React.useState(true)
-  const [isChatOpen, setIsChatOpen] = React.useState(false)
-
-  React.useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [isDarkMode])
 
   return (
     <footer className="relative border-t bg-background text-foreground transition-colors duration-300">
