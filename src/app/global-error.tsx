@@ -27,7 +27,7 @@ export default function GlobalError({
 
             {/* Main Content */}
             <main className="flex-1 flex items-center">
-              <div className="container px-4 md:px-6 flex flex-col lg:flex-row items-center justify-between gap-8">
+              <div className="container px-4 md:px-6 flex flex-col[1fr_2fr] lg:flex-row items-center justify-between gap-8">
                 {/* Left Section */}
                 <div className="space-y-4">
                   <h1 className="text-5xl md:text-7xl font-light tracking-wide">

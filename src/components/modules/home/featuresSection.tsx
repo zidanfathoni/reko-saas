@@ -46,7 +46,7 @@ export const FeaturesSection = () => (
             Features That Make Us Stand Out
           </h2>
           <p className="max-w-xl text-lg leading-relaxed tracking-tight text-muted-foreground lg:max-w-xl">
-            Discover the key features that set Receh Koding apart. Whether you're looking for professional development services or easy-to-follow tutorials, we've got you covered with the best tools and resources.
+            Discover the key features that set Receh Koding apart. Whether you&apos;re looking for professional development services or easy-to-follow tutorials, we&apos;ve got you covered with the best tools and resources.
           </p>
         </div>
         <div className="flex w-full flex-col gap-10 pt-12">

@@ -10,6 +10,7 @@ import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card } from "./card";
 import DynamicIcon from "@/helper/dynamicIcons";
+import Image from "next/image";
 
 function Case() {
   const [api, setApi] = useState<CarouselApi>();
@@ -128,10 +129,12 @@ function Case() {
                 <Card className="p-3 dark:bg-foreground bg-background-secondary rounded-lg">
                   <div className="mx-10 flex shrink-0 items-center justify-center">
                     <div>
-                      <img
+                      <Image
                         src={logo.image}
                         alt={logo.description}
                         className="h-8 w-auto"
+                        width={100}
+                        height={100}
                       />
                     </div>
                   </div>
@@ -143,6 +146,6 @@ function Case() {
       </div>
     </div>
   );
-};
+}
 
 export { Case };

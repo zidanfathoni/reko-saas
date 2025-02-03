@@ -21,7 +21,7 @@ const AboutSection = () => {
                 <p className="mb-10 text-base leading-relaxed text-body-color dark:text-dark-6">
                   Receh Koding is a software house that provides professional software development services and coding tutorials. We focus on simple yet effective solutions, helping programmers and businesses create software tailored to their needs while offering insightful articles about the IT world.
                   <br /> <br />
-                  We also support developers' learning through mentoring, courses, and other educational content. From mobile app development to backend integration, Receh Koding is here to help you turn your ideas into high-quality technological solutions.
+                  We also support developers&apos; learning through mentoring, courses, and other educational content. From mobile app development to backend integration, Receh Koding is here to help you turn your ideas into high-quality technological solutions.
                 </p>
 
                 {/* <a
