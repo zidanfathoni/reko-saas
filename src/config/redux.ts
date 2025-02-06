@@ -1,9 +1,10 @@
-import { commonSlice } from '@/store/common';
+
+import { toolsSlice } from '@/lib/slices/toolsSlices';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const reduxStore = configureStore({
   reducer: {
-    common: commonSlice.reducer,
+    tools: toolsSlice.reducer,
   },
   devTools: false,
 });

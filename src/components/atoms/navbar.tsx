@@ -123,7 +123,7 @@ const Navbar: React.FC = () => {
                             <Button
                               onClick={() => (window.location.href = '/subscriptions')}
                               size="sm" className="mt-10 bg-primary">
-                              Subscriptions
+                              FAQs
                             </Button>
                           </div>
                           <div className="flex flex-col text-sm h-full justify-start">

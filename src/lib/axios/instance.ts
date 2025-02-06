@@ -7,14 +7,6 @@ import { toast } from '@/components/atoms/use-toast';
 import { Connections } from '@/config/connections';
 import nProgress from 'nprogress';
 
-const axiosApi: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_STRAPI,
-});
-
-const axiosApiMayar: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_MAYAR,
-});
-
 
 const api: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_STRAPI, // gunakan variabel lingkungan untuk base URL
@@ -30,38 +22,7 @@ const api2: AxiosInstance = axios.create({
   },
 });
 
-
-// axiosApi.interceptors.request.use(
-//   async (conf: InternalAxiosRequestConfig) => {
-//     const userData = Storage.get<TuserData>('local', 'user_data');
-
-//     if (userData) {
-//       conf.headers.Authorization = 'Bearer ' + userData.access_token;
-//     }
-
-//     conf.headers['x-lang'] = Storage.get<string>('cookie', 'lang', Setting.defaultLanguage);
-
-//     nProgress.start();
-//     if (conf.method == 'get') {
-//       conf.onDownloadProgress = ({ total, loaded }) => {
-//         const percentage = +((loaded * 100) / (total ?? 0) / 100).toFixed(2);
-//         nProgress.set(percentage == Infinity ? 1 : percentage);
-//       };
-//     } else {
-//       conf.onUploadProgress = ({ total, loaded }) => {
-//         const percentage = +((loaded * 100) / (total ?? 0) / 100).toFixed(2);
-//         nProgress.set(percentage == Infinity ? 1 : percentage);
-//       };
-//     }
-
-//     return conf;
-//   },
-//   (error) => {
-//     Promise.reject(error);
-//   },
-// );
-
-axiosApi.interceptors.response.use(
+api.interceptors.response.use(
   (res) => {
     nProgress.done();
     return res;
@@ -135,7 +96,7 @@ axiosApi.interceptors.response.use(
   },
 );
 
-axiosApiMayar.interceptors.response.use(
+api2.interceptors.response.use(
   (res) => {
     nProgress.done();
     return res;
@@ -211,4 +172,4 @@ axiosApiMayar.interceptors.response.use(
 
 
 
-export { axiosApi, axiosApiMayar, api, api2 };
+export { api, api2 };

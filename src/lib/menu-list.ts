@@ -21,17 +21,17 @@ type Group = {
 
 export function getMenuList(pathname: string): Group[] {
   return [
-    // {
-    //   groupLabel: "",
-    //   menus: [
-    //     {
-    //       href: "/dashboard",
-    //       label: "Dashboard",
-    //       icon: LayoutGrid,
-    //       submenus: []
-    //     }
-    //   ]
-    // },
+    {
+      groupLabel: "",
+      menus: [
+        {
+          href: "/admin",
+          label: "Dashboard",
+          icon: LayoutGrid,
+          submenus: []
+        }
+      ]
+    },
     {
       groupLabel: 'Contents',
       menus: [
@@ -66,7 +66,7 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: 'Settings',
       menus: [
         {
-          href: '/dashboard/users',
+          href: '/admin/users',
           label: 'Users',
           icon: Users,
         },

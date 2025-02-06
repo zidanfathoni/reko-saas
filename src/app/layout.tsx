@@ -1,13 +1,11 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Quicksand } from 'next/font/google';
 import './globals.css';
 import { AppProgressBarProvider, ReduxProvider, ThemeProvider } from '@/components/molecules';
 import { getLocale, getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import { Toaster } from '@/components/atoms/toaster';
 
-// fonts
-const interFont = Inter({ subsets: ['latin'], variable: '--font-inter' });
 export const metadata: Metadata = {
   title: {
     template: '%s | by Receh Koding',
@@ -25,7 +23,7 @@ export default async function RootLayout({
   const langs = await getMessages();
 
   return (
-    <html lang={locale} className={interFont.variable}>
+    <html>
       <head>
         <link rel="icon" href="/images/logo.svg" sizes="any" />
         <link

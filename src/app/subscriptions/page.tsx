@@ -109,7 +109,7 @@ const DEMO_FAQS = [
 export default function SubscriptionsPages() {
   return (
     <MainLayout>
-      <PricingSection tiers={defaultTiers} />
+      {/* <PricingSection tiers={defaultTiers} /> */}
 
       <FaqSection
         title="Frequently Asked Questions"

@@ -37,82 +37,82 @@ function Case() {
     {
       id: "logo-1",
       description: "Logo 1",
-      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Google-flutter-logo.svg/2560px-Google-flutter-logo.svg.png",
+      image: "/images/stacks/flutter.png",
     },
     {
       id: "logo-2",
       description: "Logo 2",
-      image: "https://www.builtbyplatform.co.uk/wp-content/uploads/2560px-Logo.min_.svg.png",
+      image: "/images/stacks/laravel.png",
     },
     {
       id: "logo-3",
       description: "Logo 3",
-      image: "https://shadcnblocks.com/images/block/logos/nextjs.svg",
+      image: "/images/stacks/nextjs.png",
     },
     {
       id: "logo-4",
       description: "Logo 4",
-      image: "https://shadcnblocks.com/images/block/logos/react.png",
+      image: "/images/stacks/react.png",
     },
     {
       id: "logo-5",
       description: "Logo 5",
-      image: "https://testrigor.com/wp-content/uploads/2023/03/vuejs-logo.png",
+      image: "/images/stacks/vuejs.webp",
     },
     {
       id: "logo-6",
       description: "Logo 6",
-      image: "https://cms.doowup.fr/uploads/logo_strapi_3e3b13122f.png",
+      image: "/images/stacks/strapi.png",
     },
     {
       id: "logo-7",
       description: "Logo 7",
-      image: "https://miro.medium.com/v2/resize:fit:800/1*NvAqNoaERe7VzT-s47PQcw.png",
+      image: "/images/stacks/adonis.png",
     },
     {
       id: "logo-8",
       description: "Logo 8",
-      image: "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png",
+      image: "/images/stacks/Expressjs.png",
     },
     {
       id: "logo-9",
       description: "Logo 9",
-      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Odoo_logo.svg/1200px-Odoo_logo.svg.png",
+      image: "/images/stacks/odoo.png",
     },
     {
       id: "logo-10",
       description: "Logo 10",
-      image: "https://www.freeiconspng.com/uploads/transparent-wordpress-logo-clipart--2.png",
+      image: "/images/stacks/wordpress.png",
     },
     {
       id: "logo-11",
       description: "Logo 11",
-      image: "https://cdn.icon-icons.com/icons2/2699/PNG/512/mysql_horizontal_logo_icon_170929.png",
+      image: "/images/stacks/mysql.png",
     },
     {
       id: "logo-12",
       description: "Logo 12",
-      image: "https://shadcnblocks.com/images/block/logos/supabase.svg",
+      image: "/images/stacks/supabase.png",
     },
     {
       id: "logo-13",
       description: "Logo 13",
-      image: "https://logos-download.com/wp-content/uploads/2016/10/PostgreSQL_logo_Postgre_SQL.png",
+      image: "/images/stacks/postgresql.png",
     },
     {
       id: "logo-14",
       description: "Logo 14",
-      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/1200px-MongoDB_Logo.svg.png",
+      image: "/images/stacks/mongoDB.png",
     },
     {
       id: "logo-15",
       description: "Logo 15",
-      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/2560px-Docker_%28container_engine%29_logo.svg.png",
+      image: "/images/stacks/docker.png",
     },
     {
       id: "logo-16",
       description: "Logo 16",
-      image: "https://rec-data.kalibrr.com/logos/62V5X6AMXQ9CCRSGRRXE4MSQX7QGBYCW7PGRZWQV-5b98db77.png",
+      image: "/images/stacks/midtrans.png",
     },
   ];
 

@@ -19,16 +19,15 @@ export default function LoginPage() {
           <div className="grid items-center md:grid-cols-2 gap-8 lg:gap-12">
             <div>
               <p className="inline-block text-sm font-medium bg-clip-text bg-gradient-to-l from-blue-600 to-violet-500 text-transparent dark:from-blue-400 dark:to-violet-400">
-                A vision for 2024
+                A vision for 2025
               </p>
               {/* Title */}
               <div className="mt-4 md:mb-12 max-w-2xl">
                 <h1 className="mb-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                  Cloud Unleashed: Your Future in the Sky
+                  Receh Koding: Empowering Your Digital Journey
                 </h1>
                 <p className="text-xl text-muted-foreground">
-                  Experience limitless possibilities with our cutting-edge cloud
-                  solutions.
+                  Build, learn, and innovate with expert software development and coding solutions.
                 </p>
               </div>
               {/* End Title */}

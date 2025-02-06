@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from '@/components/atoms/tooltip';
 import { ContentLayout } from '@/components/templates/admin-panel/content-layout';
+import { IconForm } from '@/helper/iconsForm';
 import { useSidebar } from '@/hooks/use-sidebar';
 import { useStore } from '@/hooks/use-store';
 import Link from 'next/link';
@@ -72,6 +73,7 @@ export default function DashboardPage() {
             </TooltipContent>
           </Tooltip>
         </div>
+        <IconForm />
       </TooltipProvider>
     </ContentLayout>
   );
