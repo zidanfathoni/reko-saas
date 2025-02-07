@@ -2,6 +2,7 @@ import { api } from "@/lib/axios";
 import { GetLoginResponse } from "@/lib/interface/auth/getLogin";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Storage } from "@/lib/storage";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 
 
 interface ToolsState {
@@ -28,7 +29,13 @@ export const fetchLogin = createAsyncThunk("login/fetchLogin", async (data: Form
       },
     });
     Storage.set('local', 'login', response.data.data);
-    Storage.set('cookie', 'token', response.data.data.token.token);
+    Storage.set('local', 'token', response.data.data.token.token);
+    Storage.set('local', 'role', response.data.data.role);
+
+    const dispatch = useAppDispatch();
+    const { me, loadingMe } = useAppSelector((state) => state.me);
+
+
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "Failed to fetch login");
@@ -45,12 +52,17 @@ export const loginSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<GetLoginResponse>) => {
       state.login = action.payload;
       state.isAuth = true;
+      console.log('login success');
     },
     setToken: (state, action: PayloadAction<string>) => {
       state.login.data.token.token = action.payload;
     },
     loginFailure: (state, action: PayloadAction<ToolsState>) => {
       state.error = action.payload.error;
+      state.login = { status: "", message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
+      state.isAuth = false;
+    },
+    logout: (state) => {
       state.login = { status: "", message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
       state.isAuth = false;
     }
@@ -72,5 +84,5 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { setPage } = loginSlice.actions;
+export const { setPage, loginSuccess, setToken, loginFailure } = loginSlice.actions;
 export default loginSlice.reducer;

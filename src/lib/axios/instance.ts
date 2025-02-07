@@ -9,9 +9,10 @@ import nProgress from 'nprogress';
 
 
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_STRAPI, // gunakan variabel lingkungan untuk base URL
+  baseURL: process.env.NEXT_PUBLIC_API, // gunakan variabel lingkungan untuk base URL
   headers: {
     'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "*", // tambahkan header ini jika ada CORS
   },
 });
 

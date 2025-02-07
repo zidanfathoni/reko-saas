@@ -105,7 +105,7 @@ const TeamsModules: React.FC = () => {
           {data?.attributes.users_permissions_users.data.map((person) => (
             <div key={person.id} className="flex flex-col items-center">
               <Avatar className="mb-4 size-20 border md:mb-5 lg:size-24">
-                <AvatarImage src={Connections.cdnStrapi + person.attributes.avatar.data.attributes.url} />
+                <AvatarImage src={person.attributes.avatar.data.attributes.url} />
                 <AvatarFallback>{person.attributes.avatar.data.attributes.name}</AvatarFallback>
               </Avatar>
               <p className="text-center font-medium">{person.attributes.username}</p>

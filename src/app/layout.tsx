@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { Quicksand } from 'next/font/google';
 import './globals.css';
 import { AppProgressBarProvider, ReduxProvider, ThemeProvider } from '@/components/molecules';
-import { getLocale, getMessages } from 'next-intl/server';
-import { NextIntlClientProvider } from 'next-intl';
+
 import { Toaster } from '@/components/atoms/toaster';
 
 export const metadata: Metadata = {
@@ -19,8 +18,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
-  const langs = await getMessages();
 
   return (
     <html>
@@ -32,21 +29,19 @@ export default async function RootLayout({
         />
       </head>
       <body className="overflow-x-hidden font-inter">
-        <NextIntlClientProvider messages={langs}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ReduxProvider>
-              <AppProgressBarProvider>
-                {children}
-                <Toaster />
-              </AppProgressBarProvider>
-            </ReduxProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ReduxProvider>
+            <AppProgressBarProvider>
+              {children}
+              <Toaster />
+            </AppProgressBarProvider>
+          </ReduxProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

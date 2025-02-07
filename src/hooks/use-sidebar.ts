@@ -1,6 +1,9 @@
 import { produce } from 'immer';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { Storage } from '@/lib';
 
 type SidebarSettings = { disabled: boolean; isHoverOpen: boolean };
 type SidebarStore = {
@@ -12,6 +15,7 @@ type SidebarStore = {
   setIsHover: (isHover: boolean) => void;
   getOpenState: () => boolean;
   setSettings: (settings: Partial<SidebarSettings>) => void;
+  checkAuth: () => void;
 };
 
 export const useSidebar = create(
@@ -40,6 +44,22 @@ export const useSidebar = create(
           }),
         );
       },
+      checkAuth: () => {
+        const token = Storage.get('local', 'token');
+        const role = Storage.get('local', 'role');
+
+        set(
+          produce((state: SidebarStore) => {
+            if (!token || !role) {
+              state.settings.disabled = true;
+            } else if (role !== 'user') {
+              state.settings.disabled = false;
+            } else {
+              state.settings.disabled = true;
+            }
+          })
+        );
+      },
     }),
     {
       name: 'sidebar',
@@ -47,3 +67,19 @@ export const useSidebar = create(
     },
   ),
 );
+
+// Hook untuk menjalankan checkAuth saat komponen mount
+export const useAuthCheck = () => {
+  const checkAuth = useSidebar((state) => state.checkAuth);
+  const navigate = useRouter();
+  useEffect(() => {
+    checkAuth();
+    const token = Storage.get('local', 'token');
+    const role = Storage.get('local', 'role');
+    if (!token || !role) {
+      navigate.push('/admin/auth');
+    } else if (role === 'user') {
+      navigate.push('/auth');
+    }
+  }, [checkAuth, navigate]);
+};

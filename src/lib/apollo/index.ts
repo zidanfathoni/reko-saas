@@ -6,7 +6,7 @@ import {
 import merge from 'deepmerge';
 import isEqual from 'lodash-es/isEqual';
 
-const COUNTRIES_API = process.env.NEXT_PUBLIC_API_STRAPI_GRAPHQL;
+const COUNTRIES_API = process.env.NEXT_PUBLIC_API_GRAPHQL;
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 

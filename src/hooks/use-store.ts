@@ -1,3 +1,5 @@
+"use client"
+
 import type { TstoreDispatch, TstoreState } from '@/config';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

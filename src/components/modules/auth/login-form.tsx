@@ -10,7 +10,10 @@ import {
 } from "@/components/atoms/card";
 import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchLogin, loginSuccess } from "@/lib/slices/auth/loginSlice";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FaApple, FaGoogle } from "react-icons/fa";
 
 
@@ -21,6 +24,40 @@ interface SignInProps {
 const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const router = useRouter();
+
+  const dispatch = useAppDispatch();
+  const { login, loading, isAuth } = useAppSelector((state) => state.login);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      await dispatch(fetchLogin(formData));
+
+      if (login.data.role === "user") {
+        console.log("user");
+        router.push("/dashboard");
+      } else {
+        router.push("/admin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   dispatch(loginSuccess(login));
+  //   if (login.data.role === "user") {
+  //     router.push("/dashboard");
+  //   } else {
+  //     router.push("/admin");
+  //   }
+  // }, [login, isAuth]);
+
+
 
   return (
     <form>
@@ -59,6 +96,7 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
                       type="email"
                       placeholder="m@example.com"
                       required
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="grid gap-2">
@@ -71,10 +109,19 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
                         Forgot your password?
                       </a>
                     </div>
-                    <Input id="password" type="password" required />
+                    <Input
+                      id="password"
+                      type="password"
+                      required
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
-                  <Button type="submit" className="w-full">
-                    Under Maintenance
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    onClick={handleSubmit}
+                  >
+                    {loading ? "Loading..." : "Login"}
                   </Button>
                 </div>
                 <div className="text-center text-sm">

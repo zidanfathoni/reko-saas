@@ -4,7 +4,8 @@ const withNextIntl = createNextIntlPlugin('./src/config/i18n.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
+  crossOrigin: 'anonymous',
   images: {
     domains: [
       'assets.aceternity.com',
