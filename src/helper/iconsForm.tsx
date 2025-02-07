@@ -56,7 +56,7 @@ export function IconForm() {
                 </div>
               )}
             </div>
-            <div className="px-1">
+            <div className="px-2">
               <IconsSelector onSelectIcon={handleSelectIcon} />
             </div>
             <Button variant="outline" className="" onClick={() => setSelectedIcon(null)}>

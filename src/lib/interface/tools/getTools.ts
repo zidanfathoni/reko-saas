@@ -1,46 +1,33 @@
 export interface GetTools {
-  data: DataTools[]
+  status: boolean
+  message: string
+  data: Data
+}
+
+export interface Data {
   meta: MetaTools
-}
-
-export interface DataTools {
-  id: number
-  attributes: Attributes
-}
-
-export interface Attributes {
-  title: string
-  slug: string
-  description: string
-  type: string
-  createdAt: string
-  updatedAt: string
-  publishedAt: string
-  link: Link
-}
-
-export interface Link {
-  id: number
-  icons_web: string
-  link: Link2
-}
-
-export interface Link2 {
-  id: number
-  href: string
-  label: string
-  target: string
-  is_external: boolean
-  theme: string
+  data: DataTools[]
 }
 
 export interface MetaTools {
-  pagination: PaginationTools
+  total: number
+  per_page: number
+  current_page: number
+  last_page: number
+  first_page: number
+  first_page_url: string
+  last_page_url: string
+  next_page_url: string
+  previous_page_url: string
 }
 
-export interface PaginationTools {
-  page: number
-  pageSize: number
-  pageCount: number
-  total: number
+export interface DataTools {
+  id: string
+  name: string
+  slug: string
+  description: string
+  link: string
+  icons: string
+  created_at: string
+  updated_at: string
 }

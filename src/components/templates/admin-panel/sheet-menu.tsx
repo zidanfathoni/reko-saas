@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from '@/components/atoms/sheet';
 import { Menu } from './menu';
+import Image from 'next/image';
 
 export function SheetMenu() {
   return (
@@ -24,7 +25,14 @@ export function SheetMenu() {
           <Button className="flex items-center justify-center pb-2 pt-1" variant="link" asChild>
             <Link href="/dashboard" className="flex items-center gap-2">
               <PanelsTopLeft className="mr-1 h-6 w-6" />
-              <SheetTitle className="text-lg font-bold">Receh Koding</SheetTitle>
+              {/* <SheetTitle className="text-lg font-bold">Receh Koding</SheetTitle> */}
+              <Image
+                src="/images/logo/recehkoding-logo.svg"
+                alt="Next.js logo"
+                width={180}
+                height={38}
+                priority
+              />
             </Link>
           </Button>
         </SheetHeader>

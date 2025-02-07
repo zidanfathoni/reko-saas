@@ -30,13 +30,13 @@ const ToolsModules: React.FC = () => {
   };
 
   const pageNumbers = [];
-  for (let i = 1; i <= tools.meta.pagination.pageCount; i++) {
+  for (let i = 1; i <= tools.data.meta.last_page; i++) {
     pageNumbers.push(i);
   }
 
   useEffect(() => {
-    dispatch(fetchTools(tools.meta.pagination.page));
-  }, [dispatch, tools.meta.pagination.page]);
+    dispatch(fetchTools(tools.data.meta.current_page));
+  }, [dispatch, tools.data.meta.current_page]);
 
   return (
     <section className="pb-24 pt-10">
@@ -51,30 +51,30 @@ const ToolsModules: React.FC = () => {
           ) : (
             <Suspense
               fallback={<Loader2 className="h-16 w-16 animate-spin text-primary" />}>
-              {tools.data.map((item, index) => (
+              {tools.data.data.map((item, index) => (
                 <React.Fragment key={index}>
                   <div className="grid items-center gap-4 px-4 py-5 md:grid-cols-4">
                     <div className="order-2 flex items-center gap-2 md:order-none">
                       <span className="flex h-14 w-16 shrink-0 items-center justify-center rounded-md bg-muted">
-                        <DynamicIcon icon={item.attributes.link.icons_web} className="h-14" />
+                        <DynamicIcon icon={item.icons} className="h-14" />
                       </span>
                       <div className="flex flex-col gap-1">
-                        <p className="font-semibold text-lg">{item.attributes.title}</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="font-semibold text-lg">{item.name}</p>
+                        {/* <p className="text-sm text-muted-foreground">
                           {item.attributes.type}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                     <p className="order-1 text-xl font-semibold md:order-none md:col-span-2">
-                      {item.attributes.description}
+                      {item.description}
                     </p>
                     <Button variant="outline" asChild>
                       <a
                         className="order-3 ml-auto w-fit gap-2 md:order-none"
-                        href={item.attributes.link.link.href}
-                        target={item.attributes.link.link.target}
+                        href={item.link}
+                        target="_blank"
                       >
-                        <span>{item.attributes.link.link.label}</span>
+                        <span>Let's Gooo!</span>
                         <ArrowRight className="h-4 w-4" />
                       </a>
                     </Button>
@@ -88,7 +88,7 @@ const ToolsModules: React.FC = () => {
 
         </div>
       </div>
-      <PaginationControls currentPage={tools.meta.pagination.page} totalPages={tools.meta.pagination.pageCount} onChange={handlePageClick} />
+      <PaginationControls currentPage={tools.data.meta.current_page} totalPages={tools.data.meta.last_page} onChange={handlePageClick} />
     </section>
   );
 };

@@ -7,6 +7,7 @@ import { PanelsTopLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Menu } from './menu';
 import { SidebarToggle } from './sidebar-toggle';
+import Image from 'next/image';
 
 export function Sidebar() {
   const sidebar = useStore(useSidebar, (x) => x);
@@ -35,15 +36,14 @@ export function Sidebar() {
           asChild
         >
           <Link href="/dashboard" className="flex items-center gap-2">
-            <PanelsTopLeft className="mr-1 h-6 w-6" />
-            <h1
-              className={cn(
-                'whitespace-nowrap text-lg font-bold transition-[transform,opacity,display] duration-300 ease-in-out',
-                !getOpenState() ? 'hidden -translate-x-96 opacity-0' : 'translate-x-0 opacity-100',
-              )}
-            >
-              Receh Koding
-            </h1>
+            {/* <PanelsTopLeft className="mr-1 h-6 w-6" /> */}
+            <Image
+              src="/images/logo/recehkoding-logo.svg"
+              alt="Next.js logo"
+              width={180}
+              height={38}
+              priority
+            />
           </Link>
         </Button>
         <Menu isOpen={getOpenState()} />

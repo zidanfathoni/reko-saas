@@ -1,4 +1,3 @@
-import { Bookmark, LayoutGrid, LucideIcon, Settings, SquarePen, Tag, Users } from 'lucide-react';
 
 type Submenu = {
   href: string;
@@ -10,7 +9,7 @@ type Menu = {
   href: string;
   label: string;
   active?: boolean;
-  icon: LucideIcon;
+  icon: string;
   submenus?: Submenu[];
 };
 
@@ -27,7 +26,7 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: "/admin",
           label: "Dashboard",
-          icon: LayoutGrid,
+          icon: 'FaToolbox',
           submenus: []
         }
       ]
@@ -38,7 +37,7 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: '',
           label: 'Posts',
-          icon: SquarePen,
+          icon: 'FaToolbox',
           submenus: [
             {
               href: '/posts',
@@ -51,14 +50,19 @@ export function getMenuList(pathname: string): Group[] {
           ],
         },
         {
-          href: '/categories',
-          label: 'Categories',
-          icon: Bookmark,
-        },
-        {
-          href: '/tags',
-          label: 'Tags',
-          icon: Tag,
+          href: '',
+          label: 'Tools',
+          icon: 'FaToolbox',
+          submenus: [
+            {
+              href: '/admin/tools',
+              label: 'All Tools',
+            },
+            {
+              href: '/admin/tools/new',
+              label: 'New Tools',
+            },
+          ],
         },
       ],
     },
@@ -68,12 +72,12 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: '/admin/users',
           label: 'Users',
-          icon: Users,
+          icon: 'FaToolbox',
         },
         {
           href: '/account',
           label: 'Account',
-          icon: Settings,
+          icon: 'FaToolbox',
         },
       ],
     },

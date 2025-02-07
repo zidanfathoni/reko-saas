@@ -37,7 +37,7 @@ const SignUpForm: React.FC<SignInProps> = ({ onClick }) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button className="w-full" variant={"outline"}>
+            {/* <Button className="w-full" variant={"outline"}>
               <svg
                 className="w-4 h-auto mr-2"
                 width={46}
@@ -70,7 +70,7 @@ const SignUpForm: React.FC<SignInProps> = ({ onClick }) => {
                   Or
                 </div>
               </Separator>
-            </div>
+            </div> */}
             <div className="mt-5">
               {/* Grid */}
               <div className="grid grid-cols-2 gap-4">

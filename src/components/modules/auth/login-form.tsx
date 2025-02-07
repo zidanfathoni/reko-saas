@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/atoms/button";
 import {
   Card,
@@ -8,6 +10,7 @@ import {
 } from "@/components/atoms/card";
 import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
+import { useState } from "react";
 import { FaApple, FaGoogle } from "react-icons/fa";
 
 
@@ -16,6 +19,9 @@ interface SignInProps {
 }
 
 const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
   return (
     <form>
       <div className="lg:max-w-lg lg:mx-auto lg:me-0 ms-auto">
@@ -30,7 +36,7 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
           <CardContent>
             <form>
               <div className="grid gap-6">
-                <div className="flex flex-col gap-4">
+                {/* <div className="flex flex-col gap-4">
                   <Button variant="outline" className="w-full">
                     <FaApple className="w-4 h-auto mr-2" />
                     Login with Apple
@@ -44,7 +50,7 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
                   <span className="relative z-10 bg-background px-2 text-muted-foreground">
                     Or continue with
                   </span>
-                </div>
+                </div> */}
                 <div className="grid gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>

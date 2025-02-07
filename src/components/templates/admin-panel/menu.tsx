@@ -15,6 +15,7 @@ import {
 import { getMenuList } from '@/lib/menu-list';
 import { cn } from '@/lib/utils';
 import { CollapseMenuButton } from './collapse-menu-button';
+import DynamicIcon from '@/helper/dynamicIcons';
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -50,7 +51,7 @@ export function Menu({ isOpen }: MenuProps) {
               ) : (
                 <p className="pb-2"></p>
               )}
-              {menus.map(({ href, label, icon: Icon, active, submenus }, index) =>
+              {menus.map(({ href, label, icon, active, submenus }, index) =>
                 !submenus || submenus.length === 0 ? (
                   <div className="w-full" key={index}>
                     <TooltipProvider disableHoverableContent>
@@ -67,7 +68,10 @@ export function Menu({ isOpen }: MenuProps) {
                           >
                             <Link href={href}>
                               <span className={cn(isOpen === false ? '' : 'mr-4')}>
-                                <Icon size={18} />
+                                {/* <Icon size={18} /> */}
+                                <DynamicIcon
+                                  icon={icon}
+                                />
                               </span>
                               <p
                                 className={cn(
@@ -89,7 +93,7 @@ export function Menu({ isOpen }: MenuProps) {
                 ) : (
                   <div className="w-full" key={index}>
                     <CollapseMenuButton
-                      icon={Icon}
+                      icon={icon}
                       label={label}
                       active={active === undefined ? pathname.startsWith(href) : active}
                       submenus={submenus}

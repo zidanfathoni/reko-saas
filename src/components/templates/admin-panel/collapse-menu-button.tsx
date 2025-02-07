@@ -27,6 +27,7 @@ import {
 import { cn } from '@/lib/utils';
 import { DropdownMenuArrow } from '@radix-ui/react-dropdown-menu';
 import { usePathname } from 'next/navigation';
+import DynamicIcon from '@/helper/dynamicIcons';
 
 type Submenu = {
   href: string;
@@ -35,7 +36,7 @@ type Submenu = {
 };
 
 interface CollapseMenuButtonProps {
-  icon: LucideIcon;
+  icon: string;
   label: string;
   active: boolean;
   submenus: Submenu[];
@@ -43,7 +44,7 @@ interface CollapseMenuButtonProps {
 }
 
 export function CollapseMenuButton({
-  icon: Icon,
+  icon,
   label,
   active,
   submenus,
@@ -59,18 +60,24 @@ export function CollapseMenuButton({
     <Collapsible open={isCollapsed} onOpenChange={setIsCollapsed} className="w-full">
       <CollapsibleTrigger className="mb-1 [&[data-state=open]>div>div>svg]:rotate-180" asChild>
         <Button
-          variant={isSubmenuActive ? 'secondary' : 'ghost'}
+          variant='ghost'
           className="h-10 w-full justify-start"
         >
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center">
               <span className="mr-4">
-                <Icon size={18} />
+                {/* <Icon size={18} /> */}
+                <DynamicIcon
+                  icon={icon}
+                  //classname, if isSubmenuActive  is orange
+                  className={isSubmenuActive ? 'text-primary' : ''}
+                />
               </span>
               <p
                 className={cn(
                   'max-w-[150px] truncate',
                   isOpen ? 'translate-x-0 opacity-100' : '-translate-x-96 opacity-0',
+                  isSubmenuActive ? 'text-primary' : '',
                 )}
               >
                 {label}
@@ -80,6 +87,7 @@ export function CollapseMenuButton({
               className={cn(
                 'whitespace-nowrap',
                 isOpen ? 'translate-x-0 opacity-100' : '-translate-x-96 opacity-0',
+                isSubmenuActive ? 'text-primary' : '',
               )}
             >
               <ChevronDown size={18} className="transition-transform duration-200" />
@@ -125,7 +133,10 @@ export function CollapseMenuButton({
                 <div className="flex w-full items-center justify-between">
                   <div className="flex items-center">
                     <span className={cn(isOpen === false ? '' : 'mr-4')}>
-                      <Icon size={18} />
+                      {/* <Icon size={18} /> */}
+                      <DynamicIcon
+                        icon={icon}
+                      />
                     </span>
                     <p
                       className={cn(
@@ -151,9 +162,8 @@ export function CollapseMenuButton({
         {submenus.map(({ href, label, active }, index) => (
           <DropdownMenuItem key={index} asChild>
             <Link
-              className={`cursor-pointer ${
-                ((active === undefined && pathname === href) || active) && 'bg-secondary'
-              }`}
+              className={`cursor-pointer ${((active === undefined && pathname === href) || active) && 'bg-secondary'
+                }`}
               href={href}
             >
               <p className="max-w-[180px] truncate">{label}</p>

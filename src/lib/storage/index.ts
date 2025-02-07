@@ -28,6 +28,12 @@ const Storage = {
       return null;
     }
   },
+
+  remove<T>(typ: TstorageType, key: string): void {
+    if (typ == 'local') window.localStorage.removeItem(key);
+    if (typ == 'session') window.sessionStorage.removeItem(key);
+    if (typ == 'cookie') setCookie(key, '', { expires: new Date(0) });
+  },
 };
 
 export { Storage };

@@ -12,7 +12,7 @@ interface ToolsState {
 
 // State awal
 const initialState: ToolsState = {
-  tools: { data: [], meta: { pagination: { page: 0, pageSize: 0, pageCount: 0, total: 0 } } },
+  tools: { status: false, message: "", data: { meta: { total: 0, per_page: 0, current_page: 1, last_page: 0, first_page: 0, first_page_url: "", last_page_url: "", next_page_url: "", previous_page_url: "" }, data: [] } },
   loading: false,
   error: null,
 };
@@ -20,12 +20,9 @@ const initialState: ToolsState = {
 // Async thunk untuk fetch data dengan Axios
 export const fetchTools = createAsyncThunk("tools/fetchTools", async (page: number) => {
   try {
-    const response = await api.get(`/tools?pagination[pageSize]=12&pagination[page]=${page ?? 1}`, {
+    const response = await api.get(`/tools?pageSize=10&page=${page ?? 1}`, {
       headers: {
         "Content-Type": "application/json",
-      },
-      params: {
-        populate: "link.link",
       },
     });
     return response.data;
@@ -39,7 +36,7 @@ export const toolsSlice = createSlice({
   initialState,
   reducers: {
     setPage: (state, action) => {
-      state.tools.meta.pagination.page = action.payload;
+      state.tools.data.meta.current_page = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -65,3 +62,4 @@ export const toolsSlice = createSlice({
 });
 
 export const { setPage } = toolsSlice.actions;
+export default toolsSlice.reducer;
