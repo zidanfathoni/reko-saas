@@ -32,8 +32,12 @@ const Storage = {
   remove<T>(typ: TstorageType, key: string): void {
     if (typ == 'local') window.localStorage.removeItem(key);
     if (typ == 'session') window.sessionStorage.removeItem(key);
-    if (typ == 'cookie') setCookie(key, '', { expires: new Date(0) });
   },
+
+  clearAll<T>(typ: TstorageType): void {
+    if (typ == 'local') window.localStorage.clear();
+    if (typ == 'session') window.sessionStorage.clear();
+  }
 };
 
 export { Storage };

@@ -3,7 +3,7 @@ import { MoveRight } from 'lucide-react';
 import Headers from '@/components/atoms/headers';
 
 export const LatestServicesSection = () => (
-  <section className='bg-background-secondary'>
+  <section>
     <div className="w-full py-10 lg:py-20">
       <Headers
         title='Our Services'

@@ -56,7 +56,7 @@ export const fetchMe = createAsyncThunk("me/fetchMe", async () => {
     const response = await api.get("/user/me", {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        "Authorization": `Bearer ${Storage.get("local", "token")}`,
       },
     });
     Storage.set('local', 'user', response.data.data);

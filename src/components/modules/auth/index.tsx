@@ -4,7 +4,7 @@ import LoginForm from "./login-form";
 import SignUpForm from "./signup-form";
 
 export default function LoginPage() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const handleToggle = () => {
     setIsLogin(!isLogin);

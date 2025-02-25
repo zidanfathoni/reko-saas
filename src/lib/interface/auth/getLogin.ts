@@ -1,5 +1,5 @@
 export interface GetLoginResponse {
-  status: string
+  status: boolean
   message: string
   data: DataLogin
 }

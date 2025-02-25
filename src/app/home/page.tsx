@@ -16,8 +16,8 @@ export default function HomePages() {
       {/* <HeroSection /> */}
       <Hero2Section />
       <FeaturesSection />
-      <LatestTutorialsSection />
       <LatestServicesSection />
+      <LatestTutorialsSection />
       {/* <LatestArticlesSection /> */}
       <TrustedSection />
       <SubscribeSection />

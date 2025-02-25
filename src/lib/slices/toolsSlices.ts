@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { GetTools } from "../interface/tools/getTools";
-import { api } from "../axios/instance";
+import { api, apiAdmin } from "../axios/instance";
 import { toast } from "@/components/atoms/use-toast";
+import { Storage } from "../storage";
 
 
 interface ToolsState {
@@ -31,6 +32,27 @@ export const fetchTools = createAsyncThunk("tools/fetchTools", async (page: numb
   }
 });
 
+// Async thunk untuk fetch data dengan Axios
+export const fetchToolsAdmin = createAsyncThunk("tools/fetchToolsAdmin", async ({
+  page,
+  size,
+}: {
+  page: number;
+  size: number;
+}) => {
+  try {
+    const response = await apiAdmin.get(`/tools?pageSize=${size ?? 10}&page=${page ?? 1}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Storage.get('local', 'token')}`,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to fetch tools");
+  }
+});
+
 export const toolsSlice = createSlice({
   name: "tools",
   initialState,
@@ -38,6 +60,9 @@ export const toolsSlice = createSlice({
     setPage: (state, action) => {
       state.tools.data.meta.current_page = action.payload;
     },
+    setPageSize: (state, action) => {
+      state.tools.data.meta.per_page = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder

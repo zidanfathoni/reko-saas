@@ -4,26 +4,23 @@ import { Toaster } from '@/components/atoms/toaster';
 import { ReduxProvider, AppProgressBarProvider } from '@/components/molecules';
 import AdminPanelLayout from '@/components/templates/admin-panel/admin-panel-layout';
 import { useSidebar } from '@/hooks/use-sidebar';
-import { useStore } from '@/hooks/use-store';
+import { useAppDispatch, useAppSelector, useStore } from '@/hooks/use-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Storage } from '@/lib';
+import { fetchMe } from '@/lib/slices/auth/meSlice';
+// import useCookieWatcher from '@/helper/cookiesHelper';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const checkAuth = useSidebar((state) => state.checkAuth);
-  const navigate = useRouter();
+  // useCookieWatcher();
+  const dispatch = useAppDispatch();
+  const { me, loadingMe, error } = useAppSelector((state) => state.me);
 
   useEffect(() => {
-    checkAuth();
-    const token = Storage.get('local', 'token');
-    const role = Storage.get('local', 'role');
-    if (!token && !role) {
-      navigate.push('/admin/auth');
-    } else if (role === 'user') {
-      console.log('role', role);
-      navigate.push('/auth');
-    }
-  }, [checkAuth, navigate]);
+
+    dispatch(fetchMe());
+  }, []); // Effect dijalankan saat pertama kali render
+
   return (
     <ReduxProvider>
       <AppProgressBarProvider>

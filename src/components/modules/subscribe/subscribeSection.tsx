@@ -13,18 +13,33 @@ export default function SubscribeSection() {
             {/* Title */}
             <div className="text-center">
               <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                Turn online shoppers into lifetime customers
+                Join and Connect with Us
               </h1>
               <p className="scroll-m-20 pt-12 text-1xl tracking-tight lg:text-2xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Elig
-                doloremque mollitia fugiat omnis!
+                Transform your business with our tools and services
               </p>
             </div>
             <div className="flex w-full flex-col justify-center gap-2 sm:flex-row">
-              <Button variant="outline" className="w-full sm:w-auto">
-                Learn More
+              <Button
+                onClick={
+                  (e) => {
+                    //go to service Page
+                    e.preventDefault();
+                    window.location.href = '/services';
+                  }
+                }
+                variant="outline" className="w-full sm:w-auto">
+                Service
               </Button>
-              <Button className="w-full sm:w-auto">Get Started</Button>
+              <Button
+                onClick={
+                  (e) => {
+                    //go to contact Page
+                    e.preventDefault();
+                    window.location.href = '/contact';
+                  }
+                }
+                className="w-full sm:w-auto">Contact</Button>
             </div>
             {/* End Title */}
             {/* Avatar Group */}

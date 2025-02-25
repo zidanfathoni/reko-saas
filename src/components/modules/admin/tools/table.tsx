@@ -84,31 +84,31 @@ import {
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog";
 import { AddToolsDialog } from "./add-tools";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchToolsAdmin, setPage } from "@/lib/slices/toolsSlices";
+import { DataTools, GetTools, MetaTools } from "@/lib/interface/tools/getTools";
+import { AppDispatch, RootState } from "@/lib/storage/store";
+import { useDispatch, useSelector } from "react-redux";
+import DynamicIcon from "@/helper/dynamicIcons";
+import { apiAdmin } from "@/lib/axios/instance";
+import { Storage } from "@/lib";
+import PaginationControls from "@/components/molecules/pagination-control";
 
-type Item = {
-  id: string;
-  name: string;
-  email: string;
-  location: string;
-  flag: string;
-  status: "Active" | "Inactive" | "Pending";
-  balance: number;
-};
 
 // Custom filter function for multi-column searching
-const multiColumnFilterFn: FilterFn<Item> = (row, columnId, filterValue) => {
-  const searchableRowContent = `${row.original.name} ${row.original.email}`.toLowerCase();
+const multiColumnFilterFn: FilterFn<DataTools> = (row, columnId, filterValue) => {
+  const searchableRowContent = `${row.original.name}`.toLowerCase();
   const searchTerm = (filterValue ?? "").toLowerCase();
   return searchableRowContent.includes(searchTerm);
 };
 
-const statusFilterFn: FilterFn<Item> = (row, columnId, filterValue: string[]) => {
-  if (!filterValue?.length) return true;
-  const status = row.getValue(columnId) as string;
-  return filterValue.includes(status);
-};
+// const statusFilterFn: FilterFn<DataTools> = (row, columnId, filterValue: string[]) => {
+//   if (!filterValue?.length) return true;
+//   const status = row.getValue(columnId) as string;
+//   return filterValue.includes(status);
+// };
 
-const columns: ColumnDef<Item>[] = [
+const columns: ColumnDef<DataTools>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -140,8 +140,8 @@ const columns: ColumnDef<Item>[] = [
     enableHiding: false,
   },
   {
-    header: "Email",
-    accessorKey: "email",
+    header: "Link",
+    accessorKey: "link",
     size: 220,
   },
   {
@@ -149,42 +149,10 @@ const columns: ColumnDef<Item>[] = [
     accessorKey: "location",
     cell: ({ row }) => (
       <div>
-        <span className="text-lg leading-none">{row.original.flag}</span> {row.getValue("location")}
+        <DynamicIcon icon={row.original.icons} className="h-14" />
       </div>
     ),
     size: 180,
-  },
-  {
-    header: "Status",
-    accessorKey: "status",
-    cell: ({ row }) => (
-      <Badge
-        className={cn(
-          row.getValue("status") === "Inactive" && "bg-muted-foreground/60 text-primary-foreground",
-        )}
-      >
-        {row.getValue("status")}
-      </Badge>
-    ),
-    size: 100,
-    filterFn: statusFilterFn,
-  },
-  {
-    header: "Performance",
-    accessorKey: "performance",
-  },
-  {
-    header: "Balance",
-    accessorKey: "balance",
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("balance"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-      return formatted;
-    },
-    size: 120,
   },
   {
     id: "actions",
@@ -199,10 +167,18 @@ export default function ToolsTable() {
   const id = useId();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  const [pagination, setPagination] = useState<MetaTools>();
+  const [search, setSearch] = useState<string>('');
+  const [response, setResponse] = useState<GetTools>();
+  const [data, setData] = useState<DataTools[]>([]);
+  const [loadingMenu, setLoadingMenu] = useState<boolean>(true);
+  const [emptyDataMenu, setEmptyDataMenu] = useState<boolean>(false);
+  const [errorMenu, setErrorMenu] = useState<string | null>(null);
+
+  const pageNumbers = [];
+  for (let i = 1; i <= (response?.data?.meta?.last_page ?? 1); i++) {
+    pageNumbers.push(i);
+  }
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [sorting, setSorting] = useState<SortingState>([
@@ -212,24 +188,57 @@ export default function ToolsTable() {
     },
   ]);
 
-  const [data, setData] = useState<Item[]>([]);
-  useEffect(() => {
-    async function fetchPosts() {
-      const res = await fetch(
-        "https://res.cloudinary.com/dlzlfasou/raw/upload/users-01_fertyx.json",
-      );
-      const data = await res.json();
-      setData(data);
+
+  const handlePageClick = (current_page: number) => {
+    // Logika untuk menangani perubahan halaman
+    console.log('Page clicked:', current_page);
+    setPagination((prev) => prev ? { ...prev, current_page } : undefined);
+    // Lakukan fetching data untuk halaman baru di sini
+  };
+
+  //
+
+
+  const fetchDataCategory = async () => {
+    setLoadingMenu(true);
+    try {
+      const response = await apiAdmin.get<GetTools>(`/tools?pageSize=${pagination?.per_page ?? 10}&page=${pagination?.current_page ?? 1}&search=${search}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${Storage.get('local', 'token')}`,
+        },
+      }); // ganti '/endpoint' dengan endpoint yang sesuai
+      setData(response.data.data.data);
+      setPagination(response.data.data.meta);
+      if (response.data.data.data.length === 0) {
+        setEmptyDataMenu(true);
+      } else {
+        setEmptyDataMenu(false);
+      }
+    } catch (error) {
+      setErrorMenu('Failed to fetch data');
+    } finally {
+      setLoadingMenu(false);
     }
-    fetchPosts();
-  }, []);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      fetchDataCategory(); // Panggil fungsi untuk mendapatkan data
+    }
+  };
+
+  useEffect(() => {
+    fetchDataCategory();
+  }, [pagination?.current_page, pagination?.per_page]);
+
 
   const handleDeleteRows = () => {
     const selectedRows = table.getSelectedRowModel().rows;
     const updatedData = data.filter(
       (item) => !selectedRows.some((row) => row.original.id === item.id),
     );
-    setData(updatedData);
+    // setData(updatedData);
     table.resetRowSelection();
   };
 
@@ -241,57 +250,57 @@ export default function ToolsTable() {
     onSortingChange: setSorting,
     enableSortingRemoval: false,
     getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
+    // onPaginationChange: setPagination,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getFilteredRowModel: getFilteredRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     state: {
       sorting,
-      pagination,
+      // pagination,
       columnFilters,
       columnVisibility,
     },
   });
 
   // Get unique status values
-  const uniqueStatusValues = useMemo(() => {
-    const statusColumn = table.getColumn("status");
+  // const uniqueStatusValues = useMemo(() => {
+  //   const statusColumn = table.getColumn("status");
 
-    if (!statusColumn) return [];
+  //   if (!statusColumn) return [];
 
-    const values = Array.from(statusColumn.getFacetedUniqueValues().keys());
+  //   const values = Array.from(statusColumn.getFacetedUniqueValues().keys());
 
-    return values.sort();
-  }, [table.getColumn("status")?.getFacetedUniqueValues()]);
+  //   return values.sort();
+  // }, [table.getColumn("status")?.getFacetedUniqueValues()]);
 
-  // Get counts for each status
-  const statusCounts = useMemo(() => {
-    const statusColumn = table.getColumn("status");
-    if (!statusColumn) return new Map();
-    return statusColumn.getFacetedUniqueValues();
-  }, [table.getColumn("status")?.getFacetedUniqueValues()]);
+  // // Get counts for each status
+  // const statusCounts = useMemo(() => {
+  //   const statusColumn = table.getColumn("status");
+  //   if (!statusColumn) return new Map();
+  //   return statusColumn.getFacetedUniqueValues();
+  // }, [table.getColumn("status")?.getFacetedUniqueValues()]);
 
-  const selectedStatuses = useMemo(() => {
-    const filterValue = table.getColumn("status")?.getFilterValue() as string[];
-    return filterValue ?? [];
-  }, [table.getColumn("status")?.getFilterValue()]);
+  // const selectedStatuses = useMemo(() => {
+  //   const filterValue = table.getColumn("status")?.getFilterValue() as string[];
+  //   return filterValue ?? [];
+  // }, [table.getColumn("status")?.getFilterValue()]);
 
-  const handleStatusChange = (checked: boolean, value: string) => {
-    const filterValue = table.getColumn("status")?.getFilterValue() as string[];
-    const newFilterValue = filterValue ? [...filterValue] : [];
+  // const handleStatusChange = (checked: boolean, value: string) => {
+  //   const filterValue = table.getColumn("status")?.getFilterValue() as string[];
+  //   const newFilterValue = filterValue ? [...filterValue] : [];
 
-    if (checked) {
-      newFilterValue.push(value);
-    } else {
-      const index = newFilterValue.indexOf(value);
-      if (index > -1) {
-        newFilterValue.splice(index, 1);
-      }
-    }
+  //   if (checked) {
+  //     newFilterValue.push(value);
+  //   } else {
+  //     const index = newFilterValue.indexOf(value);
+  //     if (index > -1) {
+  //       newFilterValue.splice(index, 1);
+  //     }
+  //   }
 
-    table.getColumn("status")?.setFilterValue(newFilterValue.length ? newFilterValue : undefined);
-  };
+  //   table.getColumn("status")?.setFilterValue(newFilterValue.length ? newFilterValue : undefined);
+  // };
 
   return (
     <div className="space-y-4 max-w-[1000px]">
@@ -305,10 +314,13 @@ export default function ToolsTable() {
               ref={inputRef}
               className={cn(
                 "peer min-w-60 ps-9",
-                Boolean(table.getColumn("name")?.getFilterValue()) && "pe-9",
+                Boolean(search) && "pe-9",
               )}
-              value={(table.getColumn("name")?.getFilterValue() ?? "") as string}
-              onChange={(e) => table.getColumn("name")?.setFilterValue(e.target.value)}
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              onKeyDown={handleKeyDown}
               placeholder="Filter by name or email..."
               type="text"
               aria-label="Filter by name or email"
@@ -316,12 +328,12 @@ export default function ToolsTable() {
             <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
               <ListFilter size={16} strokeWidth={2} aria-hidden="true" />
             </div>
-            {Boolean(table.getColumn("name")?.getFilterValue()) && (
+            {Boolean(search) && (
               <button
                 className="absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-lg text-muted-foreground/80 outline-offset-2 transition-colors hover:text-foreground focus:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
                 aria-label="Clear filter"
                 onClick={() => {
-                  table.getColumn("name")?.setFilterValue("");
+                  setSearch('');
                   if (inputRef.current) {
                     inputRef.current.focus();
                   }
@@ -332,7 +344,7 @@ export default function ToolsTable() {
             )}
           </div>
           {/* Filter by status */}
-          <Popover>
+          {/* <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline">
                 <Filter
@@ -374,7 +386,7 @@ export default function ToolsTable() {
                 </div>
               </div>
             </PopoverContent>
-          </Popover>
+          </Popover> */}
           {/* Toggle columns visibility */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -556,16 +568,16 @@ export default function ToolsTable() {
             Rows per page
           </Label>
           <Select
-            value={table.getState().pagination.pageSize.toString()}
+            value={pagination?.per_page.toString() ?? ""}
             onValueChange={(value) => {
-              table.setPageSize(Number(value));
+              setPagination((prev) => prev ? { ...prev, per_page: Number(value) } : undefined);
             }}
           >
             <SelectTrigger id={id} className="w-fit whitespace-nowrap">
               <SelectValue placeholder="Select number of results" />
             </SelectTrigger>
             <SelectContent className="[&_*[role=option]>span]:end-2 [&_*[role=option]>span]:start-auto [&_*[role=option]]:pe-8 [&_*[role=option]]:ps-2">
-              {[5, 10, 25, 50].map((pageSize) => (
+              {[1, 5, 10, 25, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={pageSize.toString()}>
                   {pageSize}
                 </SelectItem>
@@ -573,89 +585,18 @@ export default function ToolsTable() {
             </SelectContent>
           </Select>
         </div>
-        {/* Page number information */}
-        <div className="flex grow justify-end whitespace-nowrap text-sm text-muted-foreground">
-          <p className="whitespace-nowrap text-sm text-muted-foreground" aria-live="polite">
-            <span className="text-foreground">
-              {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}-
-              {Math.min(
-                Math.max(
-                  table.getState().pagination.pageIndex * table.getState().pagination.pageSize +
-                  table.getState().pagination.pageSize,
-                  0,
-                ),
-                table.getRowCount(),
-              )}
-            </span>{" "}
-            of <span className="text-foreground">{table.getRowCount().toString()}</span>
-          </p>
-        </div>
 
         {/* Pagination buttons */}
         <div>
-          <Pagination>
-            <PaginationContent>
-              {/* First page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.firstPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label="Go to first page"
-                >
-                  <ChevronFirst size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-              {/* Previous page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                  aria-label="Go to previous page"
-                >
-                  <ChevronLeft size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-              {/* Next page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label="Go to next page"
-                >
-                  <ChevronRight size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-              {/* Last page button */}
-              <PaginationItem>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="disabled:pointer-events-none disabled:opacity-50"
-                  onClick={() => table.lastPage()}
-                  disabled={!table.getCanNextPage()}
-                  aria-label="Go to last page"
-                >
-                  <ChevronLast size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+
+          <PaginationControls currentPage={pagination?.current_page ?? 1} totalPages={pagination?.last_page ?? 1} onChange={handlePageClick} />
         </div>
       </div>
     </div>
   );
 }
 
-function RowActions({ row }: { row: Row<Item> }) {
+function RowActions({ row }: { row: Row<DataTools> }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

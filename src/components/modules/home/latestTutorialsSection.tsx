@@ -3,8 +3,8 @@ import { MoveRight } from 'lucide-react';
 import Headers from '@/components/atoms/headers';
 
 export const LatestTutorialsSection = () => (
-  <section>
-    <div className="w-full py-10 lg:py-20">
+  <section className='bg-background-secondary'>
+    <div className="w-full py-10 lg:py-20 ">
       <Headers
         title='Tutorial Posts'
         description='Explore in-depth tutorials designed to simplify complex coding concepts. From beginner to advanced topics, learn step by step with our expert guides.'

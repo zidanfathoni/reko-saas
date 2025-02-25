@@ -2,7 +2,7 @@ import { api } from "@/lib/axios";
 import { GetLoginResponse } from "@/lib/interface/auth/getLogin";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Storage } from "@/lib/storage";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchMe } from "../meSlice";
 
 
 interface ToolsState {
@@ -14,7 +14,7 @@ interface ToolsState {
 
 // State awal
 const initialState: ToolsState = {
-  login: { status: "", message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } },
+  login: { status: false, message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } },
   loading: false,
   isAuth: false,
   error: null,
@@ -32,8 +32,32 @@ export const fetchLogin = createAsyncThunk("login/fetchLogin", async (data: Form
     Storage.set('local', 'token', response.data.data.token.token);
     Storage.set('local', 'role', response.data.data.role);
 
-    const dispatch = useAppDispatch();
-    const { me, loadingMe } = useAppSelector((state) => state.me);
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to fetch login");
+  }
+});
+
+export const fetchLoginAdmin = createAsyncThunk("login/fetchLoginAdmin", async (data: FormData) => {
+  try {
+    const response = await api.post("/admin/login", data, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const cookies = response.headers['set-cookie'];
+
+    //save cookies to local storage
+    if (cookies) {
+      Storage.set('session', 'token', cookies.find((cookie: string) => cookie.includes('token')));
+      Storage.set('session', 'role', cookies.find((cookie: string) => cookie.includes('role')));
+    }
+
+    Storage.set('local', 'login', response.data.data);
+    Storage.set('local', 'token', response.data.data.token.token);
+    Storage.set('local', 'role', response.data.data.role);
 
 
     return response.data;
@@ -59,11 +83,11 @@ export const loginSlice = createSlice({
     },
     loginFailure: (state, action: PayloadAction<ToolsState>) => {
       state.error = action.payload.error;
-      state.login = { status: "", message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
+      state.login = { status: false, message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
       state.isAuth = false;
     },
     logout: (state) => {
-      state.login = { status: "", message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
+      state.login = { status: false, message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
       state.isAuth = false;
     }
   },

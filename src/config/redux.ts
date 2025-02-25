@@ -1,5 +1,5 @@
 
-import { loginSlice } from '@/lib/slices/auth/loginSlice';
+import { loginSlice } from '@/lib/slices/auth/login/loginSlice';
 import { meSlice } from '@/lib/slices/auth/meSlice';
 import { pathSlice } from '@/lib/slices/auth/pathSlice';
 import { toolsSlice } from '@/lib/slices/toolsSlices';
