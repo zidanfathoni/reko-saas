@@ -10,7 +10,7 @@ import nProgress from 'nprogress';
 axios.defaults.withCredentials = true;
 
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API, // gunakan variabel lingkungan untuk base URL
+  baseURL: process.env.NEXT_PUBLIC_API + '/v1', // gunakan variabel lingkungan untuk base URL
   headers: {
     'Content-Type': 'application/json',
     "Access-Control-Allow-Origin": "*", // tambahkan header ini jika ada CORS
@@ -18,10 +18,11 @@ const api: AxiosInstance = axios.create({
   withCredentials: true, // Agar cookie bisa dikirim dan diterima
 });
 const apiAdmin: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API + '/admin', // gunakan variabel lingkungan untuk base URL
+  baseURL: process.env.NEXT_PUBLIC_API + '/v1', // gunakan variabel lingkungan untuk base URL
   headers: {
     'Content-Type': 'application/json',
     "Access-Control-Allow-Origin": "*", // tambahkan header ini jika ada CORS
+    'Authorization': `Bearer ${Storage.get('local', 'token') ?? null}`, // tambahkan header ini jika ada auth
   },
   withCredentials: true, // Agar cookie bisa dikirim dan diterima
 });
@@ -59,19 +60,6 @@ api.interceptors.response.use(
             variant: 'destructive',
             description: response.data?.message ?? 'Your request is incorrect.',
           });
-          break;
-        case 401:
-          if (!err.config.sent) {
-            err.config.sent = true;
-            const newToken = await refreshToken();
-            if (newToken) {
-              err.config.headers = {
-                ...err.config.headers,
-                Authorization: `Bearer ${newToken}`,
-              };
-            }
-            return axios(err.config);
-          }
           break;
         case 403:
           toast({
@@ -133,19 +121,19 @@ apiAdmin.interceptors.response.use(
             description: response.data?.message ?? 'Your request is incorrect.',
           });
           break;
-        case 401:
-          if (!err.config.sent) {
-            err.config.sent = true;
-            const newToken = await refreshToken();
-            if (newToken) {
-              err.config.headers = {
-                ...err.config.headers,
-                Authorization: `Bearer ${newToken}`,
-              };
+          case 401:
+            if (!err.config.sent) {
+              err.config.sent = true;
+              const newToken = await refreshToken();
+              if (newToken) {
+                err.config.headers = {
+                  ...err.config.headers,
+                  Authorization: `Bearer ${newToken}`,
+                };
+                return api.request(err.config); // Retry request with new token
+              }
             }
-            return axios(err.config);
-          }
-          break;
+            break;
         case 403:
           toast({
             title: 'Access Denied',

@@ -46,13 +46,13 @@ export const useSidebar = create(
       },
       checkAuth: () => {
         const token = Storage.get('local', 'token');
-        const role = Storage.get('local', 'role');
+        const path = Storage.get('local', 'path');
 
         set(
           produce((state: SidebarStore) => {
-            if (!token || !role) {
+            if (!token || !path) {
               state.settings.disabled = true;
-            } else if (role !== 'user') {
+            } else if (path !== 'user') {
               state.settings.disabled = false;
             } else {
               state.settings.disabled = true;
@@ -75,10 +75,10 @@ export const useAuthCheck = () => {
   useEffect(() => {
     checkAuth();
     const token = Storage.get('local', 'token');
-    const role = Storage.get('local', 'role');
-    if (!token || !role) {
-      navigate.push('/admin/auth');
-    } else if (role === 'user') {
+    const path = Storage.get('local', 'path');
+    if (!token || !path) {
+      navigate.push('/auth');
+    } else if (path === 'user') {
       navigate.push('/auth');
     }
   }, [checkAuth, navigate]);

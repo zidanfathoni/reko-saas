@@ -5,30 +5,29 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Input } from "@/components/atoms/input"
 import { Button } from "@/components/atoms/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/atoms/select"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Ellipsis, Plus, Trash } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Plus, Trash } from "lucide-react"
 import { Badge } from "@/components/atoms/badge"
 import { Checkbox } from "@/components/atoms/checkbox"
-import { DataTools, GetTools } from "@/lib/interface/tools/getTools"
 import PaginationControls from "@/components/molecules/pagination-control";
 import DynamicIcon from "@/helper/dynamicIcons";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { fetchTools, setPage } from "@/lib/slices/toolsSlices"
-import { BsFillMenuButtonWideFill } from "react-icons/bs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/atoms"
+import { DataUsers, GetUsersResponse } from "@/lib/interface/admin/users/getUsers"
+import { fetchUsers, setPage } from "@/lib/slices/admin/admin-userSlice"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/atoms/dropdown-menu"
+import { BsFillMenuButtonWideFill } from "react-icons/bs"
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
-import { AddToolsDialog } from "./add-tools"
 
 
 
-export function ToolsTable() {
+export function UsersTable() {
     const [pageSize, setPageSize] = useState(10)
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set())
-    const [sortColumn, setSortColumn] = useState<keyof DataTools | null>(null)
+    const [sortColumn, setSortColumn] = useState<keyof DataUsers | null>(null)
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
-    const [response, setResponse] = useState<GetTools>();
+    const [response, setResponse] = useState<GetUsersResponse>();
     const dispatch = useAppDispatch();
-    const { tools, loading, error } = useAppSelector((state) => state.tools);
+    const { users, loading, error } = useAppSelector((state) => state.users);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,20 +42,20 @@ export function ToolsTable() {
 
 
     const toggleSelectAll = () => {
-        if (selectedRows.size === tools.data.length) {
+        if (selectedRows.size === users.data.length) {
             setSelectedRows(new Set())
         } else {
-            const newSelectedRows = new Set(tools.data.map((tools) => tools.id))
+            const newSelectedRows = new Set(users.data.map((users) => users.id))
             setSelectedRows(newSelectedRows)
         }
     }
 
     const fetchDataCategory = async () => {
-        dispatch(fetchTools({ page: tools.meta.current_page, pageSize: tools.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchUsers({ page: users.meta.current_page, pageSize: users.meta.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
-    const handleSort = (column: keyof DataTools) => {
+    const handleSort = (column: keyof DataUsers) => {
         if (sortColumn === column) {
             setSortDirection(sortDirection === "asc" ? "desc" : "asc")
         } else {
@@ -84,36 +83,35 @@ export function ToolsTable() {
 
     useEffect(() => {
         fetchDataCategory();
-    }, [dispatch, tools.meta.current_page, tools.meta.per_page, searchQuery]);
+    }, [dispatch, users.meta.current_page, users.meta.per_page, searchQuery]);
 
     return (
         <div>
             <div className="flex items-center justify-between py-4">
                 <Input
-                    placeholder="Search Tools..."
+                    placeholder="Search users..."
                     value={searchQuery}
                     onChange={(e) => {
                         setSearchQuery(e.target.value)
                         if (inputRef.current) {
                             inputRef.current.focus()
                         }
-                        dispatch(fetchTools({ page: tools.meta.current_page, pageSize: tools.meta.per_page ?? 10, search: e.target.value }))
+                        dispatch(fetchUsers({ page: users.meta.current_page, pageSize: users.meta.per_page ?? 10, search: e.target.value }))
 
                     }}
                     className="max-w-sm"
                 />
                 <div className="flex flex-row gap-2">
-                    {/* Delete Tools by select all, use dialog */}
-                   { selectedRows.size > 0 && (
+                { selectedRows.size > 0 && (
                      <Dialog>
                      <DialogTrigger asChild>
                          <Button variant="destructive" disabled={selectedRows.size === 0} className="ml-auto">
                              <Trash className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
-                             Delete Tools
+                             Delete Users
                          </Button>
                      </DialogTrigger>
-                     <AddToolsDialog
-                     />
+                     {/* <AddToolsDialog
+                     /> */}
                  </Dialog>
                    )}
                     {/* Add Tools */}
@@ -121,11 +119,11 @@ export function ToolsTable() {
                         <DialogTrigger asChild>
                             <Button className="ml-auto" variant="outline">
                                 <Plus className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
-                                Add Tools
+                                Add User
                             </Button>
                         </DialogTrigger>
-                        <AddToolsDialog
-                        />
+                        {/* <AddToolsDialog
+                        /> */}
                     </Dialog>
                 </div>
             </div>
@@ -135,31 +133,31 @@ export function ToolsTable() {
                         <TableRow>
                             <TableHead className="w-[50px]">
                                 <Checkbox
-                                    checked={tools.data.length > 0 && selectedRows.size === tools.data.length}
+                                    checked={users.data.length > 0 && selectedRows.size === users.data.length}
                                     onCheckedChange={toggleSelectAll}
                                     aria-label="Select all"
                                 />
                             </TableHead>
-                            <TableHead className="cursor-pointer" onClick={() => handleSort("name")}>
+                            <TableHead className="cursor-pointer" onClick={() => handleSort("full_name")}>
                                 <div className="flex items-center">
                                     Name
-                                    {sortColumn === "name" && <span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>}
+                                    {sortColumn === "full_name" && <span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>}
                                 </div>
                             </TableHead>
-                            <TableHead>
+                            <TableHead className="cursor-pointer" onClick={() => handleSort("full_name")}>
                                 <div className="flex items-center">
                                     Email
+                                    {sortColumn === "full_name" && <span className="ml-2">{sortDirection === "asc" ? "↑" : "↓"}</span>}
                                 </div>
                             </TableHead>
-                            <TableHead>Description</TableHead>
-                            <TableHead>Links</TableHead>
-                            {/* Action */}
-                            <TableHead className="w-[100px] text-center">Action</TableHead>
+                            <TableHead>Phone</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {tools.data.length > 0 ? (
-                            tools.data.map((data) => (
+                        {users.data.length > 0 ? (
+                            users.data.map((data) => (
                                 <TableRow key={data.id} data-state={selectedRows.has(data.id) ? "selected" : undefined}>
                                     <TableCell>
                                         <Checkbox
@@ -168,27 +166,24 @@ export function ToolsTable() {
                                             aria-label="Select row"
                                         />
                                     </TableCell>
-                                    <TableCell className="font-medium">{data.name}</TableCell>
+                                    <TableCell className="font-medium">{data.full_name}</TableCell>
+                                    <TableCell>{data.email}</TableCell>
+                                    <TableCell>{data.phone}</TableCell>
                                     <TableCell>
-                                        <div className="flex items-center">
-                                            <DynamicIcon icon={data.icon} height={24} fontSize={24} />
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{data.description}</TableCell>
-                                    <TableCell>
-                                        <a
-                                            href={data.link_url}
-                                            target={data.link_target ?? "_blank"}
-                                            className="text-blue-500 hover:underline"
-                                        >
-                                            {data.link_label ?? `Let's Gooo!`}
-                                        </a>
+                                        {/* Badge is_active */}
+                                        <Badge variant={data.is_active ? "default" : "destructive"}>
+                                            {data.is_active ? "Active" : "Inactive"}
+                                        </Badge>
                                     </TableCell>
                                     <TableCell className="text-center">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <div className="flex justify-end">
-                                                    <Button size="icon" variant="ghost" className="shadow-none" aria-label="Edit item">
+                                                    <Button
+                                                    size="icon"
+                                                    variant="ghost"
+                                                    className="shadow-none"
+                                                    aria-label="Edit item">
                                                         <BsFillMenuButtonWideFill />
                                                     </Button>
                                                 </div>
@@ -208,6 +203,7 @@ export function ToolsTable() {
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
+
                                 </TableRow>
                             ))
                         ) : (
@@ -227,7 +223,7 @@ export function ToolsTable() {
                         value={String(pageSize)}
                         onValueChange={(value) => {
                             setPageSize(Number(value))
-                            dispatch(fetchTools({ page: tools.meta.current_page, pageSize: Number(value) }))
+                            dispatch(fetchUsers({ page: users.meta.current_page, pageSize: Number(value) }))
                         }}
                     >
                         <SelectTrigger className="h-8 w-[70px]">
@@ -243,7 +239,7 @@ export function ToolsTable() {
                     </Select>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <PaginationControls currentPage={tools.meta.current_page ?? 1} totalPages={tools.meta.last_page ?? 1} onChange={handlePageClick} />
+                    <PaginationControls currentPage={users.meta.current_page ?? 1} totalPages={users.meta.last_page ?? 1} onChange={handlePageClick} />
                 </div>
             </div>
         </div>

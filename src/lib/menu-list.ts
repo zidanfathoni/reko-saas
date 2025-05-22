@@ -1,85 +1,118 @@
 
 type Submenu = {
-  href: string;
-  label: string;
-  active?: boolean;
+    href: string;
+    label: string;
+    active?: boolean;
+    permission?: string[];
 };
 
 type Menu = {
-  href: string;
-  label: string;
-  active?: boolean;
-  icon: string;
-  submenus?: Submenu[];
+    href: string;
+    label: string;
+    active?: boolean;
+    icon: string;
+    submenus?: Submenu[];
+    permission?: string[];
 };
 
 type Group = {
-  groupLabel: string;
-  menus: Menu[];
+    groupLabel: string;
+    menus: Menu[];
 };
 
 export function getMenuList(pathname: string): Group[] {
-  return [
-    {
-      groupLabel: "",
-      menus: [
+    return [
         {
-          href: "/admin",
-          label: "Dashboard",
-          icon: 'FaToolbox',
-          submenus: []
-        }
-      ]
-    },
-    {
-      groupLabel: 'Contents',
-      menus: [
-        {
-          href: '',
-          label: 'Posts',
-          icon: 'FaToolbox',
-          submenus: [
-            {
-              href: '/posts',
-              label: 'All Posts',
-            },
-            {
-              href: '/posts/new',
-              label: 'New Post',
-            },
-          ],
+            groupLabel: "",
+            menus: [
+                {
+                    href: "/admin",
+                    label: "Dashboard",
+                    icon: 'FaChartPie',
+                    submenus: []
+
+                }
+            ]
         },
         {
-          href: '',
-          label: 'Tools',
-          icon: 'FaToolbox',
-          submenus: [
-            {
-              href: '/admin/tools',
-              label: 'All Tools',
-            },
-            {
-              href: '/admin/tools/new',
-              label: 'New Tools',
-            },
-          ],
+            groupLabel: 'Contents',
+            menus: [
+                {
+                    href: '',
+                    label: 'Posts',
+                    icon: 'FaBlog',
+                    submenus: [
+                        {
+                            href: '/posts',
+                            label: 'All Posts',
+                        },
+                        {
+                            href: '/posts/new',
+                            label: 'New Post',
+                        },
+                    ],
+                },
+                {
+                    href: '/admin/tools',
+                    label: 'Tools',
+                    icon: 'FaToolbox',
+                    permission: [
+                        'tools.manage',
+                        'tools.view'
+                    ],
+                },
+            ],
         },
-      ],
-    },
-    {
-      groupLabel: 'Settings',
-      menus: [
         {
-          href: '/admin/users',
-          label: 'Users',
-          icon: 'FaToolbox',
+            groupLabel: 'Users and Roles',
+            menus: [
+                {
+                    href: '/admin/users',
+                    label: 'Users',
+                    icon: 'FaUsers',
+                    permission: [
+                        'user.manage',
+                        'user.view'
+                    ],
+                },
+                {
+                    href: '/admin/roles',
+                    label: 'Roles',
+                    icon: 'FaUserShield',
+                    permission: [
+                        'roles.manage',
+                        'roles.view'
+                    ],
+                },
+                {
+                    href: '/admin/permissions',
+                    label: 'Permissions',
+                    icon: 'FaShieldCat',
+                    permission: [
+                        'permission.manage',
+                        'permission.view'
+                    ],
+                },
+            ],
         },
         {
-          href: '/account',
-          label: 'Account',
-          icon: 'FaToolbox',
+            groupLabel: 'Settings',
+            menus: [
+                {
+                    href: '/admin/web',
+                    label: 'Web Settings',
+                    icon: 'FaGear',
+                    permission: [
+                        'settings.manage',
+                        'settings.view'
+                    ],
+                },
+                {
+                    href: '/account',
+                    label: 'Account',
+                    icon: 'FaUser',
+                },
+            ],
         },
-      ],
-    },
-  ];
+    ];
 }

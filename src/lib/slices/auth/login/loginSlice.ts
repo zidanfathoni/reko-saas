@@ -5,6 +5,7 @@ import { Storage } from "@/lib/storage";
 import { fetchMe } from "../meSlice";
 
 
+
 interface ToolsState {
   login: GetLoginResponse;
   loading: boolean;
@@ -14,7 +15,14 @@ interface ToolsState {
 
 // State awal
 const initialState: ToolsState = {
-  login: { status: false, message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } },
+  login: {
+    status: false,
+    message: "",
+    data: {
+      token: '',
+      refreshToken: '',
+      path: "",
+    },},
   loading: false,
   isAuth: false,
   error: null,
@@ -23,14 +31,22 @@ const initialState: ToolsState = {
 // Async thunk untuk fetch data dengan Axios post email and password. menggunakan formData
 export const fetchLogin = createAsyncThunk("login/fetchLogin", async (data: FormData) => {
   try {
-    const response = await api.post("/user/login", data, {
+    const response = await api.post("/auth/login", data, {
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    const cookies = response.headers['set-cookie'];
+    //save cookies to local storage
+    if (cookies) {
+      Storage.set('cookie', 'token', cookies.find((cookie: string) => cookie.includes('token')));
+      Storage.set('cookie', 'refreshToken', cookies.find((cookie: string) => cookie.includes('refreshToken')));
+      Storage.set('cookie', 'path', cookies.find((cookie: string) => cookie.includes('path')));
+    }
     Storage.set('local', 'login', response.data.data);
-    Storage.set('local', 'token', response.data.data.token.token);
-    Storage.set('local', 'role', response.data.data.role);
+    Storage.set('local', 'token', response.data.data.token);
+    Storage.set('local', 'path', response.data.data.path);
 
 
     return response.data;
@@ -51,13 +67,14 @@ export const fetchLoginAdmin = createAsyncThunk("login/fetchLoginAdmin", async (
 
     //save cookies to local storage
     if (cookies) {
-      Storage.set('session', 'token', cookies.find((cookie: string) => cookie.includes('token')));
-      Storage.set('session', 'role', cookies.find((cookie: string) => cookie.includes('role')));
+      Storage.set('cookie', 'token', cookies.find((cookie: string) => cookie.includes('token')));
+        Storage.set('cookie', 'refreshToken', cookies.find((cookie: string) => cookie.includes('refreshToken')));
+      Storage.set('cookie', 'path', cookies.find((cookie: string) => cookie.includes('path')));
     }
 
     Storage.set('local', 'login', response.data.data);
-    Storage.set('local', 'token', response.data.data.token.token);
-    Storage.set('local', 'role', response.data.data.role);
+    Storage.set('local', 'token', response.data.data.token);
+    Storage.set('local', 'path', response.data.data.path);
 
 
     return response.data;
@@ -71,23 +88,38 @@ export const loginSlice = createSlice({
   initialState,
   reducers: {
     setPage: (state, action) => {
-      state.login.data.token.token = action.payload;
+      state.login.data.token = action.payload;
     },
     loginSuccess: (state, action: PayloadAction<GetLoginResponse>) => {
       state.login = action.payload;
       state.isAuth = true;
       console.log('login success');
+
     },
     setToken: (state, action: PayloadAction<string>) => {
-      state.login.data.token.token = action.payload;
+      state.login.data.token = action.payload;
     },
     loginFailure: (state, action: PayloadAction<ToolsState>) => {
       state.error = action.payload.error;
-      state.login = { status: false, message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
+      state.login = {
+        status: false,
+        message: "",
+        data: {
+          token: '',
+          refreshToken: '',
+          path: "",
+        },},
       state.isAuth = false;
     },
     logout: (state) => {
-      state.login = { status: false, message: "", data: { token: { type: "", token: "", expires_at: "" }, role: "" } };
+      state.login = {
+        status: false,
+        message: "",
+        data: {
+          token: '',
+          refreshToken: '',
+          path: "",
+        },},
       state.isAuth = false;
     }
   },

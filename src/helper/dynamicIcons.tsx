@@ -2,6 +2,7 @@ import { cn } from "@/utils/cn";
 import { FC } from "react";
 import type { IconType } from "react-icons";
 import * as FaIcons6 from "react-icons/fa6";
+// import * as FaIcons from "react-icons/fa";
 // import * as BsIcons from "react-icons/bs";
 // import * as FiIcons from "react-icons/fi";
 // import * as Io5Icons from "react-icons/io5";

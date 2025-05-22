@@ -10,6 +10,7 @@ import {
 } from "@/components/atoms/card";
 import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
+import { toast } from "@/components/atoms/use-toast";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { fetchLogin, loginSuccess } from "@/lib/slices/auth/login/loginSlice";
 import { useRouter } from "next/navigation";
@@ -24,13 +25,23 @@ interface SignInProps {
 const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [path, setPath] = useState("")
   const router = useRouter();
 
   const dispatch = useAppDispatch();
   const { login, loading, isAuth } = useAppSelector((state) => state.login);
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
+    // check if email and password is empty
+    if (email === "" || password === "") {
+        toast({
+            title: 'Error',
+            variant: 'destructive',
+            description: 'Email and password cannot be empty',
+          });
+      return;
+    } else {
+        e.preventDefault();
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
@@ -39,10 +50,18 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
       await dispatch(fetchLogin(formData));
       dispatch(loginSuccess(login));
 
-      router.push("/dashboard");
+     if (login.data.path === "user") {
+      setPath("/dashboard");
+     } else if (login.data.path === "admin") {
+      setPath("/admin");
+     }
+
+      router.push(path);
+
 
     } catch (error) {
       console.log(error);
+    }
     }
   };
 

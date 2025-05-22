@@ -14,6 +14,7 @@ interface MeState {
 // State awal
 const initialState: MeState = {
   me: {
+    status: false,
     message: "",
     data: {
       user: {
@@ -21,28 +22,27 @@ const initialState: MeState = {
         full_name: "",
         username: "",
         phone: "",
-        city: "",
-        state: "",
+        is_verified_number: 0,
         is_active: 0,
+        email: "",
         is_verified: 0,
+        provider: "",
+        provider_id: "",
+        remember_me_token: "",
+        role_id: "",
         avatar: "",
         job_title: "",
-        company: "",
-        website: "",
-        role_id: "",
-        team_id: 0,
-        email: "",
         created_at: "",
         updated_at: "",
+        role: {
+            id: "",
+            name: "",
+            description: "",
+            created_at: "",
+            updated_at: "",
+        }
       },
-      role: {
-        id: "",
-        name: "",
-        slug: "",
-        description: "",
-        created_at: "",
-        updated_at: "",
-      },
+      path: "",
     }
   },
   loadingMe: false,
@@ -83,6 +83,7 @@ export const meSlice = createSlice({
     meFailure: (state, action: PayloadAction<MeState>) => {
       state.error = action.payload.error;
       state.me = {
+        status: false,
         message: "",
         data: {
           user: {
@@ -90,28 +91,27 @@ export const meSlice = createSlice({
             full_name: "",
             username: "",
             phone: "",
-            city: "",
-            state: "",
+            is_verified_number: 0,
             is_active: 0,
+            email: "",
             is_verified: 0,
+            provider: "",
+            provider_id: "",
+            remember_me_token: "",
+            role_id: "",
             avatar: "",
             job_title: "",
-            company: "",
-            website: "",
-            role_id: "",
-            team_id: 0,
-            email: "",
             created_at: "",
             updated_at: "",
+            role: {
+                id: "",
+                name: "",
+                description: "",
+                created_at: "",
+                updated_at: "",
+            }
           },
-          role: {
-            id: "",
-            name: "",
-            slug: "",
-            description: "",
-            created_at: "",
-            updated_at: "",
-          },
+          path: "",
         }
       };
       state.isAuth = false;

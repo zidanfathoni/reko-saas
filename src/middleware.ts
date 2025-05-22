@@ -1,83 +1,78 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Fungsi untuk decode signed cookies
-function parseSignedCookie(value: string | undefined) {
-  if (!value) return null;
-  try {
-    // Menghapus prefix "s:" dari cookie
-    const raw = value.startsWith("s:") ? value.slice(2) : value;
-
-    // Memisahkan payload Base64 dan signature (Base64 sebelum titik)
-    const base64Payload = raw.split(".")[0];
-
-    // Decode Base64 ke string JSON
-    const decoded = Buffer.from(base64Payload, "base64").toString("utf-8");
-
-    // Parse JSON dan ambil bagian `message`
-    const parsed = JSON.parse(decoded);
-
-    return parsed.message; // Ambil data yang kita butuhkan
-  } catch (error) {
-    console.error("Error decoding signed cookie:", error);
-    return null;
-  }
-}
-
 export function middleware(req: NextRequest) {
-  console.log("Cookies saat masuk middleware:", req.cookies.getAll());
+  const path = req.nextUrl.pathname;
 
-  // Decode token dan role dari cookies
-  const token = parseSignedCookie(req.cookies.get("token")?.value);
-  const role = parseSignedCookie(req.cookies.get("role")?.value);
+  // Daftar rute yang dilindungi
+  const protectedRoutes = ["/dashboard/:path*", "/admin/:path*"];
 
-  console.log("Decoded Token:", token);
-  console.log("Decoded Role:", role);
+  // Periksa apakah path saat ini termasuk yang dilindungi
+  const isProtectedRoute = protectedRoutes.some((route) => {
+    if (route.includes(":path*")) {
+      const baseRoute = route.replace("/:path*", "");
+      return path.startsWith(baseRoute);
+    }
+    return path === route;
+  });
 
-  const url = req.nextUrl.clone();
-  const pathname = req.nextUrl.pathname;
-
-  // 🔹 Jika token ada dan role admin/super-admin → Redirect dari /admin/auth ke /admin
-  if (token && (role === "admin" || role === "super-admin") && pathname === "/admin/auth") {
-    console.log("🔄 Redirecting to /admin...");
-    url.pathname = "/admin";
-    return NextResponse.redirect(url);
-  }
-
-  // 🔹 Jika token ada dan role user → Redirect dari /auth ke /dashboard
-  if (token && role === "user" && pathname === "/auth") {
-    console.log("🔄 Redirecting to /dashboard...");
-    url.pathname = "/dashboard";
-    return NextResponse.redirect(url);
-  }
-
-  // 🔹 Biarkan "/admin/auth" bisa diakses tanpa login
-  if (pathname.startsWith("/admin/auth")) {
+  if (!isProtectedRoute) {
     return NextResponse.next();
   }
 
-  // 🔹 Jika tidak ada token, redirect ke home
-  if (!token) {
-    console.log("🔄 Redirecting to home...");
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+  // Helper function untuk mendekode Base64 payload
+  const decodeBase64 = (base64String: WithImplicitCoercion<string> | { [Symbol.toPrimitive](hint: "string"): string; }) => {
+    const decodedString = Buffer.from(base64String, "base64").toString("utf-8");
+    return JSON.parse(decodedString);
+  };
+
+  // Ambil dan decode cookies
+  const tokenCookie = req.cookies.get("token")?.value
+    ? decodeURIComponent(req.cookies.get("token")?.value || "")
+    : null;
+  const pathCookie = req.cookies.get("path")?.value
+    ? decodeURIComponent(req.cookies.get("path")?.value || "")
+    : null;
+
+  // Validasi cookie token dan path
+  if (!tokenCookie || !pathCookie) {
+    // Redirect ke halaman login berdasarkan path
+    const loginUrl = path.startsWith("/admin")
+      ? new URL("/auth", req.url)
+      : new URL("/auth", req.url);
+    return NextResponse.redirect(loginUrl);
   }
 
-  // 🔹 Proteksi halaman berdasarkan role
-  if (pathname.startsWith("/admin") && role !== "admin" && role !== "super-admin") {
-    console.log("⛔ Unauthorized access to /admin");
-    url.pathname = "/unauthorized";
-    return NextResponse.redirect(url);
+  // Extract payload dari cookies
+  let tokenData;
+  let pathData;
+  try {
+    const tokenPayload = tokenCookie.replace("s:", "").split(".")[0];
+    const pathPayload = pathCookie.replace("s:", "").split(".")[0];
+    tokenData = decodeBase64(tokenPayload);
+    pathData = decodeBase64(pathPayload);
+  } catch (error) {
+    console.error("Error parsing cookies:", error);
+    const loginUrl = path.startsWith("/admin")
+      ? new URL("/auth", req.url)
+      : new URL("/auth", req.url);
+    return NextResponse.redirect(loginUrl);
   }
 
-  if (pathname.startsWith("/dashboard") && role !== "user") {
-    console.log("⛔ Unauthorized access to /dashboard");
-    url.pathname = "/unauthorized";
-    return NextResponse.redirect(url);
+  // Aturan akses berdasarkan path
+  if (path.startsWith("/dashboard") && pathData.message !== "user") {
+    const loginUrl = new URL("/auth", req.url);
+    return NextResponse.redirect(loginUrl);
   }
 
+  if (path.startsWith("/admin") && !pathData.message.startsWith("admin")) {
+    const dashboardUrl = new URL("/dashboard", req.url);
+    return NextResponse.redirect(dashboardUrl);
+  }
+
+  // Jika semua valid, lanjutkan
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/auth", "/admin/auth", "/dashboard/:path*", "/admin/:path*"], // Proteksi route yang diperlukan
+  matcher: ["/dashboard/:path*", "/admin/:path*"],
 };

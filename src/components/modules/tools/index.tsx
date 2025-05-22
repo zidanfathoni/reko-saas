@@ -29,14 +29,14 @@ const ToolsModules: React.FC = () => {
     dispatch(setPage(page));
   };
 
-  const pageNumbers = [];
-  for (let i = 1; i <= tools.data.meta.last_page; i++) {
-    pageNumbers.push(i);
-  }
+//   const pageNumbers = [];
+//   for (let i = 1; i <= tools.meta.last_page; i++) {
+//     pageNumbers.push(i);
+//   }
 
   useEffect(() => {
-    dispatch(fetchTools(tools.data.meta.current_page));
-  }, [dispatch, tools.data.meta.current_page]);
+    dispatch(fetchTools({ page: tools.meta.current_page, pageSize:1 }));
+  }, [dispatch, tools.meta.current_page]);
 
   return (
     <section className="pb-24 pt-10">
@@ -51,12 +51,12 @@ const ToolsModules: React.FC = () => {
           ) : (
             <Suspense
               fallback={<Loader2 className="h-16 w-16 animate-spin text-primary" />}>
-              {tools.data.data.map((item, index) => (
+              {tools.data.map((item, index) => (
                 <React.Fragment key={index}>
                   <div className="grid items-center gap-4 px-4 py-5 md:grid-cols-4">
                     <div className="order-2 flex items-center gap-2 md:order-none">
                       <span className="flex h-14 w-16 shrink-0 items-center justify-center rounded-md bg-muted">
-                        <DynamicIcon icon={item.icons} className="h-14" />
+                        <DynamicIcon icon={item.icon} className="h-14" />
                       </span>
                       <div className="flex flex-col gap-1">
                         <p className="font-semibold text-lg">{item.name}</p>
@@ -71,10 +71,10 @@ const ToolsModules: React.FC = () => {
                     <Button variant="outline" asChild>
                       <a
                         className="order-3 ml-auto w-fit gap-2 md:order-none"
-                        href={item.link}
-                        target="_blank"
+                        href={item.link_url}
+                        target={item.link_target ?? "_blank"}
                       >
-                        <span>Let's Gooo!</span>
+                        <span>{item.link_label ?? `Let's Gooo!`}</span>
                         <ArrowRight className="h-4 w-4" />
                       </a>
                     </Button>
@@ -88,7 +88,7 @@ const ToolsModules: React.FC = () => {
 
         </div>
       </div>
-      <PaginationControls currentPage={tools.data.meta.current_page} totalPages={tools.data.meta.last_page} onChange={handlePageClick} />
+      <PaginationControls currentPage={tools.meta.current_page} totalPages={tools.meta.last_page} onChange={handlePageClick} />
     </section>
   );
 };

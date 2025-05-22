@@ -1,37 +1,29 @@
 export interface GetTestimonials {
-  data: DataTestimonials[]
-  meta: MetaTestimonials
-}
+    status: boolean
+    message: string
+    data: DataTestimonials[]
+    meta: MetaTestimonials
+  }
 
-export interface DataTestimonials {
-  id: number
-  attributes: Attributes
-}
+  export interface DataTestimonials {
+    id: string
+    name: string
+    job_title: string
+    company: string
+    message: string
+    link: string
+    created_at: string
+    updated_at: string
+  }
 
-export interface Attributes {
-  title: string
-  slug: string
-  company: string
-  job: string
-  message: string
-  link: Link
-}
-
-export interface Link {
-  id: number
-  href: string
-  label: string
-  target: string
-  is_external: boolean
-}
-
-export interface MetaTestimonials {
-  pagination: PaginationTestimonials
-}
-
-export interface PaginationTestimonials {
-  page: number
-  pageSize: number
-  pageCount: number
-  total: number
-}
+  export interface MetaTestimonials {
+    total: number
+    per_page: number
+    current_page: number
+    last_page: number
+    first_page: number
+    first_page_url: string
+    last_page_url: string
+    next_page_url: string
+    previous_page_url: string
+  }

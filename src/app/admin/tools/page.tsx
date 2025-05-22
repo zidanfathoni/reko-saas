@@ -1,14 +1,16 @@
 
-import AdminToolsModule from '@/components/modules/admin/tools';
+import { ToolsTable } from '@/components/modules/admin/tools/table';
 import { ContentLayout } from '@/components/templates/admin-panel/content-layout';
 
-export default function UsersPages() {
-  return (
-    <ContentLayout title="Tools">
+export default function AdminTools() {
+    return (
+        <ContentLayout title="Tools">
 
-      <div className="items-center justify-items-center py-8">
-        <AdminToolsModule />
-      </div>
-    </ContentLayout>
-  );
+            <div
+                className="container px-4 pb-8 pt-8 sm:px-8"
+            >
+                <ToolsTable />
+            </div>
+        </ContentLayout>
+    );
 }

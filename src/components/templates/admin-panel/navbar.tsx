@@ -28,10 +28,10 @@ export function Navbar({ title }: NavbarProps) {
   useEffect(() => {
     checkAuth();
     const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    if (!token || !role) {
+    const path = localStorage.getItem('path');
+    if (!token || !path) {
       setEnableUserNav(false);
-    } else if (role !== 'user') {
+    } else if (path !== 'user') {
       setEnableUserNav(true);
     } else {
       setEnableUserNav(false);
@@ -39,8 +39,8 @@ export function Navbar({ title }: NavbarProps) {
   }, [checkAuth]);
   return (
     <header className="sticky top-0 z-10 w-full bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
-      <div className="mx-4 flex h-14 items-center sm:mx-8">
-        <div className="flex items-center space-x-4 lg:space-x-0">
+      <div className="mx-2 flex h-14 items-center sm:mx-8">
+        <div className="flex items-center space-x-2 lg:space-x-0">
           <SheetMenu />
           {/* <h1 className="text-lg font-bold">{title}</h1> */}
           <Breadcrumb>
