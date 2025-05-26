@@ -15,10 +15,10 @@ export default function AuthPage() {
     setLoading(true);
     // 🔹 Ambil token & role dari localStorage
     const token = Storage.get("local", "token");
-    const role = Storage.get("local", "role");
+    const path = Storage.get("local", "path");
 
     // 🔹 Jika token & role adalah "admin" atau "super-admin", redirect ke /admin
-    if (token && (role === "admin" || role === "super-admin")) {
+    if (token && (path !== "user" )) {
       router.replace("/admin");
     }
     setLoading(false);

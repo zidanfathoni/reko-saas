@@ -44,8 +44,8 @@ export const fetchLogin = createAsyncThunk("login/fetchLogin", async (data: Form
       Storage.set('cookie', 'refreshToken', cookies.find((cookie: string) => cookie.includes('refreshToken')));
       Storage.set('cookie', 'path', cookies.find((cookie: string) => cookie.includes('path')));
     }
-    Storage.set('local', 'login', response.data.data);
     Storage.set('local', 'token', response.data.data.token);
+    Storage.set('local', 'refreshToken', response.data.data.refreshToken);
     Storage.set('local', 'path', response.data.data.path);
 
 
@@ -72,8 +72,8 @@ export const fetchLoginAdmin = createAsyncThunk("login/fetchLoginAdmin", async (
       Storage.set('cookie', 'path', cookies.find((cookie: string) => cookie.includes('path')));
     }
 
-    Storage.set('local', 'login', response.data.data);
     Storage.set('local', 'token', response.data.data.token);
+    Storage.set('local', 'refreshToken', response.data.data.refreshToken);
     Storage.set('local', 'path', response.data.data.path);
 
 

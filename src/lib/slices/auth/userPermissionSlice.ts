@@ -5,15 +5,15 @@ import { GetPermissionResponse } from "@/lib/interface/auth/getPermission";
 import { apiAdmin } from "@/lib/axios/instance";
 
 
-interface PermissionState {
-  permission: GetPermissionResponse;
+interface UserPermissionState {
+  userPermission: GetPermissionResponse;
   loadingPermission: boolean;
   error: string | null;
 }
 
 // State awal
-const initialState: PermissionState = {
-    permission: {
+const initialState: UserPermissionState = {
+    userPermission: {
     status: false,
     message: "",
     data: {
@@ -30,7 +30,7 @@ const initialState: PermissionState = {
 };
 
 // Async thunk untuk fetch data dengan Axios
-export const fetchPermission = createAsyncThunk("permissions/fetchPermission", async () => {
+export const fetchUserPermission = createAsyncThunk("permissions/fetchPermission", async () => {
   try {
     const response = await apiAdmin.get("/user/permissions");
     return response.data;
@@ -39,22 +39,22 @@ export const fetchPermission = createAsyncThunk("permissions/fetchPermission", a
   }
 });
 
-export const permissionSlice = createSlice({
+export const userPermissionSlice = createSlice({
   name: "permission",
   initialState,
   reducers: {
     setPage: (state, action) => {
-      state.permission.data.id = action.payload;
+      state.userPermission.data.id = action.payload;
     },
     success: (state, action: PayloadAction<GetPermissionResponse>) => {
-        state.permission = action.payload;
+        state.userPermission = action.payload;
         state.loadingPermission = false;
         state.error = null;
 
     },
-    failure: (state, action: PayloadAction<PermissionState>) => {
+    failure: (state, action: PayloadAction<UserPermissionState>) => {
       state.error = action.payload.error;
-      state.permission = {
+      state.userPermission = {
         status: false,
         message: "",
         data: {
@@ -70,20 +70,20 @@ export const permissionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPermission.pending, (state) => {
+      .addCase(fetchUserPermission.pending, (state) => {
         state.loadingPermission = true;
         state.error = null;
       })
-      .addCase(fetchPermission.fulfilled, (state, action) => {
+      .addCase(fetchUserPermission.fulfilled, (state, action) => {
         state.loadingPermission = false;
-        state.permission = action.payload;
+        state.userPermission = action.payload;
       })
-      .addCase(fetchPermission.rejected, (state, action) => {
+      .addCase(fetchUserPermission.rejected, (state, action) => {
         state.loadingPermission = false;
         state.error = action.error.message ?? "Something went wrong";
       });
   },
 });
 
-export const { setPage, success, failure } = permissionSlice.actions;
-export default permissionSlice.reducer;
+export const { setPage, success, failure } = userPermissionSlice.actions;
+export default userPermissionSlice.reducer;

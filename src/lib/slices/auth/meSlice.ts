@@ -2,6 +2,7 @@ import { api } from "@/lib/axios";
 import { GetMeResponse } from "@/lib/interface/auth/getMe";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Storage } from "@/lib/storage";
+import { apiAdmin } from "@/lib/axios/instance";
 
 
 interface MeState {
@@ -53,13 +54,12 @@ const initialState: MeState = {
 // Async thunk untuk fetch data dengan Axios
 export const fetchMe = createAsyncThunk("me/fetchMe", async () => {
   try {
-    const response = await api.get("/user/me", {
+    const response = await apiAdmin.get("/user/me", {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${Storage.get("local", "token")}`,
       },
     });
-    Storage.set('local', 'user', response.data.data);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "Failed to fetch me");

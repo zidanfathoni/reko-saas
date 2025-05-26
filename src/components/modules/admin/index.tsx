@@ -21,6 +21,8 @@ import { useSidebar } from '@/hooks/use-sidebar';
 import { useStore } from '@/hooks/use-store';
 import Link from 'next/link';
 import { Player } from "@lottiefiles/react-lottie-player";
+import { SectionCards } from './section-chart';
+import { ChartAreaInteractive } from './chart-dashboard';
 
 
 
@@ -46,54 +48,17 @@ const AdminDashboardModules: React.FC = () => {
           />
         ) : (
           <>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Dashboard</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-            <TooltipProvider>
-              <div className="mt-6 flex gap-6">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="flex items-center space-x-2">
-                      <Switch
-                        id="is-hover-open"
-                        onCheckedChange={(x) => setSettings({ isHoverOpen: x })}
-                        checked={settings.isHoverOpen}
-                      />
-                      <Label htmlFor="is-hover-open">Hover Open</Label>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>When hovering on the sidebar in mini state, it will open</p>
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="flex items-center space-x-2">
-                      <Switch
-                        id="disable-sidebar"
-                        onCheckedChange={(x) => setSettings({ disabled: x })}
-                        checked={settings.disabled}
-                      />
-                      <Label htmlFor="disable-sidebar">Disable Sidebar</Label>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Hide sidebar</p>
-                  </TooltipContent>
-                </Tooltip>
+            <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <SectionCards />
+              <div className="px-4 lg:px-6">
+                <ChartAreaInteractive />
               </div>
-              <IconForm />
-            </TooltipProvider></>
+            </div>
+          </div>
+        </div>
+            </>
         )
       }
 

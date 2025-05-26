@@ -1,13 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { GetUsersResponse } from "@/lib/interface/admin/users/getUsers";
-import { api, apiAdmin } from "../../axios/instance";
+import { api, apiAdmin } from "../../../axios/instance";
 import { toast } from "@/components/atoms/use-toast";
+import { GetUsersDetailResponse } from "@/lib/interface/admin/users/getUsers-detail";
 
 interface UsersState {
   users: GetUsersResponse;
   loading: boolean;
   error: string | null;
 }
+
+interface UsersDetailState {
+    userDetail: GetUsersDetailResponse;
+    loadingUserDetail: boolean;
+    errorUserDetail: string | null;
+}
+
 
 const initialState: UsersState = {
   users: {
@@ -28,6 +36,33 @@ const initialState: UsersState = {
   },
   loading: false,
   error: null,
+};
+
+const initialUserDetailState: UsersDetailState = {
+  userDetail: {
+    status: false,
+    message: "",
+    data: {
+      id: "",
+      full_name: "",
+      username: "",
+      phone: "",
+      is_verified_number: 0,
+      is_active: 0,
+      email: "",
+      is_verified: 0,
+      provider: "",
+      provider_id: "",
+      remember_me_token: "",
+      role_id: "",
+      avatar: "",
+      job_title: "",
+      created_at: "",
+      updated_at: "",
+    },
+  },
+  loadingUserDetail: false,
+  errorUserDetail: null,
 };
 
 export const fetchUsers = createAsyncThunk(
@@ -186,21 +221,6 @@ export const userSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Failed to fetch users";
       })
-      .addCase(fetchUsersDetail.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchUsersDetail.fulfilled, (state, action) => {
-        state.loading = false;
-        const index = state.users.data.findIndex((user) => user.id === action.payload.data.id);
-        if (index !== -1) {
-          state.users.data[index] = action.payload.data;
-        }
-      })
-      .addCase(fetchUsersDetail.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || "Failed to fetch user details";
-      })
       .addCase(createUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -265,8 +285,41 @@ export const userSlice = createSlice({
       );
   },
 });
+
+export const userDetailSlice = createSlice({
+  name: "userDetail",
+  initialState: initialUserDetailState,
+  reducers: {
+    resetUserDetailState: (state) => {
+      state.userDetail = initialUserDetailState.userDetail;
+      state.loadingUserDetail = false;
+      state.errorUserDetail = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsersDetail.pending, (state) => {
+        state.loadingUserDetail = true;
+        state.errorUserDetail = null;
+      })
+      .addCase(fetchUsersDetail.fulfilled, (state, action) => {
+        state.loadingUserDetail = false;
+        state.userDetail = action.payload;
+      })
+      .addCase(fetchUsersDetail.rejected, (state, action) => {
+        state.loadingUserDetail = false;
+        state.errorUserDetail = action.error.message || "Failed to fetch user details";
+      });
+  },
+});
+
+
 export const { reducer: usersReducer } = userSlice;
+export const { reducer: userDetailReducer } = userDetailSlice;
+
 export const { actions: usersActions } = userSlice;
+export const { actions: userDetailActions } = userDetailSlice;
+
 export const selectUsers = (state: { users: UsersState }) => state.users.users;
 export const selectLoading = (state: { users: UsersState }) => state.users.loading;
 export const selectError = (state: { users: UsersState }) => state.users.error;
@@ -275,5 +328,13 @@ export const selectUserById = (state: { users: UsersState }, id: string) =>
 export const selectUserByEmail = (state: { users: UsersState }, email: string) =>
   state.users.users.data.find((user) => user.email === email);
 
-export default userSlice.reducer;
+export const selectUserDetail = (state: { userDetail: UsersDetailState }) => state.userDetail.userDetail;
+export const selectUserDetailLoading = (state: { userDetail: UsersDetailState }) => state.userDetail.loadingUserDetail;
+export const selectUserDetailError = (state: { userDetail: UsersDetailState }) => state.userDetail.errorUserDetail;
+
+export default {
+    usersReducer,
+    userDetailReducer,
+}
 export const { setPage, setPageSize, resetUsersState } = userSlice.actions;
+export const { resetUserDetailState } = userDetailSlice.actions;

@@ -5,6 +5,43 @@ export function middleware(req: NextRequest) {
 
   // Daftar rute yang dilindungi
   const protectedRoutes = ["/dashboard/:path*", "/admin/:path*"];
+  const authRoute = "/auth";
+
+  // Helper function untuk mendekode Base64 payload
+  const decodeBase64 = (base64String: WithImplicitCoercion<string> | { [Symbol.toPrimitive](hint: "string"): string; }) => {
+    const decodedString = Buffer.from(base64String, "base64").toString("utf-8");
+    return JSON.parse(decodedString);
+  };
+
+  // Jika pengguna mengakses halaman auth tetapi sudah login
+  if (path === authRoute) {
+    const pathCookie = req.cookies.get("path")?.value
+      ? decodeURIComponent(req.cookies.get("path")?.value || "")
+      : null;
+    const refreshTokenCookie = req.cookies.get("refreshToken")?.value
+      ? decodeURIComponent(req.cookies.get("refreshToken")?.value || "")
+      : null;
+
+    if (refreshTokenCookie && pathCookie) {
+      try {
+        const tokenPayload = refreshTokenCookie.replace("s:", "").split(".")[0];
+        const pathPayload = pathCookie.replace("s:", "").split(".")[0];
+        const pathData = decodeBase64(pathPayload);
+
+        // Redirect berdasarkan role
+        if (pathData.message === "user") {
+          return NextResponse.redirect(new URL("/dashboard", req.url));
+        } else if (pathData.message.startsWith("admin")) {
+          return NextResponse.redirect(new URL("/admin", req.url));
+        }
+      } catch (error) {
+        console.error("Error parsing cookies:", error);
+        // Tetap di halaman auth jika ada error parsing
+        return NextResponse.next();
+      }
+    }
+    return NextResponse.next();
+  }
 
   // Periksa apakah path saat ini termasuk yang dilindungi
   const isProtectedRoute = protectedRoutes.some((route) => {
@@ -19,22 +56,16 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Helper function untuk mendekode Base64 payload
-  const decodeBase64 = (base64String: WithImplicitCoercion<string> | { [Symbol.toPrimitive](hint: "string"): string; }) => {
-    const decodedString = Buffer.from(base64String, "base64").toString("utf-8");
-    return JSON.parse(decodedString);
-  };
-
   // Ambil dan decode cookies
-  const tokenCookie = req.cookies.get("token")?.value
-    ? decodeURIComponent(req.cookies.get("token")?.value || "")
-    : null;
   const pathCookie = req.cookies.get("path")?.value
     ? decodeURIComponent(req.cookies.get("path")?.value || "")
     : null;
+  const refreshTokenCookie = req.cookies.get("refreshToken")?.value
+    ? decodeURIComponent(req.cookies.get("refreshToken")?.value || "")
+    : null;
 
   // Validasi cookie token dan path
-  if (!tokenCookie || !pathCookie) {
+  if (!refreshTokenCookie || !pathCookie) {
     // Redirect ke halaman login berdasarkan path
     const loginUrl = path.startsWith("/admin")
       ? new URL("/auth", req.url)
@@ -46,15 +77,13 @@ export function middleware(req: NextRequest) {
   let tokenData;
   let pathData;
   try {
-    const tokenPayload = tokenCookie.replace("s:", "").split(".")[0];
+    const tokenPayload = refreshTokenCookie.replace("s:", "").split(".")[0];
     const pathPayload = pathCookie.replace("s:", "").split(".")[0];
     tokenData = decodeBase64(tokenPayload);
     pathData = decodeBase64(pathPayload);
   } catch (error) {
     console.error("Error parsing cookies:", error);
-    const loginUrl = path.startsWith("/admin")
-      ? new URL("/auth", req.url)
-      : new URL("/auth", req.url);
+    const loginUrl = new URL("/auth", req.url);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -74,5 +103,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"],
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/auth"],
 };

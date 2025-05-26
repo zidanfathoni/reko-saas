@@ -19,7 +19,7 @@ import { CollapseMenuButton } from './collapse-menu-button';
 import DynamicIcon from '@/helper/dynamicIcons';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { useEffect } from 'react';
-import { fetchPermission } from '@/lib/slices/auth/permissionSlice';
+import { fetchUserPermission } from '@/lib/slices/auth/userPermissionSlice';
 
 interface MenuProps {
     isOpen: boolean | undefined;
@@ -29,11 +29,11 @@ export function Menu({ isOpen }: MenuProps) {
     const pathname = usePathname();
     const menuList = getMenuList(pathname);
     const dispatch = useAppDispatch();
-    const { permission, loadingPermission, error } = useAppSelector((state) => state.permission);
+    const { userPermission, loadingPermission, error } = useAppSelector((state) => state.userPermission);
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
-        dispatch(fetchPermission());
+        dispatch(fetchUserPermission());
     }, []);
 
     const toggleGroup = (groupLabel: string) => {
@@ -63,7 +63,7 @@ export function Menu({ isOpen }: MenuProps) {
 
                             // Check if user has any of the required permissions
                             return menu.permission.some(requiredPerm =>
-                                permission?.data?.permissions?.some(userPerm => userPerm.name === requiredPerm)
+                                userPermission?.data?.permissions?.some(userPerm => userPerm.name === requiredPerm)
                             );
                         });
 

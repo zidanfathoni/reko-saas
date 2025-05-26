@@ -21,14 +21,27 @@ export default function AdminWebSettingPages() {
     }, [dispatch]);
     return (
         <ContentLayout title="Web Settings">
-            <div
-            >
-                <WebHealth
+            <div>
+                {
+                    loading ? (
+                        <div className="flex items-center justify-center h-screen">
+                            <p>Loading...</p>
+                        </div>
+                    ) : error ? (
+                        <div className="flex items-center justify-center h-screen">
+                            <p>Error: {error}</p>
+                        </div>
+                    ) : (
+                        <>
+                        <WebHealth
                     health={webSetting?.health}
                 />
                 <WebForm
                     setup={webSetting?.setup}
                  />
+                 </>
+                    )
+                }
             </div>
         </ContentLayout>
     );

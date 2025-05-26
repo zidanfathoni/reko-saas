@@ -38,7 +38,7 @@ export function Navbar({ title }: NavbarProps) {
     }
   }, [checkAuth]);
   return (
-    <header className="sticky top-0 z-10 w-full bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
+    <header className="sticky top-0 z-10 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary">
       <div className="mx-2 flex h-14 items-center sm:mx-8">
         <div className="flex items-center space-x-2 lg:space-x-0">
           <SheetMenu />

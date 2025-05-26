@@ -12,7 +12,7 @@ import PaginationControls from "@/components/molecules/pagination-control";
 import DynamicIcon from "@/helper/dynamicIcons";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { DataUsers, GetUsersResponse } from "@/lib/interface/admin/users/getUsers"
-import { fetchUsers, setPage } from "@/lib/slices/admin/admin-userSlice"
+import { fetchUsers, setPage } from "@/lib/slices/admin/user-and-role-permission/admin-userSlice"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/atoms/dropdown-menu"
 import { BsFillMenuButtonWideFill } from "react-icons/bs"
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
@@ -152,6 +152,7 @@ export function UsersTable() {
                             </TableHead>
                             <TableHead>Phone</TableHead>
                             <TableHead>Status</TableHead>
+                            <TableHead>Provider</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -168,13 +169,40 @@ export function UsersTable() {
                                     </TableCell>
                                     <TableCell className="font-medium">{data.full_name}</TableCell>
                                     <TableCell>{data.email}</TableCell>
-                                    <TableCell>{data.phone}</TableCell>
+                                    <TableCell>{data.phone ?? '-'}</TableCell>
                                     <TableCell>
                                         {/* Badge is_active */}
                                         <Badge variant={data.is_active ? "default" : "destructive"}>
                                             {data.is_active ? "Active" : "Inactive"}
                                         </Badge>
                                     </TableCell>
+                                    <TableCell
+                                        className="flex items-center justify-center"
+                                    >
+                                        <div>
+                                            {
+                                                data.provider === "google" ? (
+                                                    <DynamicIcon icon="FaGooglePlus" className="h-8 w-8" />
+                                                ) : data.provider === "apple" ? (
+                                                    <DynamicIcon icon="FaApple" className="h-8 w-8" />
+                                                ) : data.provider === "github" ? (
+                                                    <DynamicIcon icon="FaGithub" className="h-8 w-8" />
+                                                ) : data.provider === "facebook" ? (
+                                                    <DynamicIcon icon="FaFacebook" className="h-8 w-8" />
+                                                ) : data.provider === "twitter" ? (
+                                                    <DynamicIcon icon="FaTwitter" className="h-8 w-8" />
+                                                ) :
+                                                (
+                                                    <span
+                                                        className="text-sm text-muted-foreground text-center"
+                                                    >
+                                                        {data.provider || "Unknown"}
+                                                    </span>
+                                                )
+                                            }
+                                        </div>
+                                    </TableCell>
+
                                     <TableCell className="text-center">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>

@@ -28,7 +28,7 @@ export default function LoginAdminPage() {
 
       if (fetchLoginAdmin.fulfilled.match(resultAction)) {
         dispatch(loginSuccess(resultAction.payload));
-        if (resultAction.payload.status === true) {
+        if (resultAction.payload.data.path !== "user") {
           router.push("/admin");
         }
       }

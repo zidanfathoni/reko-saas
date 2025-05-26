@@ -22,7 +22,6 @@ const apiAdmin: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     "Access-Control-Allow-Origin": "*", // tambahkan header ini jika ada CORS
-    'Authorization': `Bearer ${Storage.get('local', 'token') ?? null}`, // tambahkan header ini jika ada auth
   },
   withCredentials: true, // Agar cookie bisa dikirim dan diterima
 });
@@ -61,6 +60,13 @@ api.interceptors.response.use(
             description: response.data?.message ?? 'Your request is incorrect.',
           });
           break;
+        case 401:
+            toast({
+              title: 'Unauthorized',
+              variant: 'destructive',
+              description: response.data?.message ?? 'You are not authorized to access this resource.',
+            });
+            break;
         case 403:
           toast({
             title: 'Access Denied',
@@ -94,6 +100,16 @@ api.interceptors.response.use(
     throw err;
   },
 );
+
+
+apiAdmin.interceptors.request.use(config => {
+    const token = Storage.get('local', 'token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+
 apiAdmin.interceptors.response.use(
   (res) => {
     nProgress.done();

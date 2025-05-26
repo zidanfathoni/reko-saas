@@ -47,21 +47,33 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
     formData.append("password", password);
 
     try {
-      await dispatch(fetchLogin(formData));
-      dispatch(loginSuccess(login));
+        // Dispatch the login action and wait for it to complete
+        const result = await dispatch(fetchLogin(formData));
 
-     if (login.data.path === "user") {
-      setPath("/dashboard");
-     } else if (login.data.path === "admin") {
-      setPath("/admin");
-     }
+        // Assuming the login was successful, dispatch success action
+        dispatch(loginSuccess(result.payload)); // Use the actual response data
 
-      router.push(path);
+        // Determine redirect path based on user role
+        let redirectPath = '/'; // Default fallback path
+        if (result.payload?.data?.path === 'user') {
+          redirectPath = '/dashboard';
+        } else if (result.payload?.data?.path === 'admin') {
+          redirectPath = '/admin';
+        }
 
+        // Immediately use the determined path for navigation
+        router.push(redirectPath);
 
-    } catch (error) {
-      console.log(error);
-    }
+      } catch (error) {
+        // Proper error handling
+        if (error instanceof Error) {
+          console.error('Login failed:', error.message);
+          // You might want to dispatch a login failure action here
+          // dispatch(loginFailure(error.message));
+        } else {
+          console.error('An unknown error occurred during login');
+        }
+      }
     }
   };
 
