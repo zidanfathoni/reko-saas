@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.12.8",
+    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
+    "@ckeditor/ckeditor5-react": "^9.5.0",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@hookform/resolvers": "^5.0.1",

@@ -11,6 +11,8 @@ import { permission } from 'process';
 import { roleDetailSlice, roleSlice } from '@/lib/slices/admin/user-and-role-permission/admin-roleSlice';
 import { permissionSlice, permissionDetailSlice } from '@/lib/slices/admin/user-and-role-permission/admin-permissionSlice';
 import {testimonialsDetailSlice, testimonialsSlice} from '@/lib/slices/admin/testimonials-slice';
+import { serviceCategoryDetailSlice, serviceCategorySlice } from '@/lib/slices/admin/service/admin-serviceCategory-slice';
+import { serviceDetailSlice, serviceSlice } from '@/lib/slices/admin/service/admin-service-slice';
 
 export const reduxStore = configureStore({
   reducer: {
@@ -19,6 +21,12 @@ export const reduxStore = configureStore({
 
     testimonial: testimonialsSlice.reducer,
     testimonialDetail: testimonialsDetailSlice.reducer,
+
+    service: serviceSlice.reducer,
+    ServiceDetail: serviceDetailSlice.reducer,
+
+    serviceCategory: serviceCategorySlice.reducer,
+    serviceCategoryDetail:serviceCategoryDetailSlice.reducer,
 
 
     login: loginSlice.reducer,

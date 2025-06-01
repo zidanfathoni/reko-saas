@@ -50,9 +50,6 @@ const LoginForm: React.FC<SignInProps> = ({ onClick }) => {
         // Dispatch the login action and wait for it to complete
         const result = await dispatch(fetchLogin(formData));
 
-        // Assuming the login was successful, dispatch success action
-        dispatch(loginSuccess(result.payload)); // Use the actual response data
-
         // Determine redirect path based on user role
         let redirectPath = '/'; // Default fallback path
         if (result.payload?.data?.path === 'user') {

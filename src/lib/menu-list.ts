@@ -53,12 +53,22 @@ export function getMenuList(pathname: string): Group[] {
                     ],
                 },
                 {
-                    href: '/admin/services',
+                    href: '',
                     label: 'Service',
                     icon: 'FaLaptopFile',
                     permission: [
                         'services.manage',
                         'services.view'
+                    ],
+                    submenus: [
+                        {
+                            href: '/admin/service',
+                            label: 'All Services',
+                        },
+                        {
+                            href: '/admin/service/category',
+                            label: 'Service Category',
+                        },
                     ],
                 },
                 {

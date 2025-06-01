@@ -132,4 +132,3 @@ export default function PaginationControls({ currentPage, totalPages, onChange }
     </Pagination>
   )
 }
-
