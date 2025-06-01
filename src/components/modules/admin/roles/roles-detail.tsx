@@ -76,10 +76,10 @@ export default function RolesDetailClient({ id }: RolesDetailClientProps) {
         setSelectedGroups([])
     }
 
-    const formatPermissionName = (name: string) => {
-        const [group, action] = name.split(".")
-        return `${action.charAt(0).toUpperCase() + action.slice(1)}`
-    }
+    // const formatPermissionName = (name: string) => {
+    //     const [group, action] = name.split(".")
+    //     return `${action?.charAt(0).toUpperCase() + action.slice(1)}`
+    // }
 
     const formatGroupName = (group: string) => {
         return group.charAt(0).toUpperCase() + group.slice(1)
@@ -127,6 +127,8 @@ export default function RolesDetailClient({ id }: RolesDetailClientProps) {
         } else {
             setName('');
             setDescription('');
+            setPermissions([]);
+            setSelectedGroups([]);
         }
     }, [id, dispatch]);
 
@@ -282,7 +284,7 @@ export default function RolesDetailClient({ id }: RolesDetailClientProps) {
                                                         htmlFor={`permission-${perm.id}`}
                                                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex items-center gap-2"
                                                     >
-                                                        <span>{formatPermissionName(perm.name)}</span>
+                                                        {/* <span>{formatPermissionName(perm.name)}</span> */}
                                                         <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{perm.name}</code>
                                                     </Label>
                                                 </div>

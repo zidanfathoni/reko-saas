@@ -16,6 +16,7 @@ import { deleterole, fetchRoles, setPage } from "@/lib/slices/admin/user-and-rol
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/atoms/dropdown-menu"
 import { BsFillMenuButtonWideFill } from "react-icons/bs"
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
+import PermissionHelper from "@/helper/permission-helper"
 
 
 
@@ -33,6 +34,23 @@ export function RolesTable() {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
+
+    // Ambil permissions sekali saat mount
+    const [permissions] = useState(() => PermissionHelper.getUserPermissions());
+
+    // Hitung semua permission sekaligus
+    const permission = useMemo(() => ({
+        canAccess: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.view']),
+        canEdit: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.edit']),
+        canDelete: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.delete']),
+        canCreate: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.create']),
+    }), [permissions]);
+
+    if (permission.canAccess) {
+        // redirect to 404 page if user does not have access
+        window.location.href = '/404';
+    }
+
     const openUserDialog = (id?: string) => {
         setSelectedUserId(id || null) // Set selected user ID or null if no ID is provided
         setDialogOpen(true)
@@ -47,12 +65,11 @@ export function RolesTable() {
         if (selectedRows.size === 0) return; // No rows selected
         const idsToDelete = Array.from(selectedRows);
         // Call your delete API here with idsToDelete
-        console.log("Deleting roles with IDs:", idsToDelete);
         dispatch(deleterole(idsToDelete))
         // After deletion, clear the selected rows
         setSelectedRows(new Set());
         // Optionally, you can refetch the roles data to reflect the changes
-        window.location.reload(); // Reload the page to reflect changes
+        // window.location.reload(); // Reload the page to reflect changes
     }
 
 
@@ -119,27 +136,22 @@ export function RolesTable() {
                 />
                 <div className="flex flex-row gap-2">
                     {selectedRows.size > 0 && (
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button
+                        !permission.canDelete && (
+                            <Button
                                 variant="destructive"
                                 disabled={selectedRows.size === 0}
                                 className="ml-auto"
-                                onClick={() => {
-                                    handleDeleteSelected();
-                                }
-                                }
-                                >
-                                    <Trash className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
-                                    Delete roles
-                                </Button>
-                            </DialogTrigger>
-                            {/* <AddToolsDialog
-                     /> */}
-                        </Dialog>
+                                onClick={handleDeleteSelected}
+                            >
+                                <Trash className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
+                                Delete Roles ({selectedRows.size})
+                            </Button>
+                        )
                     )}
                     {/* Add Tools */}
-                    <Button
+                   {
+                    !permission.canCreate && (
+                        <Button
                         className="ml-auto"
                         variant="outline"
                         onClick={() => {
@@ -149,6 +161,8 @@ export function RolesTable() {
                         <Plus className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
                         Add Role
                     </Button>
+                    )
+                   }
                 </div>
             </div>
             <div className="rounded-md border">

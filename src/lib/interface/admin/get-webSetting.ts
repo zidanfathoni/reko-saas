@@ -36,6 +36,7 @@ export interface GetWebSettingResponse {
   export interface Report {
     env: Env
     appKey: AppKey
+    lucid: Lucid
     redis: Redis
   }
 
@@ -57,10 +58,10 @@ export interface GetWebSettingResponse {
     healthy: boolean
   }
 
-  export interface Redis {
+  export interface Lucid {
     displayName: string
     health: Health4
-    meta: Meta[]
+    meta: Meum[]
   }
 
   export interface Health4 {
@@ -68,7 +69,24 @@ export interface GetWebSettingResponse {
     message: string
   }
 
-  export interface Meta {
+  export interface Meum {
+    connection: string
+    message: string
+    error: any
+  }
+
+  export interface Redis {
+    displayName: string
+    health: Health5
+    meta: Meum2[]
+  }
+
+  export interface Health5 {
+    healthy: boolean
+    message: string
+  }
+
+  export interface Meum2 {
     connection: string
     status: string
     used_memory: string

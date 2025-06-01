@@ -215,7 +215,7 @@ export const permissionSlice = createSlice({
             .addCase(createPermission.fulfilled, (state, action) => {
                 state.loadingPermission = false;
                 state.permission.data.push(action.payload.data);
-                window.location.reload();
+                state.permission.meta.total += 1; // Increase total count
             })
             .addCase(createPermission.rejected, (state, action) => {
                 state.loadingPermission = false;
@@ -230,7 +230,6 @@ export const permissionSlice = createSlice({
                 if (index !== -1) {
                     state.permission.data[index] = action.payload.data;
                 }
-                window.location.reload();
             })
             .addCase(updatePermission.rejected, (state, action) => {
                 state.loadingPermission = false;
@@ -245,6 +244,7 @@ export const permissionSlice = createSlice({
                 if (index !== -1) {
                     state.permission.data.splice(index, 1);
                 }
+                state.permission.meta.total -= 1; // Decrease total count
             })
             .addCase(deletePermission.rejected, (state, action) => {
                 state.loadingPermission = false;

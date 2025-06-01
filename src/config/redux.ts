@@ -3,17 +3,24 @@ import { loginSlice } from '@/lib/slices/auth/login/loginSlice';
 import { meSlice } from '@/lib/slices/auth/meSlice';
 import { pathSlice } from '@/lib/slices/auth/pathSlice';
 import {userPermissionSlice} from '@/lib/slices/auth/userPermissionSlice';
-import { toolsSlice } from '@/lib/slices/toolsSlices';
+import { toolsDetailSlice, toolsSlice } from '@/lib/slices/toolsSlices';
 import { userDetailSlice, userSlice } from '@/lib/slices/admin/user-and-role-permission/admin-userSlice';
 import { webSettingSlice } from '@/lib/slices/admin/admin-webSetting-Slice';
 import { configureStore } from '@reduxjs/toolkit';
 import { permission } from 'process';
 import { roleDetailSlice, roleSlice } from '@/lib/slices/admin/user-and-role-permission/admin-roleSlice';
 import { permissionSlice, permissionDetailSlice } from '@/lib/slices/admin/user-and-role-permission/admin-permissionSlice';
+import {testimonialsDetailSlice, testimonialsSlice} from '@/lib/slices/admin/testimonials-slice';
 
 export const reduxStore = configureStore({
   reducer: {
     tools: toolsSlice.reducer,
+    toolsDetail: toolsDetailSlice.reducer,
+
+    testimonial: testimonialsSlice.reducer,
+    testimonialDetail: testimonialsDetailSlice.reducer,
+
+
     login: loginSlice.reducer,
     userPermission: userPermissionSlice.reducer,
     me: meSlice.reducer,

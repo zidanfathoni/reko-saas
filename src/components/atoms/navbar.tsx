@@ -1,10 +1,10 @@
-'use client';
+
 
 
 import { Menu, MoveRight, X } from "lucide-react";
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button
 } from '.';
@@ -163,11 +163,13 @@ const Navbar: React.FC = () => {
         </div>
         <div className="flex justify-end w-full gap-4">
           <div className="border-r hidden md:inline"></div>
-          {/* <Button
-            onClick={() => (window.location.href = '/auth')}
-            variant="outline">
-            Sign in
-          </Button> */}
+          <Button
+            onClick={() => {
+                window.location.href = '/auth';
+            }}
+            variant="default">
+            Dashboard
+          </Button>
           <ModeToggle />
         </div>
         <div className="flex w-12 shrink lg:hidden items-end justify-end">

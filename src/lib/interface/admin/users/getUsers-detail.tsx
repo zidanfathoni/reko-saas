@@ -9,7 +9,7 @@ export interface GetUsersDetailResponse {
     full_name: string
     username: string
     job_title: string
-    avatar: any
+    avatar: string
     phone: string
     is_verified_number: number
     is_active: number

@@ -140,14 +140,8 @@ apiAdmin.interceptors.response.use(
           case 401:
             if (!err.config.sent) {
               err.config.sent = true;
-              const newToken = await refreshToken();
-              if (newToken) {
-                err.config.headers = {
-                  ...err.config.headers,
-                  Authorization: `Bearer ${newToken}`,
-                };
-                return api.request(err.config); // Retry request with new token
-              }
+              await refreshToken();
+              return api.request(err.config); // Retry request with new token
             }
             break;
         case 403:

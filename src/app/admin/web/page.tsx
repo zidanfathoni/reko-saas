@@ -27,10 +27,6 @@ export default function AdminWebSettingPages() {
                         <div className="flex items-center justify-center h-screen">
                             <p>Loading...</p>
                         </div>
-                    ) : error ? (
-                        <div className="flex items-center justify-center h-screen">
-                            <p>Error: {error}</p>
-                        </div>
                     ) : (
                         <>
                         <WebHealth

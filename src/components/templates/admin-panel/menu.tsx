@@ -1,10 +1,10 @@
 'use client';
 
-import { Ellipsis, LogOut, ChevronDown, ChevronRight } from 'lucide-react';
+import { Ellipsis, CircleArrowDown, CircleArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-
+import { Storage } from "@/lib/storage";
 import { Button } from '@/components/atoms/button';
 import { ScrollArea } from '@/components/atoms/scroll-area';
 import {
@@ -34,6 +34,10 @@ export function Menu({ isOpen }: MenuProps) {
 
     useEffect(() => {
         dispatch(fetchUserPermission());
+        if (userPermission?.data?.permissions) {
+            // save permissions in local storage
+            Storage.set('cookie', 'userPermission', userPermission.data.permissions);
+        }
     }, []);
 
     const toggleGroup = (groupLabel: string) => {
@@ -84,9 +88,9 @@ export function Menu({ isOpen }: MenuProps) {
                                             {groupLabel}
                                         </p>
                                         {isGroupExpanded ? (
-                                            <ChevronDown className="h-4 w-4" />
+                                            <CircleArrowDown className="h-4 w-4" />
                                         ) : (
-                                            <ChevronRight className="h-4 w-4" />
+                                            <CircleArrowRight className="h-4 w-4" />
                                         )}
                                     </div>
                                 ) : !isOpen && isOpen !== undefined && groupLabel ? (

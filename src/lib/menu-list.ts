@@ -53,6 +53,15 @@ export function getMenuList(pathname: string): Group[] {
                     ],
                 },
                 {
+                    href: '/admin/services',
+                    label: 'Service',
+                    icon: 'FaLaptopFile',
+                    permission: [
+                        'services.manage',
+                        'services.view'
+                    ],
+                },
+                {
                     href: '/admin/tools',
                     label: 'Tools',
                     icon: 'FaToolbox',
@@ -98,6 +107,15 @@ export function getMenuList(pathname: string): Group[] {
         {
             groupLabel: 'Settings',
             menus: [
+                {
+                    href: '/admin/testimonials',
+                    label: 'Testimonials',
+                    icon: 'FaQuoteLeft',
+                    permission: [
+                        'testimonials.manage',
+                        'testimonials.view'
+                    ],
+                },
                 {
                     href: '/admin/web',
                     label: 'Web Settings',

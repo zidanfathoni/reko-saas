@@ -35,6 +35,15 @@ export function WebHealth({ health }: WebHealthProps) {
             icon={<Settings className="h-5 w-5 text-primary" />}
           />
 
+          {/* Lucid Health Card */}
+          <HealthCard
+            title={health.report.lucid.displayName}
+            healthy={health.report.lucid.health.healthy}
+            message={health.report.lucid.health.message}
+            meta2={health.report.lucid.meta}
+            icon={<Database className="h-5 w-5 text-primary" />}
+          />
+
           {/* Redis Health Card */}
           <HealthCard
             title={health.report.redis.displayName}
@@ -60,10 +69,15 @@ export function WebHealth({ health }: WebHealthProps) {
       used_memory: string
       error: string | null
     }>
+    meta2?: Array<{
+    connection: string
+    message: string
+    error?: string | null
+  }>
     icon: React.ReactNode
   }
 
-function HealthCard({ title, healthy, message, meta, icon }: HealthCardProps) {
+function HealthCard({ title, healthy, message, meta, meta2, icon }: HealthCardProps) {
     return (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -102,6 +116,30 @@ function HealthCard({ title, healthy, message, meta, icon }: HealthCardProps) {
                   <div className="flex justify-between">
                     <span className="font-medium">Memory:</span>
                     <span>{item.used_memory}</span>
+                  </div>
+                  {item.error && (
+                    <div className="flex justify-between">
+                      <span className="font-medium">Error:</span>
+                      <span className="text-red-500">{item.error}</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+
+{meta2 && meta2.length > 0 && (
+            <div className="mt-4 space-y-2">
+              {meta2.map((item, index) => (
+                <div key={index} className="rounded-md bg-muted p-2 text-xs">
+                  <div className="flex justify-between">
+                    <span className="font-medium">Connection:</span>
+                    <span>{item.connection}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Message:</span>
+                    <span>{item.message}</span>
                   </div>
                   {item.error && (
                     <div className="flex justify-between">

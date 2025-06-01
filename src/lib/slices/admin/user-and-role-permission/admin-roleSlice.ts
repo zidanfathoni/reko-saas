@@ -230,17 +230,6 @@ export const roleSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message || "Failed to fetch roles";
             })
-            .addCase(fetchRolesDetail.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(fetchRolesDetail.fulfilled, (state, action) => {
-                state.loading = false;
-                const index = state.roles.data.findIndex((role) => role.id === action.payload.data.id);
-                if (index !== -1) {
-                    state.roles.data[index] = action.payload.data;
-                }
-            })
             .addCase(createrole.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -276,9 +265,11 @@ export const roleSlice = createSlice({
             })
             .addCase(deleterole.fulfilled, (state, action) => {
                 state.loading = false;
-                const index = state.roles.data.findIndex((role) => role.id === action.payload.data.id);
-                if (index !== -1) {
-                    state.roles.data.splice(index, 1);
+                const deleteIds = action.payload.data.map((role: { id: string }) => role.id);
+                state.roles.data = state.roles.data.filter((role) => !deleteIds.includes(role.id));
+                state.roles.meta.total -= deleteIds.length; // Update total count
+                if (state.roles.meta.total < 0) {
+                    state.roles.meta.total = 0; // Ensure total is not negative
                 }
             }
             )

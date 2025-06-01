@@ -149,9 +149,13 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "users/deleteUser",
-  async (id: string) => {
+  async (ids: string[]) => {
     try {
-      const response = await apiAdmin.delete(`/users/${id}`);
+      const response = await apiAdmin.delete(`/users`, {
+        data: {
+            ids: ids,
+        },
+    });
       toast({
         title: "Success",
         description: "User deleted successfully",
@@ -228,6 +232,7 @@ export const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, action) => {
         state.loading = false;
         state.users.data.push(action.payload.data);
+        state.users.meta.total += 1; // Increment total count
       })
       .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
@@ -258,6 +263,7 @@ export const userSlice = createSlice({
         if (index !== -1) {
           state.users.data.splice(index, 1);
         }
+        state.users.meta.total -= 1; // Decrement total count
       }
       )
       .addCase(deleteUser.rejected, (state, action) => {
@@ -272,9 +278,11 @@ export const userSlice = createSlice({
       )
       .addCase(resetUserPassword.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.users.data.findIndex((user) => user.id === action.payload.data.id);
-        if (index !== -1) {
-          state.users.data[index] = action.payload.data;
+        const deleteIds = action.payload.data.map((user: { id: string }) => user.id);
+        state.users.data = state.users.data.filter((user) => !deleteIds.includes(user.id));
+        state.users.meta.total -= deleteIds.length; // Decrement total count
+        if (state.users.meta.total < 0) {
+          state.users.meta.total = 0; // Ensure total does not go negative
         }
       }
       )

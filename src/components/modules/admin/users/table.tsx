@@ -12,14 +12,18 @@ import PaginationControls from "@/components/molecules/pagination-control";
 import DynamicIcon from "@/helper/dynamicIcons";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { DataUsers, GetUsersResponse } from "@/lib/interface/admin/users/getUsers"
-import { fetchUsers, setPage } from "@/lib/slices/admin/user-and-role-permission/admin-userSlice"
+import { deleteUser, fetchUsers, setPage } from "@/lib/slices/admin/user-and-role-permission/admin-userSlice"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/atoms/dropdown-menu"
 import { BsFillMenuButtonWideFill } from "react-icons/bs"
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
+import PermissionHelper from "@/helper/permission-helper"
+import { AdminUsersDialog } from "./users-dialog"
 
 
 
 export function UsersTable() {
+    const [selectedId, setSelectedId] = useState<string | null>(null)
+    const [dialogOpen, setDialogOpen] = useState(false)
     const [pageSize, setPageSize] = useState(10)
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set())
@@ -32,13 +36,44 @@ export function UsersTable() {
     const inputRef = useRef<HTMLInputElement>(null);
 
 
+    // Ambil permissions sekali saat mount
+    const [permissions] = useState(() => PermissionHelper.getUserPermissions());
+
+    // Hitung semua permission sekaligus
+    const permission = useMemo(() => ({
+        canAccess: PermissionHelper.checkPermissions(permissions, ['user.manage', 'user.view']),
+        canEdit: PermissionHelper.checkPermissions(permissions, ['user.manage', 'user.edit']),
+        canDelete: PermissionHelper.checkPermissions(permissions, ['user.manage', 'user.delete']),
+        canCreate: PermissionHelper.checkPermissions(permissions, ['user.manage', 'user.create']),
+    }), [permissions]);
+
+    if (permission.canAccess) {
+        // redirect to 404 page if user does not have access
+        window.location.href = '/404';
+    }
+
+
+    const openUserDialog = (id?: string) => {
+        setSelectedId(id || null)
+        setDialogOpen(true)
+    }
 
     const handlePageClick = (page: number) => {
         dispatch(setPage(page));
     };
 
     // handle search
-
+    // handle delete selected rows
+    const handleDeleteSelected = () => {
+        if (selectedRows.size === 0) return; // No rows selected
+        const idsToDelete = Array.from(selectedRows);
+        // Call your delete API here with idsToDelete
+        dispatch(deleteUser(idsToDelete))
+        // After deletion, clear the selected rows
+        setSelectedRows(new Set());
+        // Optionally, you can refetch the roles data to reflect the changes
+        // window.location.reload(); // Reload the page to reflect changes
+    }
 
 
     const toggleSelectAll = () => {
@@ -102,29 +137,32 @@ export function UsersTable() {
                     className="max-w-sm"
                 />
                 <div className="flex flex-row gap-2">
-                { selectedRows.size > 0 && (
-                     <Dialog>
-                     <DialogTrigger asChild>
-                         <Button variant="destructive" disabled={selectedRows.size === 0} className="ml-auto">
-                             <Trash className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
-                             Delete Users
-                         </Button>
-                     </DialogTrigger>
-                     {/* <AddToolsDialog
-                     /> */}
-                 </Dialog>
-                   )}
+                    {selectedRows.size > 0 && (
+                        !permission.canDelete && (
+                            <Button
+                                variant="destructive"
+                                disabled={selectedRows.size === 0}
+                                className="ml-auto"
+                                onClick={handleDeleteSelected}
+                            >
+                                <Trash className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
+                                Delete Users ({selectedRows.size})
+                            </Button>
+                        )
+                    )}
                     {/* Add Tools */}
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button className="ml-auto" variant="outline">
-                                <Plus className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
+                    {
+                        !permission.canCreate && (
+                            <Button
+                                className="ml-auto"
+                                variant="outline"
+                                onClick={() => openUserDialog()}
+                            >
+                                <Plus className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} />
                                 Add User
                             </Button>
-                        </DialogTrigger>
-                        {/* <AddToolsDialog
-                        /> */}
-                    </Dialog>
+                        )
+                    }
                 </div>
             </div>
             <div className="rounded-md border">
@@ -157,90 +195,83 @@ export function UsersTable() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {users.data.length > 0 ? (
-                            users.data.map((data) => (
-                                <TableRow key={data.id} data-state={selectedRows.has(data.id) ? "selected" : undefined}>
-                                    <TableCell>
-                                        <Checkbox
-                                            checked={selectedRows.has(data.id)}
-                                            onCheckedChange={() => toggleRowSelection(data.id)}
-                                            aria-label="Select row"
-                                        />
-                                    </TableCell>
-                                    <TableCell className="font-medium">{data.full_name}</TableCell>
-                                    <TableCell>{data.email}</TableCell>
-                                    <TableCell>{data.phone ?? '-'}</TableCell>
-                                    <TableCell>
-                                        {/* Badge is_active */}
-                                        <Badge variant={data.is_active ? "default" : "destructive"}>
-                                            {data.is_active ? "Active" : "Inactive"}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell
-                                        className="flex items-center justify-center"
-                                    >
-                                        <div>
-                                            {
-                                                data.provider === "google" ? (
-                                                    <DynamicIcon icon="FaGooglePlus" className="h-8 w-8" />
-                                                ) : data.provider === "apple" ? (
-                                                    <DynamicIcon icon="FaApple" className="h-8 w-8" />
-                                                ) : data.provider === "github" ? (
-                                                    <DynamicIcon icon="FaGithub" className="h-8 w-8" />
-                                                ) : data.provider === "facebook" ? (
-                                                    <DynamicIcon icon="FaFacebook" className="h-8 w-8" />
-                                                ) : data.provider === "twitter" ? (
-                                                    <DynamicIcon icon="FaTwitter" className="h-8 w-8" />
-                                                ) :
-                                                (
-                                                    <span
-                                                        className="text-sm text-muted-foreground text-center"
-                                                    >
-                                                        {data.provider || "Unknown"}
-                                                    </span>
-                                                )
-                                            }
-                                        </div>
-                                    </TableCell>
-
-                                    <TableCell className="text-center">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <div className="flex justify-end">
-                                                    <Button
-                                                    size="icon"
-                                                    variant="ghost"
-                                                    className="shadow-none"
-                                                    aria-label="Edit item">
-                                                        <BsFillMenuButtonWideFill />
-                                                    </Button>
+                        {
+                            !loading ? (
+                                users.data.length > 0 ? (
+                                    users.data.map((data) => (
+                                        <TableRow key={data.id} data-state={selectedRows.has(data.id) ? "selected" : undefined}>
+                                            <TableCell>
+                                                <Checkbox
+                                                    checked={selectedRows.has(data.id)}
+                                                    onCheckedChange={() => toggleRowSelection(data.id)}
+                                                    aria-label="Select row"
+                                                />
+                                            </TableCell>
+                                            <TableCell className="font-medium">{data.full_name}</TableCell>
+                                            <TableCell>{data.email}</TableCell>
+                                            <TableCell>{data.phone ?? '-'}</TableCell>
+                                            <TableCell>
+                                                {/* Badge is_active */}
+                                                <Badge variant={data.is_active ? "default" : "destructive"}>
+                                                    {data.is_active ? "Active" : "Inactive"}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell
+                                                className="flex items-center justify-center"
+                                            >
+                                                <div>
+                                                    {
+                                                        data.provider === "google" ? (
+                                                            <DynamicIcon icon="FaGooglePlus" className="h-8 w-8" />
+                                                        ) : data.provider === "apple" ? (
+                                                            <DynamicIcon icon="FaApple" className="h-8 w-8" />
+                                                        ) : data.provider === "github" ? (
+                                                            <DynamicIcon icon="FaGithub" className="h-8 w-8" />
+                                                        ) : data.provider === "facebook" ? (
+                                                            <DynamicIcon icon="FaFacebook" className="h-8 w-8" />
+                                                        ) : data.provider === "twitter" ? (
+                                                            <DynamicIcon icon="FaTwitter" className="h-8 w-8" />
+                                                        ) :
+                                                            (
+                                                                <span
+                                                                    className="text-sm text-muted-foreground text-center"
+                                                                >
+                                                                    {data.provider || "Unknown"}
+                                                                </span>
+                                                            )
+                                                    }
                                                 </div>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuGroup>
-                                                    <DropdownMenuItem>
-                                                        <span>Edit</span>
-                                                        <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem className="text-destructive focus:text-destructive">
-                                                        <span>Delete</span>
-                                                        <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuGroup>
+                                            </TableCell>
 
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                            <TableCell className="text-end">
+                                                <div>
+                                                    {
+                                                        !permission.canEdit && (
+                                                            <Button variant="ghost" onClick={() => openUserDialog(data.id)} className="h-8 w-8 p-0" aria-label="Edit">
+                                                                <DynamicIcon icon="FaPenToSquare" className="h-4 w-4" />
+                                                            </Button>
+                                                        )
+                                                    }
+                                                </div>
+                                            </TableCell>
+
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="h-24 text-center">
+                                            No results found.
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="h-24 text-center">
+                                        Loading...
                                     </TableCell>
-
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan={5} className="h-24 text-center">
-                                    No results found.
-                                </TableCell>
-                            </TableRow>
-                        )}
+                            )
+                        }
                     </TableBody>
                 </Table>
             </div>
@@ -270,6 +301,12 @@ export function UsersTable() {
                     <PaginationControls currentPage={users.meta.current_page ?? 1} totalPages={users.meta.last_page ?? 1} onChange={handlePageClick} />
                 </div>
             </div>
+
+            <AdminUsersDialog
+                key={selectedId}
+                id={selectedId || undefined}
+                open={dialogOpen}
+                onOpenChange={setDialogOpen} />
         </div>
     )
 }

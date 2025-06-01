@@ -25,21 +25,15 @@ export const refreshToken = async (): Promise<string | null> => {
         if (status === 200 && data?.data?.token) {
             // Simpan refreshToken baru jika diberikan
 
-    const cookies = response.headers['set-cookie'];
+            const cookies = response.headers['set-cookie'];
             if (cookies) {
                 Storage.set('cookie', 'token', cookies.find((cookie: string) => cookie.includes('token')));
                 Storage.set('cookie', 'refreshToken', cookies.find((cookie: string) => cookie.includes('refreshToken')));
                 Storage.set('cookie', 'path', cookies.find((cookie: string) => cookie.includes('path')));
             }
-            if (data.data.token) {
-                Storage.set('local', 'token', data.data.token);
-            }
-            if (data.data.refreshToken) {
-                Storage.set('local', 'refreshToken', data.data.refreshToken);
-            }
-            if (data.data.path) {
-                Storage.set('local', 'path', data.data.path);
-            }
+            Storage.set('local', 'token', response.data.data.token);
+            Storage.set('local', 'refreshToken', response.data.data.refreshToken);
+            Storage.set('local', 'path', response.data.data.path);
             return data.data.token; // Mengembalikan accessToken
         }
         return null;
