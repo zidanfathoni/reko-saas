@@ -23,18 +23,6 @@ type Group = {
 export function getMenuList(pathname: string): Group[] {
     return [
         {
-            groupLabel: "",
-            menus: [
-                {
-                    href: "/admin",
-                    label: "Dashboard",
-                    icon: 'FaChartPie',
-                    submenus: []
-
-                }
-            ]
-        },
-        {
             groupLabel: 'Contents',
             menus: [
                 {
@@ -83,40 +71,21 @@ export function getMenuList(pathname: string): Group[] {
             ],
         },
         {
-            groupLabel: 'Users and Roles',
+            groupLabel: 'Settings',
             menus: [
                 {
-                    href: '/admin/users',
-                    label: 'Users',
+                    href: '/admin/access',
+                    label: 'Access',
                     icon: 'FaUsers',
                     permission: [
                         'user.manage',
-                        'user.view'
-                    ],
-                },
-                {
-                    href: '/admin/roles',
-                    label: 'Roles',
-                    icon: 'FaUserShield',
-                    permission: [
+                        'user.view',
                         'roles.manage',
-                        'roles.view'
-                    ],
-                },
-                {
-                    href: '/admin/permissions',
-                    label: 'Permissions',
-                    icon: 'FaShieldCat',
-                    permission: [
+                        'roles.view',
                         'permission.manage',
                         'permission.view'
                     ],
                 },
-            ],
-        },
-        {
-            groupLabel: 'Settings',
-            menus: [
                 {
                     href: '/admin/testimonials',
                     label: 'Testimonials',

@@ -59,6 +59,32 @@ export function Menu({ isOpen }: MenuProps) {
         <ScrollArea className="[&>div>div[style]]:!block">
             <nav className="mt-3 h-full w-full">
                 <ul className="flex min-h-[calc(90vh-58px-36px-16px-32px)] flex-col items-start space-y-1 px-2 lg:min-h-[calc(90vh-42px-40px-32px)]">
+                    <li className='list-none w-full'>
+                        <Button
+                            variant={'ghost'}
+                            className="mb-1 h-10 w-full justify-start hover:border-primary hover:bg-primary/10 focus-visible:bg-primary/10 data-[state=open]:bg-primary/10"
+                            asChild
+                        >
+                            <Link href={'/'}>
+                                <span className={cn(isOpen === false ? '' : 'mr-4')}>
+                                    <DynamicIcon
+                                        icon={'FaDisplay'}
+                                        className={cn(
+                                            'text-primary',
+                                        )}
+                                    />
+                                </span>
+                                <p
+                                    className={cn(
+                                        'max-w-[200px] truncate',
+                                        'translate-x-0 opacity-100',
+                                    )}
+                                >
+                                    Landing Page
+                                </p>
+                            </Link>
+                        </Button>
+                    </li>
                     {menuList.map(({ groupLabel, menus }, index) => {
                         // Filter menus that the user has permission to see
                         const filteredMenus = menus.filter(menu => {
@@ -131,17 +157,17 @@ export function Menu({ isOpen }: MenuProps) {
                                                     <Tooltip delayDuration={100}>
                                                         <TooltipTrigger asChild>
                                                             <Button
-                                                                variant={(active === undefined && pathname.startsWith(href)) && pathname.endsWith(href) || active ? 'default' : 'ghost'}
-                                                                className="mb-1 h-10 w-full justify-start"
+                                                                variant={(active === undefined && pathname.startsWith(href)) || active ? 'default' : 'ghost'}
+                                                                className="mb-1 h-10 w-full justify-start hover:border-primary hover:bg-primary/10 focus-visible:bg-primary/10 data-[state=open]:bg-primary/10"
                                                                 asChild
                                                             >
                                                                 <Link href={href}>
                                                                     <span className={cn(isOpen === false ? '' : 'mr-4')}>
                                                                         <DynamicIcon
-                                                                        icon={icon}
-                                                                        className={cn(
-                                                                            active === undefined && pathname.startsWith(href) ? 'text-primary-foreground' : 'text-primary',
-                                                                        )}
+                                                                            icon={icon}
+                                                                            className={cn(
+                                                                                active === undefined && pathname.startsWith(href) ? 'text-primary-foreground' : 'text-primary',
+                                                                            )}
                                                                         />
                                                                     </span>
                                                                     <p

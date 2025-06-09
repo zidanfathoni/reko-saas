@@ -172,7 +172,6 @@ export function UsersTable() {
                     }
                 </div>
             </div>
-            <div className="rounded-md border">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -281,6 +280,7 @@ export function UsersTable() {
                         }
                     </TableBody>
                 </Table>
+            <div className="rounded-md border">
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
                 <div className="flex items-center space-x-2">

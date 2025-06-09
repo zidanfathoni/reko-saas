@@ -12,10 +12,11 @@ import PaginationControls from "@/components/molecules/pagination-control";
 import DynamicIcon from "@/helper/dynamicIcons";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
-import { fetchPermission, setPage } from "@/lib/slices/admin/user-and-role-permission/admin-permissionSlice"
+import { deletePermission, fetchPermission, setPage } from "@/lib/slices/admin/user-and-role-permission/admin-permissionSlice"
 import { DataPermission } from "@/lib/interface/admin/users/permission/getPermission"
 import { AdminPermissionsDialog } from "./permission-dialog"
 import LoadingComponents from "@/components/atoms/loading"
+import PermissionHelper from "@/helper/permission-helper"
 
 
 
@@ -32,6 +33,25 @@ export function PermissionsTable() {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
+    // Ambil permissions sekali saat mount
+    const [permissions] = useState(() => PermissionHelper.getUserPermissions());
+
+    // Hitung semua permission sekaligus
+    const permissionAccess = useMemo(() => ({
+        canAccess: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.view']),
+        canEdit: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.edit']),
+        canDelete: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.delete']),
+        canCreate: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.create']),
+    }), [permissions]);
+
+    if (permissionAccess.canAccess) {
+        return (
+            <div className="flex items-center justify-center">
+                <Badge variant="destructive">You do not have permission to access this page.</Badge>
+            </div>
+        )
+    }
+
 
     const openUserDialog = (id?: string) => {
         setSelectedUserId(id || null)
@@ -46,6 +66,17 @@ export function PermissionsTable() {
     // handle search
 
 
+    // handle delete selected rows
+    const handleDeleteSelected = () => {
+        if (selectedRows.size === 0) return; // No rows selected
+        const idsToDelete = Array.from(selectedRows);
+        // Call your delete API here with idsToDelete
+        dispatch(deletePermission(idsToDelete))
+        // After deletion, clear the selected rows
+        setSelectedRows(new Set());
+        // Optionally, you can refetch the roles data to reflect the changes
+        // window.location.reload(); // Reload the page to reflect changes
+    }
 
     const toggleSelectAll = () => {
         if (selectedRows.size === permission.data.length) {
@@ -115,26 +146,27 @@ export function PermissionsTable() {
                 />
                 <div className="flex flex-row gap-2">
                     {selectedRows.size > 0 && (
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button variant="destructive" disabled={selectedRows.size === 0} className="ml-auto">
-                                    <Trash className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} />
-                                    Delete Permissions
-                                </Button>
-                            </DialogTrigger>
-                            {/* <AddToolsDialog
-                     /> */}
-                        </Dialog>
+                        !permissionAccess.canDelete && (
+                            <Button variant="destructive" disabled={selectedRows.size === 0} className="ml-auto"
+                                onClick={handleDeleteSelected}>
+                                <Trash className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} />
+                                Delete Permissions
+                            </Button>
+                        )
                     )}
                     {/* Add Tools */}
-                    <Button
-                        className="ml-auto"
-                        variant="outline"
-                        onClick={() => openUserDialog()}
-                    >
-                        <Plus className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} />
-                        Add Permissions
-                    </Button>
+                    {
+                        !permissionAccess.canCreate && (
+                            <Button
+                                className="ml-auto"
+                                variant="outline"
+                                onClick={() => openUserDialog()}
+                            >
+                                <Plus className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} />
+                                Add Permissions
+                            </Button>
+                        )
+                    }
                 </div>
             </div>
             <div className="rounded-md border">

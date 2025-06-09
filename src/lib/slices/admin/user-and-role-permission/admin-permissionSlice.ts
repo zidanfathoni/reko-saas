@@ -149,9 +149,13 @@ export const updatePermission = createAsyncThunk(
 
 export const deletePermission = createAsyncThunk(
     "permission/deletePermission",
-    async (id: string) => {
+    async (ids: string[]) => {
         try {
-            const response = await apiAdmin.delete(`/permissions/${id}`);
+            const response = await apiAdmin.delete(`/permissions`, {
+                data: {
+                    role_ids: ids,
+                },
+            });
             toast({
                 title: "Success",
                 description: response.data.message,
