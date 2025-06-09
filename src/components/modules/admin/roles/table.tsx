@@ -17,6 +17,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { BsFillMenuButtonWideFill } from "react-icons/bs"
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
 import PermissionHelper from "@/helper/permission-helper"
+import LoadingComponents from "@/components/atoms/loading"
 
 
 
@@ -84,7 +85,7 @@ export function RolesTable() {
     }
 
     const fetchDataCategory = async () => {
-        dispatch(fetchRoles({ page: roles.meta.current_page, pageSize: roles.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchRoles({ page: roles.meta?.current_page ?? 1, pageSize: roles.meta?.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
@@ -116,7 +117,13 @@ export function RolesTable() {
 
     useEffect(() => {
         fetchDataCategory();
-    }, [dispatch, roles.meta.current_page, roles.meta.per_page, searchQuery]);
+    }, [dispatch, roles.meta?.current_page ?? 1, roles.meta?.per_page, searchQuery]);
+
+    if (loading) {
+        return (
+            <LoadingComponents />
+        )
+    }
 
     return (
         <div>
@@ -234,7 +241,7 @@ export function RolesTable() {
                         value={String(pageSize)}
                         onValueChange={(value) => {
                             setPageSize(Number(value))
-                            dispatch(fetchRoles({ page: roles.meta.current_page, pageSize: Number(value) }))
+                            dispatch(fetchRoles({ page: roles.meta?.current_page, pageSize: Number(value) }))
                         }}
                     >
                         <SelectTrigger className="h-8 w-[70px]">
@@ -250,7 +257,7 @@ export function RolesTable() {
                     </Select>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <PaginationControls currentPage={roles.meta.current_page ?? 1} totalPages={roles.meta.last_page ?? 1} onChange={handlePageClick} />
+                    <PaginationControls currentPage={roles.meta?.current_page ?? 1} totalPages={roles.meta?.last_page ?? 1} onChange={handlePageClick} />
                 </div>
             </div>
         </div>

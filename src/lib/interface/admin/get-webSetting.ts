@@ -24,6 +24,8 @@ export interface GetWebSettingResponse {
     social_whatsapp: string
     link_video: string
     tax_rate: number
+    feeChannel: number
+    feeDevelopment: number
     created_at: string
     updated_at: string
   }

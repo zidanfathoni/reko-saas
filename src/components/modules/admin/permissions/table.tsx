@@ -15,6 +15,7 @@ import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
 import { fetchPermission, setPage } from "@/lib/slices/admin/user-and-role-permission/admin-permissionSlice"
 import { DataPermission } from "@/lib/interface/admin/users/permission/getPermission"
 import { AdminPermissionsDialog } from "./permission-dialog"
+import LoadingComponents from "@/components/atoms/loading"
 
 
 
@@ -56,7 +57,7 @@ export function PermissionsTable() {
     }
 
     const fetchDataCategory = async () => {
-        dispatch(fetchPermission({ page: permission.meta.current_page, pageSize: permission.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchPermission({ page: permission.meta?.current_page ?? 1, pageSize: permission.meta?.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
@@ -88,7 +89,13 @@ export function PermissionsTable() {
 
     useEffect(() => {
         fetchDataCategory();
-    }, [dispatch, permission.meta.current_page, permission.meta.per_page, searchQuery]);
+    }, [dispatch, permission.meta?.current_page ?? 1, permission.meta?.per_page, searchQuery]);
+
+    if (loadingPermission) {
+        return (
+            <LoadingComponents />
+        )
+    }
 
     return (
         <div>

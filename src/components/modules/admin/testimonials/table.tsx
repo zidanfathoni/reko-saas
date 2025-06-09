@@ -16,6 +16,7 @@ import { DataTestimonials } from "@/lib/interface/testimonials/getTestimonials"
 import { deleteTestimonials, fetchTestimonials, setPage } from "@/lib/slices/admin/testimonials-slice"
 import { AdminTestimonialsDialog } from "./testimonialsDialog"
 import PermissionHelper from "@/helper/permission-helper"
+import LoadingComponents from "@/components/atoms/loading"
 
 
 
@@ -84,7 +85,7 @@ export function TestimonialsTable() {
     }
 
     const fetchDataCategory = async () => {
-        dispatch(fetchTestimonials({ page: testimonials.meta.current_page, pageSize: testimonials.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchTestimonials({ page: testimonials.meta?.current_page ?? 1, pageSize: testimonials.meta?.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
@@ -116,7 +117,15 @@ export function TestimonialsTable() {
 
     useEffect(() => {
         fetchDataCategory();
-    }, [dispatch, testimonials.meta.current_page, testimonials.meta.per_page, searchQuery]);
+    }, [dispatch, testimonials.meta?.current_page ?? 1, testimonials.meta.per_page, searchQuery]);
+
+
+    if (loading) {
+        return (
+            <LoadingComponents />
+        )
+    }
+
 
     return (
         <div>

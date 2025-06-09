@@ -16,6 +16,7 @@ import PermissionHelper from "@/helper/permission-helper"
 import { AdminServiceCategoryDialog } from "./serviceCategoryDialog"
 import { DataServiceCategory } from "@/lib/interface/admin/service/getServiceCategory"
 import { deleteServiceCategory, fetchServiceCategory, setPage } from "@/lib/slices/admin/service/admin-serviceCategory-slice"
+import LoadingComponents from "@/components/atoms/loading"
 
 
 
@@ -103,7 +104,7 @@ export function ServiceCategoryTable() {
     }
 
     const fetchDataCategory = async () => {
-        dispatch(fetchServiceCategory({ page: serviceCategory.meta.current_page, pageSize: serviceCategory.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchServiceCategory({ page: serviceCategory.meta?.current_page ?? 1, pageSize: serviceCategory.meta?.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
@@ -135,7 +136,14 @@ export function ServiceCategoryTable() {
 
     useEffect(() => {
         fetchDataCategory();
-    }, [dispatch, serviceCategory.meta.current_page, serviceCategory.meta.per_page, searchQuery]);
+    }, [dispatch, serviceCategory.meta?.current_page ?? 1, serviceCategory.meta?.per_page, searchQuery]);
+
+
+    if (loadingServiceCategory) {
+        return (
+            <LoadingComponents />
+        )
+    }
 
     return (
         <div>
@@ -299,7 +307,7 @@ export function ServiceCategoryTable() {
                                 </Select>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <PaginationControls currentPage={serviceCategory.meta.current_page ?? 1} totalPages={serviceCategory.meta.last_page ?? 1} onChange={handlePageClick} />
+                                <PaginationControls currentPage={serviceCategory.meta?.current_page ?? 1} totalPages={serviceCategory.meta?.last_page ?? 1} onChange={handlePageClick} />
                             </div>
                         </div>
 

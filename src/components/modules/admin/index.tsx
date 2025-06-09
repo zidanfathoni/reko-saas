@@ -1,25 +1,7 @@
 'use client';
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from '@/components/atoms/breadcrumb';
-import { Label } from '@/components/atoms/label';
-import { Switch } from '@/components/atoms/switch';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/atoms/tooltip';
 import { ContentLayout } from '@/components/templates/admin-panel/content-layout';
-import { IconForm } from '@/helper/iconsForm';
 import { useSidebar } from '@/hooks/use-sidebar';
 import { useStore } from '@/hooks/use-store';
-import Link from 'next/link';
 import { Player } from "@lottiefiles/react-lottie-player";
 import { SectionCards } from './section-chart';
 import { ChartAreaInteractive } from './chart-dashboard';

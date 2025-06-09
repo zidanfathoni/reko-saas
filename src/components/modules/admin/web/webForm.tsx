@@ -58,6 +58,8 @@ export function WebForm({ setup }: WebFormProps) {
             social_whatsapp: "",
             link_video: "",
             tax_rate: 0,
+            feeChannel: 0,
+            feeDevelopment: 0,
         },
         mode: "onChange",
     })
@@ -777,6 +779,65 @@ export function WebForm({ setup }: WebFormProps) {
                                             </FormItem>
                                         )}
                                     />
+                                    <FormField
+                                        control={form.control}
+                                        name="feeChannel"
+                                        rules={{
+                                            required: "Channel fee is required",
+                                            min: {
+                                                value: 0,
+                                                message: "Channel fee must be at least 0.",
+                                            },
+                                        }}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Channel Fee</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="number"
+                                                        step="0.01"
+                                                        min="0"
+                                                        placeholder="0.00"
+                                                        {...field}
+                                                        onChange={(e) => field.onChange(Number.parseFloat(e.target.value))}
+                                                        value={field.value}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription>Fee charged per channel.</FormDescription>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="feeDevelopment"
+                                        rules={{
+                                            required: "Development fee is required",
+                                            min: {
+                                                value: 0,
+                                                message: "Development fee must be at least 0.",
+                                            },
+                                        }}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Development Fee</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="number"
+                                                        step="0.01"
+                                                        min="0"
+                                                        placeholder="0.00"
+                                                        {...field}
+                                                        onChange={(e) => field.onChange(Number.parseFloat(e.target.value))}
+                                                        value={field.value}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription>Fee charged for development services.</FormDescription>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
                                 </CardContent>
                             </Card>
                         </TabsContent>

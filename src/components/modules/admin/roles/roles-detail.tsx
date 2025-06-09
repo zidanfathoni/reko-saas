@@ -14,6 +14,7 @@ import { fetchPermissionAll } from "@/lib/slices/admin/user-and-role-permission/
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/atoms/card"
 import { Badge } from "@/components/atoms/badge"
 import { Separator } from "@/components/atoms/separator"
+import LoadingComponents from "@/components/atoms/loading"
 
 interface RolesDetailClientProps {
     id: string;
@@ -152,7 +153,8 @@ export default function RolesDetailClient({ id }: RolesDetailClientProps) {
     }, [roles, id]); // Hanya tergantung permission & id
 
     if (loading || loadingPermission) {
-        return <div>Loading...</div>; // Tampilkan loading state
+        return
+        <LoadingComponents />
     }
     if (error || errorPermission) {
         return <div>Error: {error || errorPermission}</div>; // Tampilkan error state

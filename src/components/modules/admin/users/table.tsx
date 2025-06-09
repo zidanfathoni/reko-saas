@@ -18,6 +18,7 @@ import { BsFillMenuButtonWideFill } from "react-icons/bs"
 import { Dialog, DialogTrigger } from "@/components/atoms/dialog"
 import PermissionHelper from "@/helper/permission-helper"
 import { AdminUsersDialog } from "./users-dialog"
+import LoadingComponents from "@/components/atoms/loading"
 
 
 
@@ -86,7 +87,7 @@ export function UsersTable() {
     }
 
     const fetchDataCategory = async () => {
-        dispatch(fetchUsers({ page: users.meta.current_page, pageSize: users.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchUsers({ page: users.meta?.current_page ?? 1, pageSize: users.meta?.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
@@ -118,7 +119,13 @@ export function UsersTable() {
 
     useEffect(() => {
         fetchDataCategory();
-    }, [dispatch, users.meta.current_page, users.meta.per_page, searchQuery]);
+    }, [dispatch, users.meta?.current_page ?? 1, users.meta?.per_page, searchQuery]);
+
+    if (loading) {
+        return (
+            <LoadingComponents />
+        )
+    }
 
     return (
         <div>

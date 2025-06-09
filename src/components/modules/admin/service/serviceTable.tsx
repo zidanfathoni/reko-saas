@@ -16,6 +16,7 @@ import PermissionHelper from "@/helper/permission-helper"
 import { AdminServiceDialog } from "./serviceDialog"
 import { DataService } from "@/lib/interface/admin/service/getService"
 import { deleteService, fetchService, setPage } from "@/lib/slices/admin/service/admin-service-slice"
+import LoadingComponents from "@/components/atoms/loading"
 
 
 
@@ -103,7 +104,7 @@ export function ServiceTable() {
     }
 
     const fetchData = async () => {
-        dispatch(fetchService({ page: service.meta.current_page, pageSize: service.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchService({ page: service.meta?.current_page ?? 1, pageSize: service.meta?.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
@@ -135,7 +136,13 @@ export function ServiceTable() {
 
     useEffect(() => {
         fetchData();
-    }, [dispatch, service.meta.current_page, service.meta.per_page, searchQuery]);
+    }, [dispatch, service.meta?.current_page ?? 1, service.meta?.per_page, searchQuery]);
+
+    if (loadingService) {
+        return (
+            <LoadingComponents />
+        )
+    }
 
     return (
         <div>

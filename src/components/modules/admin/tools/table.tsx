@@ -20,6 +20,7 @@ import { AddToolsDialog } from "./add-tools"
 
 import PermissionHelper from '@/helper/permission-helper';
 import { Storage } from '@/lib';
+import LoadingComponents from "@/components/atoms/loading"
 
 
 export function ToolsTable() {
@@ -89,7 +90,7 @@ export function ToolsTable() {
     }
 
     const fetchDataCategory = async () => {
-        dispatch(fetchTools({ page: tools.meta.current_page, pageSize: tools.meta.per_page ?? 10, search: searchQuery }));
+        dispatch(fetchTools({ page: tools.meta?.current_page ?? 1, pageSize: tools.meta?.per_page ?? 10, search: searchQuery }));
     };
 
     // Handle sorting
@@ -121,7 +122,14 @@ export function ToolsTable() {
 
     useEffect(() => {
         fetchDataCategory();
-    }, [dispatch, tools.meta.current_page, tools.meta.per_page, searchQuery]);
+    }, [dispatch, tools.meta?.current_page ?? 1, tools.meta?.per_page, searchQuery]);
+
+
+    if (loading) {
+        return (
+            <LoadingComponents />
+        )
+    }
 
     return (
         <div>

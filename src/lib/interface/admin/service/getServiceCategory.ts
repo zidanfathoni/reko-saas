@@ -19,7 +19,7 @@ export interface GetServiceCategoryResponse {
   export interface Meta {
     total: number
     per_page: number
-    current_page: number
+    current_page: number | 0
     last_page: number
     first_page: number
     first_page_url: string

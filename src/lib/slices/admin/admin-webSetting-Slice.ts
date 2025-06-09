@@ -32,6 +32,8 @@ const initialState: WebSettingState = {
         social_whatsapp: "",
         link_video: "",
         tax_rate: 0,
+        feeChannel: 0,
+        feeDevelopment: 0,
         created_at: "",
         updated_at: "",
     },

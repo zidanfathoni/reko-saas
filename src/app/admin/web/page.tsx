@@ -1,5 +1,6 @@
 "use client"
 
+import LoadingComponents from '@/components/atoms/loading';
 import { WebForm } from '@/components/modules/admin/web/webForm';
 import { WebHealth } from '@/components/modules/admin/web/webHealth';
 import { ContentLayout } from '@/components/templates/admin-panel/content-layout';
@@ -11,7 +12,7 @@ import { useEffect, useState } from 'react';
 
 
 export default function AdminWebSettingPages() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const dispatch = useAppDispatch();
     const { webSetting, loading, error } = useAppSelector((state) => state.webSetting);
 
@@ -25,17 +26,17 @@ export default function AdminWebSettingPages() {
                 {
                     loading ? (
                         <div className="flex items-center justify-center h-screen">
-                            <p>Loading...</p>
+                            <LoadingComponents />
                         </div>
                     ) : (
                         <>
-                        <WebHealth
-                    health={webSetting?.health}
-                />
-                <WebForm
-                    setup={webSetting?.setup}
-                 />
-                 </>
+                            <WebHealth
+                                health={webSetting?.health}
+                            />
+                            <WebForm
+                                setup={webSetting?.setup}
+                            />
+                        </>
                     )
                 }
             </div>
