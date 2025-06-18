@@ -43,6 +43,7 @@ const AdminDashboardModules: React.FC = () => {
                                     <div>
                                         <CustomCKEditor
                                             data={content}
+                                            darkMode={undefined}
                                             onChange={(newData) => setContent(newData)}
                                         />
                                         <div>
