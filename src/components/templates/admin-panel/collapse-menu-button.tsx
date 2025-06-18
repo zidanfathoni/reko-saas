@@ -61,7 +61,7 @@ export function CollapseMenuButton({
       <CollapsibleTrigger className="mb-1 [&[data-state=open]>div>div>svg]:rotate-180" asChild>
         <Button
           variant='ghost'
-          className="h-10 w-full justify-start"
+          className="h-10 w-full justify-start hover:border-primary hover:bg-primary/10 focus-visible:bg-primary/10"
         >
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center">
@@ -70,7 +70,7 @@ export function CollapseMenuButton({
                 <DynamicIcon
                   icon={icon}
                   //classname, if isSubmenuActive  is orange
-                  className={isSubmenuActive ? 'text-primary' : ''}
+                  className={'text-primary'}
                 />
               </span>
               <p
@@ -99,8 +99,8 @@ export function CollapseMenuButton({
         {submenus.map(({ href, label, active }, index) => (
           <Button
             key={index}
-            variant={(active === undefined && pathname === href) || active ? 'secondary' : 'ghost'}
-            className="mb-1 h-10 w-full justify-start"
+            variant={(active === undefined && pathname === href) || active ? 'default' : 'ghost'}
+            className="mb-1 h-10 w-full justify-start  hover:border-primary hover:bg-primary/10 focus-visible:bg-primary/10 data-[state=open]:bg-primary/10"
             asChild
           >
             <Link href={href}>

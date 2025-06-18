@@ -41,15 +41,18 @@ export function RolesTable() {
 
     // Hitung semua permission sekaligus
     const permission = useMemo(() => ({
-        canAccess: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.view']),
-        canEdit: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.edit']),
-        canDelete: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.delete']),
-        canCreate: PermissionHelper.checkPermissions(permissions, ['permission.manage', 'permission.create']),
+        canAccess: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.view']),
+        canEdit: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.edit']),
+        canDelete: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.delete']),
+        canCreate: PermissionHelper.checkPermissions(permissions, ['roles.manage', 'roles.create']),
     }), [permissions]);
 
     if (permission.canAccess) {
-        // redirect to 404 page if user does not have access
-        window.location.href = '/404';
+        return (
+            <div className="flex items-center justify-center">
+                <Badge variant="destructive">You do not have permission to access this page.</Badge>
+            </div>
+        )
     }
 
     const openUserDialog = (id?: string) => {
@@ -162,7 +165,7 @@ export function RolesTable() {
                         className="ml-auto"
                         variant="outline"
                         onClick={() => {
-                            window.location.href = `/admin/roles/add`; // Redirect to the role detail page
+                            window.location.href = `/admin/access/roles/add`; // Redirect to the role detail page
                         }}
                     >
                         <Plus className="-ms-1 me-2 opacity-60" size={16} strokeWidth={2} aria-hidden="true" />
@@ -214,7 +217,7 @@ export function RolesTable() {
                                         <div>
                                             <Button variant="ghost"
                                                 onClick={() => {
-                                                    window.location.href = `/admin/roles/${data.id}`; // Redirect to the role detail page
+                                                    window.location.href = `/admin/access/roles/${data.id}`; // Redirect to the role detail page
                                                 }}
                                                 className="h-8 w-8 p-0" aria-label="Edit">
                                                 <DynamicIcon icon="FaPenToSquare" className="h-4 w-4" />
