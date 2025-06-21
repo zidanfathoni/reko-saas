@@ -3,6 +3,7 @@ import { GetLoginResponse } from "@/lib/interface/auth/getLogin";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Storage } from "@/lib/storage";
 import { fetchMe } from "../meSlice";
+import { toast } from "@/components/atoms/use-toast";
 
 
 
@@ -132,10 +133,23 @@ export const loginSlice = createSlice({
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.loading = false;
         state.login = action.payload;
+        const path = action.payload.data.path;
+        toast({
+          title: "Login Successful",
+          description: `Welcome back! You are logged in as ${path}.`,
+        });
+        if (path !== "user") {
+          window.location.href = `/admin`;
+        } else {
+          window.location.href = `/dashboard`;
+        }
+        // Fetch user data after successful login
+        fetchMe();
       })
       .addCase(fetchLogin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Something went wrong";
+
       });
   },
 });

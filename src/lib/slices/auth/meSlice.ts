@@ -3,6 +3,7 @@ import { GetMeResponse } from "@/lib/interface/auth/getMe";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Storage } from "@/lib/storage";
 import { apiAdmin } from "@/lib/axios/instance";
+import { fetchUserPermission } from "./userPermissionSlice";
 
 
 interface MeState {
@@ -126,6 +127,7 @@ export const meSlice = createSlice({
       .addCase(fetchMe.fulfilled, (state, action) => {
         state.loadingMe = false;
         state.me = action.payload;
+        fetchUserPermission(); // Fetch user permissions after fetching user data
       })
       .addCase(fetchMe.rejected, (state, action) => {
         state.loadingMe = false;

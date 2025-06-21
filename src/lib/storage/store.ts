@@ -1,7 +1,7 @@
 // store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import toolsReducer from '../slices/toolsSlices'; // Sesuaikan path-nya
+import {toolsReducer} from '../slices/toolsSlices'; // Sesuaikan path-nya
 import loginReducer from '../slices/auth/login/loginSlice'; // Sesuaikan path-nya
 import meReducer from '../slices/auth/meSlice'; // Sesuaikan path-nya
 import userPermissionSlice from '../slices/auth/userPermissionSlice'; // Sesuaikan path-nya

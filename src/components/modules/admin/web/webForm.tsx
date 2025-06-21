@@ -314,7 +314,7 @@ export function WebForm({ setup }: WebFormProps) {
                         </TabsContent>
 
                         <TabsContent value="media" className="mt-6">
-                            <Card className="w-full max-w-4xl">
+                            <Card className="w-full">
                                 <CardHeader>
                                     <CardTitle>Media</CardTitle>
                                     <CardDescription>

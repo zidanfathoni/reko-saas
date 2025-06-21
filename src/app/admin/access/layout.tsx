@@ -17,13 +17,15 @@ export default function AccessLayout({
   const tabs = [
     { name: "Users",
         href: "/admin/access/users",
-        permission: "access.users.view"
+        permission: "users.view"
     },
     { name: "Roles",
-        href: "/admin/access/roles"
+        href: "/admin/access/roles",
+        permission: "roles.view"
     },
     { name: "Permissions",
-        href: "/admin/access/permissions"
+        href: "/admin/access/permissions",
+        permission: "permissions.view"
     },
   ]
 

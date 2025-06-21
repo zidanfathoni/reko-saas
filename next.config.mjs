@@ -12,6 +12,7 @@ const nextConfig = {
       'i.imgur.com',
       'zidanfath.com',
       'localhost',
+      'example.com'
 
     ],
   },

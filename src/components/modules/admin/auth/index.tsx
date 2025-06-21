@@ -24,14 +24,14 @@ export default function LoginAdminPage() {
       formData.append("email", email);
       formData.append("password", password);
 
-      const resultAction = await dispatch(fetchLoginAdmin(formData));
+       await dispatch(fetchLoginAdmin(formData));
 
-      if (fetchLoginAdmin.fulfilled.match(resultAction)) {
-        dispatch(loginSuccess(resultAction.payload));
-        if (resultAction.payload.data.path !== "user") {
-          router.push("/admin");
-        }
-      }
+    //   if (fetchLoginAdmin.fulfilled.match(resultAction)) {
+    //     dispatch(loginSuccess(resultAction.payload));
+    //     if (resultAction.payload.data.path !== "user") {
+    //       router.push("/admin");
+    //     }
+    //   }
     } catch (error) {
       console.error("Login error:", error);
     }

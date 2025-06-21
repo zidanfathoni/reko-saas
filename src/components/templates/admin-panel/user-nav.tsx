@@ -23,10 +23,22 @@ import {
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { useEffect } from 'react';
 import { fetchMe } from '@/lib/slices/auth/meSlice';
+import { Storage } from "@/lib";
 
 export function UserNav() {
   const dispatch = useAppDispatch();
   const { me, loadingMe, error } = useAppSelector((state) => state.me);
+
+
+  const logout = () => {
+    // Implement logout functionality here
+    // For example, clear tokens, redirect to login page, etc.
+    console.log('User logged out');
+    // You might want to dispatch a logout action or clear local storage
+    Storage.clearAll('local'); // Clear all local storage data
+    Storage.clearAll('cookie'); // Clear all cookie data
+    window.location.href = '/auth'; // Redirect to login page
+  };
 
 
   useEffect(() => {
@@ -88,7 +100,7 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="hover:cursor-pointer" onClick={() => { }}>
+        <DropdownMenuItem className="hover:cursor-pointer" onClick={logout}>
           <LogOut className="mr-3 h-4 w-4 text-muted-foreground" />
           Sign out
         </DropdownMenuItem>
